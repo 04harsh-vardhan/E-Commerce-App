@@ -1,0 +1,3 @@
+1.Search about all the features you can add to your application
+2.Flow of application
+3.Authetication and DataBase Setup with fireStore
