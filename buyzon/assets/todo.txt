@@ -1,4 +1,4 @@
 1.Search about all the features you can add to your application --done
 2.Flow of application
 3.Authetication and DataBase Setup with fireStore
-4.Add fake data to filrestore collection and retrieve that data
+4.Add  data to filrestore collection and retrieve that data
