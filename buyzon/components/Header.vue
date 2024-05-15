@@ -37,7 +37,6 @@
     padding: 12px;
     justify-content: space-between;
     box-sizing: border-box;
-    background-color: aquamarine;
   }
   #first,
   #second {
@@ -61,8 +60,13 @@
     padding: 8px 8px 8px 12px;
     background-color: skyblue;
   }
-  input {
-    font-size: 17px;
-    background-color: papayawhip !important;
+  .form-control {
+    background-color: #e9ecef; /* Light gray background for input fields */
+    border: 1px solid #ced4da; /* Border color */
+  }
+  .form-control:focus {
+    background-color: #fff; /* White background when focused */
+    border-color: #80bdff; /* Blue border when focused */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Blue shadow when focused */
   }
 </style>
