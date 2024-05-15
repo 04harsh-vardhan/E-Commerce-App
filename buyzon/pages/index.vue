@@ -1,4 +1,5 @@
 <template>
-  <div>Landing Page</div>
+  <div>
+    <Header> </Header>
+  </div>
 </template>
-
