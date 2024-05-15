@@ -1,4 +1,5 @@
 export const useProductData = () => useState<ProductData[]>("productData");
+export const useAuth = () => useState<boolean>("auth", () => false);
 type ProductData = {
   id: number;
   title: string;

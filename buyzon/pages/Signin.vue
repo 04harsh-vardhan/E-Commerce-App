@@ -3,7 +3,9 @@
   import { app } from "../assets/firebase.js";
   const email = ref("");
   const password = ref("");
+  const isLoading = ref(false);
   const auth = getAuth(app);
+  const isAuthenticated = useAuth();
   async function signinUser() {
     try {
       const response = await signInWithEmailAndPassword(
@@ -11,13 +13,15 @@
         email.value,
         password.value
       );
+      isAuthenticated.value = true;
+      navigateTo("/dashboard");
     } catch (error) {
       console.log("Error ", error);
     }
   }
 </script>
 <template>
-  <div id="main">
+  <div v-if="!isLoading" id="main">
     <div class="signup-container">
       <h2 class="text-center">SignIn</h2>
       <div>
@@ -47,6 +51,7 @@
       </div>
     </div>
   </div>
+  <div v-else>Loading....</div>
 </template>
 
 <style scoped>

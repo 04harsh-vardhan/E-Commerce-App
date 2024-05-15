@@ -1,3 +1,10 @@
+<script setup>
+  const isAuthenticated = useAuth();
+  function handleSignout() {
+    isAuthenticated.value = false;
+    navigateTo("/");
+  }
+</script>
 <template>
   <div id="header">
     <div id="first">
@@ -20,9 +27,11 @@
       </div>
     </div>
     <div id="second">
-      <div id="loginDiv"><button class="btn btn-primary">Login</button></div>
       <div id="cart">
         <button type="button" class="btn btn-success">Cart</button>
+      </div>
+      <div id="loginDiv" @click="handleSignout">
+        <button class="btn btn-primary">Signout</button>
       </div>
     </div>
   </div>
