@@ -1,4 +1,4 @@
-export const useProductData = () => useState<[ProductData]>("productData");
+export const useProductData = () => useState<ProductData[]>("productData");
 type ProductData = {
   id: number;
   title: string;
