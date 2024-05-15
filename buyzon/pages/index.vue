@@ -1,4 +1,3 @@
 <template>
-  <div>Landing Page</div>
+  <div><Signup></Signup></div>
 </template>
-
