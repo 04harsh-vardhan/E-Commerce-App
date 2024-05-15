@@ -1,5 +1,3 @@
 <template>
-    <div>
-        Landing Page
-    </div>
+  <div>Landing Page</div>
 </template>
