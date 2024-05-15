@@ -1,0 +1,14 @@
+1. Login and Signup Pages
+2. cart check-out functionality
+3. display products based on the search keyword
+4. show the items based on category 
+5. filter functionality based on category,amount range(meter)
+6. should have a wish-list function
+7. Forget password functionality
+8. Product Review and Ratings
+9. Discounts
+10. Payment options
+11. Change Language feature
+
+ --- ---- -- Fake Data Api ---------
+ 1.https://fakestoreapi.com/products
