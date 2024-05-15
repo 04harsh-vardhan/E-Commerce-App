@@ -1,4 +1,9 @@
 1.Search about all the features you can add to your application --done
 2.Flow of application
 3.Authetication and DataBase Setup with fireStore
-4.Add data to firestore collection-- no Need direct call from api and store in pinia
+4.Add data to firestore collection-- 
+no Need direct call from api and store in useState -- done
+create a top Bar
+create a Login Page
+create a Signup Page
+
