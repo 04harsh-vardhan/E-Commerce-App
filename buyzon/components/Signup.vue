@@ -1,10 +1,26 @@
 <script setup>
+  import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+  import { app } from "../assets/firebase.js";
+  const email = ref("");
+  const password = ref("");
+  const auth = getAuth(app);
+  async function signupUser() {
+    try {
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        email.value,
+        password.value
+      );
+    } catch (error) {
+      console.log("Error ", error);
+    }
+  }
 </script>
 <template>
   <div id="main">
     <div class="signup-container">
       <h2 class="text-center">Signup</h2>
-      <form>
+      <div>
         <div class="form-group">
           <label for="email">Email address</label>
           <input
@@ -12,7 +28,7 @@
             class="form-control"
             id="email"
             placeholder="Enter email"
-            required
+            v-model="email"
           />
         </div>
         <div class="form-group">
@@ -22,11 +38,13 @@
             class="form-control"
             id="password"
             placeholder="Password"
-            required
+            v-model="password"
           />
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
-      </form>
+        <button @click="signupUser" class="btn btn-primary btn-block">
+          Sign Up
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -53,10 +71,10 @@
   }
   .form-control {
     background-color: #e9ecef;
-    border: 1px solid #ced4da; 
+    border: 1px solid #ced4da;
   }
   .form-control:focus {
-    background-color: #fff; 
+    background-color: #fff;
     border-color: #80bdff;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }

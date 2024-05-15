@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     <div id="first">
-      <div id="icon">Icon</div>
+      <div id="icon">Buyzon</div>
       <div id="searchBar" class="input-group mb-3">
         <button
           class="btn btn-outline-secondary"
