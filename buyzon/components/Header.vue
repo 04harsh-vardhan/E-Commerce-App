@@ -31,7 +31,7 @@
         <button type="button" class="btn btn-success">Cart</button>
       </div>
       <div id="loginDiv" @click="handleSignout">
-        <button class="btn btn-primary">Signout</button>
+        <button class="btn btn-danger">Signout</button>
       </div>
     </div>
   </div>

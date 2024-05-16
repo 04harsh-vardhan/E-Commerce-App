@@ -1,6 +1,5 @@
 <script setup>
-  const productData = useProductData();
-  const { image, title ,price} = productData.value[0];
+  const { image, title, price } = defineProps(["image", "title", "price"]);
 </script>
 <template>
   <div id="main">
@@ -17,15 +16,17 @@
 </template>
 <style scoped>
   #main {
-    width: 100px;
+    width: 200px;
     height: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-color: bisque;
   }
   img {
     width: 80px;
     height: 120px;
+    object-fit: cover;
   }
 </style>

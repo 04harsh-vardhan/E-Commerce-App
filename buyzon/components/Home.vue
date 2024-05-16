@@ -1,7 +1,7 @@
 <template>
   <div>
-    <NuxtLink to="/signin">Signin</NuxtLink>
-    <NuxtLink to="/signup">Signup</NuxtLink>
+    <NuxtLink class="btn btn-warning" to="/signin">Signin</NuxtLink>
+    <NuxtLink class="btn btn-success" to="/signup">Signup</NuxtLink>
   </div>
 </template>
 <style setup>
