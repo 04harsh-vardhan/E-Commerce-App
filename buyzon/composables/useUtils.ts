@@ -75,13 +75,13 @@ export const useUtils = () => {
   class SignUpUser {
     name: string;
     email: string;
-    mobile_number: number;
+    mobile_number: string;
     address: string;
     password: string;
     constructor(
       name: string = "",
       email: string = "",
-      mobile_number: number = 0,
+      mobile_number: string = "",
       address: string = "",
       password: string = ""
     ) {

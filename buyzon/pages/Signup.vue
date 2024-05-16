@@ -1,8 +1,36 @@
 <script setup lang="ts">
-
   const { addUserToDB, SignUpUser, createUser } = useUtils();
   const userData = ref(new SignUpUser());
   const isLoading = ref(false);
+
+  const checkName = computed(() => {
+    if (userData.value.name.length < 3) {
+      return "Name cannot be less than 3 characters";
+    }
+    return "";
+  });
+  const checkEmail = computed(() => {
+    const regex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+    if (regex.test(userData.value.email)) {
+      return "";
+    }
+    return "Email is not Valid Format";
+  });
+  const checkPassword = computed(() => {
+    const regex = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
+    if (regex.test(userData.value.password)) {
+      return "";
+    }
+    return "Password is not Valid Format";
+  });
+  const checkMobileNumber = computed(() => {
+    const regex = /^\d{10}$/;
+    if (regex.test(userData.value.mobile_number)) {
+      return "";
+    } else {
+      return "Mobile Number is not Valid Format";
+    }
+  });
 
   async function signupUser() {
     isLoading.value = true;
@@ -17,7 +45,6 @@
       isLoading.value = false;
     }
   }
-  
 </script>
 <template>
   <div id="main">
@@ -33,6 +60,7 @@
             placeholder="Enter Name"
             v-model="userData.name"
           />
+          <Error v-if="checkName">{{ checkName }}</Error>
         </div>
         <div class="form-group">
           <label for="email">Email address</label>
@@ -43,6 +71,7 @@
             placeholder="Enter email"
             v-model="userData.email"
           />
+          <Error v-if="checkEmail">{{ checkEmail }}</Error>
         </div>
         <div class="form-group">
           <label for="number">Mobile Number</label>
@@ -55,6 +84,7 @@
             placeholder="123-456-7890"
             v-model="userData.mobile_number"
           />
+          <Error v-if="checkMobileNumber">{{ checkMobileNumber }}</Error>
         </div>
         <div class="form-group">
           <label for="addrss">Your address</label>
@@ -65,6 +95,7 @@
             placeholder="Enter your address"
             v-model="userData.address"
           />
+          <Error></Error>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -72,9 +103,10 @@
             type="password"
             class="form-control"
             id="password"
-            placeholder="Password"
+            placeholder="minimum 6 char long and 1 special symbol"
             v-model="userData.password"
           />
+          <Error v-if="checkPassword">{{ checkPassword }}</Error>
         </div>
         <button @click="signupUser" class="btn btn-primary btn-block">
           Sign Up
