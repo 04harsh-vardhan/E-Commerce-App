@@ -10,13 +10,13 @@
   <Category></Category>
   <div id="card-div">
     <div
-      v-for="{ id, title, price, image } in productData.slice(
+      v-for="item in productData.slice(
         pages * 5 - 5,
         pages * 5
       )"
-      :key="id"
+      :key="item.id"
     >
-      <Card :title="title" :price="price" :image="image"></Card>
+      <Card :product="item"></Card>
     </div>
   </div>
   <div class="pagination">

@@ -1,22 +1,14 @@
-<script setup>
-  import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-  import { app } from "../assets/firebase.js";
+<script setup lang="ts">
+  const { signInUser } = useUtils();
   const email = ref("");
   const password = ref("");
   const isLoading = ref(false);
-  const auth = getAuth(app);
   const isAuthenticated = useAuth();
-  async function signinUser() {
-    try {
-      const response = await signInWithEmailAndPassword(
-        auth,
-        email.value,
-        password.value
-      );
-      isAuthenticated.value = true;
+  async function handleSignIn() {
+    isAuthenticated.value = true;
+    const success = await signInUser(email.value, password.value);
+    if (success) {
       navigateTo("/dashboard");
-    } catch (error) {
-      console.log("Error ", error);
     }
   }
 </script>
@@ -45,7 +37,7 @@
             v-model="password"
           />
         </div>
-        <button @click="signinUser" class="btn btn-primary btn-block">
+        <button @click="handleSignIn" class="btn btn-primary btn-block">
           Sign In
         </button>
       </div>

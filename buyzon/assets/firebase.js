@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyBPvZnGD79SSXwEvf6kk6GtYrGnW9eBcs0",
   authDomain: "buyzone-f6497.firebaseapp.com",
@@ -11,4 +12,6 @@ const firebaseConfig = {
   databaseURL: "https://buyzone-f6497-default-rtdb.firebaseio.com/",
 };
 
-export const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const auth = getAuth(app);

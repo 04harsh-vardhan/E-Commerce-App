@@ -1,5 +1,10 @@
 <script setup>
-  const { image, title, price } = defineProps(["image", "title", "price"]);
+  const props = defineProps(["product"]);
+  const { image, title, price } = props.product;
+  const { addToCart } = useUtils();
+  function addProductToCart() {
+    addToCart(props.product);
+  }
 </script>
 <template>
   <div id="main">
@@ -11,12 +16,14 @@
     </div>
     <div>
       <p>Rs. {{ price }}</p>
-      <button class="btn btn-info">Add to Cart</button>
+      <button class="btn btn-info" @click="addProductToCart">
+        Add to Cart
+      </button>
     </div>
   </div>
 </template>
 <style scoped>
-@import url("bootstrap/dist/css/bootstrap.min.css");
+  @import url("bootstrap/dist/css/bootstrap.min.css");
   #main {
     width: 200px;
     height: 300px;

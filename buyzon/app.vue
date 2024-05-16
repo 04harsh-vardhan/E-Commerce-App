@@ -3,11 +3,10 @@
     <NuxtPage />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
   const productData = useProductData();
   await callOnce(async () => {
-    const { data } = await useFetch("https://fakestoreapi.com/products");
-    productData.value = toRaw(data.value);
+    const response: any = await $fetch("api/data");
+    productData.value = response.data;
   });
-  
 </script>
