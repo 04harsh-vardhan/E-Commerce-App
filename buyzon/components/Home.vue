@@ -5,5 +5,4 @@
   </div>
 </template>
 <style setup>
-  @import url("bootstrap/dist/css/bootstrap.min.css");
 </style>

@@ -14,7 +14,7 @@
         <b>{{ title }}</b>
       </p>
     </div>
-    <div>
+    <div id="price-div">
       <p>Rs. {{ price }}</p>
       <button class="btn btn-info" @click="addProductToCart">
         Add to Cart
@@ -23,7 +23,10 @@
   </div>
 </template>
 <style scoped>
-  @import url("bootstrap/dist/css/bootstrap.min.css");
+  #price-div {
+    display: flex;
+    column-gap: 5px;
+  }
   #main {
     width: 200px;
     height: 300px;

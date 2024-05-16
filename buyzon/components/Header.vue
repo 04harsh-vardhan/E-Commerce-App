@@ -12,15 +12,14 @@
       <div id="searchBar" class="input-group mb-3">
         <button
           class="btn btn-outline-secondary"
-          type="button"
           id="button-addon1"
         >
-          Button
+          Search
         </button>
         <input
           type="text"
           class="form-control"
-          placeholder=""
+          placeholder="Search for products ,brands and more"
           aria-label="Example text with button addon"
           aria-describedby="button-addon1"
         />
@@ -37,7 +36,6 @@
   </div>
 </template>
 <style scoped>
-  @import url("bootstrap/dist/css/bootstrap.min.css");
   #header {
     background-color: #fff;
     display: flex;

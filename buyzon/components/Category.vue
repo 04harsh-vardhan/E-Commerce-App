@@ -34,7 +34,6 @@
   </div>
 </template>
 <style scoped>
-  @import url("bootstrap/dist/css/bootstrap.min.css");
   #category {
     position: relative;
     display: flex;

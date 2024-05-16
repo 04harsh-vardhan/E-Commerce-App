@@ -6,45 +6,50 @@
   });
 </script>
 <template>
-  <Header></Header>
-  <Category></Category>
-  <div id="card-div">
-    <div
-      v-for="item in productData.slice(
-        pages * 5 - 5,
-        pages * 5
-      )"
-      :key="item.id"
-    >
-      <Card :product="item"></Card>
+  <div id="main">
+    <Header></Header>
+    <Category></Category>
+    <div id="card-div">
+      <div
+        v-for="item in productData.slice(pages * 5 - 5, pages * 5)"
+        :key="item.id"
+      >
+        <Card :product="item"></Card>
+      </div>
     </div>
-  </div>
-  <div class="pagination">
-    <button
-      @click="
-        () => {
-          pages > 1 ? pages-- : null;
-        }
-      "
-    >
-      prev
-    </button>
-    <button @click="pages = i" v-for="i in totalPages" :key="i">
-      {{ i }}
-    </button>
-    <button
-      @click="
-        () => {
-          pages < totalPages ? pages++ : null;
-        }
-      "
-    >
-      next
-    </button>
+    <div class="pagination">
+      <button
+        @click="
+          () => {
+            pages > 1 ? pages-- : null;
+          }
+        "
+        class="btn btn-dark"
+      >
+        prev
+      </button>
+      <button
+        @click="pages = i"
+        v-for="i in totalPages"
+        :key="i"
+        class="btn btn-dark"
+      >
+        {{ i }}
+      </button>
+      <button
+        @click="
+          () => {
+            pages < totalPages ? pages++ : null;
+          }
+        "
+        class="btn btn-dark"  
+      >
+        next
+      </button>
+    </div>
   </div>
 </template>
 <style scoped>
-@import url("bootstrap/dist/css/bootstrap.min.css");
   .pagination {
     display: flex;
     justify-content: center;
@@ -54,7 +59,11 @@
     width: 100vw;
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
     gap: 40px 40px;
+  }
+  #main {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 </style>

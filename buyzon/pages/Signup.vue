@@ -86,7 +86,6 @@
 </template>
 
 <style scoped>
-  @import url("bootstrap/dist/css/bootstrap.min.css");
   #main {
     display: flex;
     justify-content: center;
