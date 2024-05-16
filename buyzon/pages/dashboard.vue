@@ -44,6 +44,7 @@
   </div>
 </template>
 <style scoped>
+@import url("bootstrap/dist/css/bootstrap.min.css");
   .pagination {
     display: flex;
     justify-content: center;

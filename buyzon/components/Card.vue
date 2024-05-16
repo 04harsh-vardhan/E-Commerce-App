@@ -11,10 +11,12 @@
     </div>
     <div>
       <p>Rs. {{ price }}</p>
+      <button class="btn btn-info">Add to Cart</button>
     </div>
   </div>
 </template>
 <style scoped>
+@import url("bootstrap/dist/css/bootstrap.min.css");
   #main {
     width: 200px;
     height: 300px;

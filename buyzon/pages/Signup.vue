@@ -1,51 +1,23 @@
 <script setup lang="ts">
-  import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-  import { getFirestore, collection, addDoc } from "firebase/firestore";
-  import { app } from "../assets/firebase.js";
 
-  class SignUpUser {
-    name: string;
-    email: string;
-    mobile_number: number;
-    address: string;
-    password: string;
-    constructor(
-      name: string = "",
-      email: string = "",
-      mobile_number: number = 0,
-      address: string = "",
-      password: string = ""
-    ) {
-      this.name = name;
-      this.email = email;
-      this.mobile_number = mobile_number;
-      this.address = address;
-      this.password = password;
-    }
-  }
+  const { addUserToDB, SignUpUser, createUser } = useUtils();
   const userData = ref(new SignUpUser());
   const isLoading = ref(false);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+
   async function signupUser() {
-    try {
-      isLoading.value = true;
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        userData.value.email,
-        userData.value.password
-      );
-      const result = await addDoc(collection(db, "users"), {
-        name: userData.value.name,
-        email: userData.value.email,
-        mobile_number: userData.value.mobile_number,
-        address: userData.value.address,
-      });
-      navigateTo("/Signin");
-    } catch (error) {
-      console.log("Error ", error);
+    isLoading.value = true;
+    const isSet = await createUser(
+      userData.value.email,
+      userData.value.password
+    );
+    const isAdded = await addUserToDB(userData.value);
+    if (isSet) {
+      navigateTo("/signin");
+    } else {
+      isLoading.value = false;
     }
   }
+  
 </script>
 <template>
   <div id="main">
