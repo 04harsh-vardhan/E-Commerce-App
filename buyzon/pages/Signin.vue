@@ -2,9 +2,29 @@
   const { signInUser } = useUtils();
   const email = ref("");
   const password = ref("");
+  const regex_Email = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+  const regex_Password = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
   const isLoading = ref(false);
   const isAuthenticated = useAuth();
+
+  const errorMsg = {
+    email: "",
+    password: "",
+  };
+
+  watch([email, password], () => {
+    errorMsg.email = !regex_Email.test(email.value)
+      ? "Email is not Valid Format"
+      : "";
+    errorMsg.password = !regex_Password.test(password.value)
+      ? "Password is not Valid Format"
+      : "";
+  });
+
   async function handleSignIn() {
+    if (!errorMsg.email && !errorMsg.password) {
+      return;
+    }
     isAuthenticated.value = true;
     const success = await signInUser(email.value, password.value);
     if (success) {
@@ -26,6 +46,7 @@
             placeholder="Enter email"
             v-model="email"
           />
+          <Error v-if="errorMsg.email">{{ errorMsg.email }}</Error>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -36,6 +57,7 @@
             placeholder="Password"
             v-model="password"
           />
+          <Error v-if="errorMsg.password">{{ errorMsg.password }}</Error>
         </div>
         <button @click="handleSignIn" class="btn btn-primary btn-block">
           Sign In
