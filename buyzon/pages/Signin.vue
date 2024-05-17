@@ -55,7 +55,7 @@
   <div v-if="!isLoading" id="main">
     <div class="signup-container">
       <h2 class="text-center">SignIn</h2>
-      <div>
+      <div id="form-div">
         <div class="form-group">
           <label for="email">Email address</label>
           <input
@@ -80,7 +80,7 @@
         </div>
         <button
           @click="handleSignIn"
-          class="btn btn-primary btn-block"
+          class="btn btn-dark btn-block"
           :disabled="stopSubmit"
         >
           Sign In
@@ -92,6 +92,11 @@
 </template>
 
 <style scoped>
+  #form-div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
   #main {
     display: flex;
     justify-content: center;

@@ -5,6 +5,7 @@
 </template>
 <script setup lang="ts">
   import "vue3-spinners/spinners.css";
+  import 'primeicons/primeicons.css'
   import { db } from "./assets/firebase";
   import { collection, getDocs } from "firebase/firestore";
   const productData = useProductData();

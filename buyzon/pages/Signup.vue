@@ -108,8 +108,8 @@
 <template>
   <div id="main">
     <div v-if="!isLoading" class="signup-container">
-      <h2 class="text-center">Create Account</h2>
-      <div>
+      <h2 class="text-center">Welcome</h2>
+      <div id="form-div">
         <div class="form-group">
           <label for="name">Name</label>
           <input
@@ -164,7 +164,7 @@
             type="password"
             class="form-control"
             id="password"
-            placeholder="minimum 6 char long and 1 special symbol"
+            placeholder="minimum 6 char & 1 special symbol"
             v-model="userData.password"
           />
           <Error v-show="errorMsg.password">{{ errorMsg.password }}</Error>
@@ -175,7 +175,7 @@
             type="Confirm-password"
             class="form-control"
             id="Confirm-password"
-            placeholder="minimum 6 char long and 1 special symbol"
+            placeholder="minimum 6 char & 1 special symbol"
             v-model="userData.confirmPassword"
           />
           <Error v-show="errorMsg.confirmPassword">{{
@@ -184,10 +184,10 @@
         </div>
         <button
           @click="signupUser"
-          class="btn btn-primary btn-block"
+          class="btn btn-dark btn-block"
           :disabled="stopSubmit"
         >
-          Sign Up
+          Signup
         </button>
       </div>
     </div>
@@ -196,12 +196,21 @@
 </template>
 
 <style scoped>
+  #form-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+  }
+  button {
+    width: 150px;
+  }
   #main {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f4f4f4;
+    background-image: url("../assets/Sign-upBgimg.jpg");
   }
   .signup-container {
     background-color: #fff;
@@ -209,7 +218,7 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -226,10 +235,8 @@
     border-color: #80bdff;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
-  .hide {
-    display: none;
-  }
-  .show {
-    display: block;
+  input {
+    width: 300px;
+    height: 50px;
   }
 </style>
