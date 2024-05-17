@@ -15,7 +15,7 @@
       </p>
     </div>
     <div id="price-div">
-      <p>Rs. {{ price }}</p>
+      <b>Rs. {{ price }}</b>
       <button class="btn btn-info" @click="addProductToCart">
         Add to Cart
       </button>

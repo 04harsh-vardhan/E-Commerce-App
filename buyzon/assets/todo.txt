@@ -1,11 +1,8 @@
-1.Search about all the features you can add to your application --done
-2.Flow of application
-3.Authetication and DataBase Setup with fireStore
-4.Add data to firestore collection-- 
-no Need direct call from api and store in useState -- done
-create a top Bar
-create a Login Page
-create a Signup Page
-
-HomePage - 1
-use animate.css for animation
+1. error msg for active field only --done
+2. Signup Button disable till all Fields are filled
+3.Confirm Password fied in Signup 
+4.chack auth on Signout to reroute the user
+Set Product Data to fireStore and call that api
+add images and signup and signin nav bar in Home Page
+Responsiveness
+set background images signup and signin 

@@ -12,12 +12,15 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import type { ProductData } from "./types.js";
+import { useToast } from "vue-toastification";
 
 export const useUtils = () => {
   const uid = useUserUId();
+  const toast = useToast();
   async function addToCart(product: ProductData) {
     const id = product.id.toString();
     await setDoc(doc(db, `users/${uid.value}/cart`, id), product);
+    toast("Product added to cart");
   }
   async function getCart() {
     const querySnapshot = await getDocs(
@@ -35,6 +38,7 @@ export const useUtils = () => {
   }
   async function removeFromCart(id: number) {
     await deleteDoc(doc(db, `users/${uid.value}/cart`, id.toString()));
+    toast("Product removed from cart");
   }
   async function addUserToDB(userData: SignUpUser) {
     try {

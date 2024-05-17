@@ -1,5 +1,8 @@
 <script setup lang="ts">
+  import { useToast } from "vue-toastification";
+  import { VSpinner } from "vue3-spinners";
   const { addUserToDB, SignUpUser, createUser } = useUtils();
+  const toast = useToast();
   const userData = reactive(new SignUpUser());
   const isLoading = ref(false);
   const regex_Email = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
@@ -14,42 +17,64 @@
     address: "",
   };
 
-  watch(userData, () => {
-    errorMsg.name =
-      userData.name.length < 3 ? "Name cannot be less than 3 characters" : "";
-
-    errorMsg.email = !regex_Email.test(userData.email)
-      ? "Email is not Valid Format"
-      : "";
-
-    errorMsg.password = !regex_Password.test(userData.password)
-      ? "Password is not Valid Format"
-      : "";
-
-    errorMsg.mobile_number = !regex_number.test(userData.mobile_number)
-      ? "Mobile Number is not Valid Format"
-      : "";
+  watch(
+    () => userData.name,
+    () => {
+      errorMsg.name =
+        userData.name.length < 3 ? "Name cannot be less than 3 characters" : "";
+    }
+  );
+  watch(
+    () => userData.email,
+    () => {
+      errorMsg.email = !regex_Email.test(userData.email)
+        ? "Email is not Valid Format"
+        : "";
+    }
+  );
+  watch(
+    () => userData.mobile_number,
+    () => {
+      errorMsg.mobile_number = !regex_number.test(userData.mobile_number)
+        ? "Mobile Number is not Valid Format"
+        : "";
+    }
+  );
+  watch(
+    () => userData.password,
+    () => {
+      errorMsg.password = !regex_Password.test(userData.password)
+        ? "Password is not Valid Format"
+        : "";
+    }
+  );
+  watch(()=>userData.address, () => {
     errorMsg.address =
       userData.address.length < 6
         ? "address cannot be less than 6 characters"
         : "";
-  });
+  })
+  
 
   async function signupUser() {
-    if (
-      !errorMsg.name &&
-      !errorMsg.email &&
-      !errorMsg.password &&
-      !errorMsg.mobile_number
-    ) {
+    const canSubmit =
+      errorMsg.name &&
+      errorMsg.email &&
+      errorMsg.password &&
+      errorMsg.mobile_number &&
+      errorMsg.address;
+    if (canSubmit) {
+      toast("Please enter valid details");
       return;
     }
     isLoading.value = true;
     const isSet = await createUser(userData.email, userData.password);
     const isAdded = await addUserToDB(userData);
     if (isSet && isAdded) {
+      toast("Account Created Successfully");
       navigateTo("/signin");
     } else {
+      toast("Something went wrong");
       isLoading.value = false;
     }
   }
@@ -68,7 +93,7 @@
             placeholder="Enter Name"
             v-model="userData.name"
           />
-          <Error v-if="errorMsg.name">{{ errorMsg.name }}</Error>
+          <Error v-show="errorMsg.name">{{ errorMsg.name }}</Error>
         </div>
         <div class="form-group">
           <label for="email">Email address</label>
@@ -79,7 +104,7 @@
             placeholder="Enter email"
             v-model="userData.email"
           />
-          <Error v-if="errorMsg.email">{{ errorMsg.email }}</Error>
+          <Error v-show="errorMsg.email">{{ errorMsg.email }}</Error>
         </div>
         <div class="form-group">
           <label for="number">Mobile Number</label>
@@ -92,7 +117,7 @@
             placeholder="123-456-7890"
             v-model="userData.mobile_number"
           />
-          <Error v-if="errorMsg.mobile_number">{{
+          <Error v-show="errorMsg.mobile_number">{{
             errorMsg.mobile_number
           }}</Error>
         </div>
@@ -105,7 +130,7 @@
             placeholder="Enter your address"
             v-model="userData.address"
           />
-          <Error v-if="errorMsg.address">{{ errorMsg.address }}</Error>
+          <Error v-show="errorMsg.address">{{ errorMsg.address }}</Error>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -116,14 +141,14 @@
             placeholder="minimum 6 char long and 1 special symbol"
             v-model="userData.password"
           />
-          <Error v-if="errorMsg.password">{{ errorMsg.password }}</Error>
+          <Error v-show="errorMsg.password">{{ errorMsg.password }}</Error>
         </div>
         <button @click="signupUser" class="btn btn-primary btn-block">
           Sign Up
         </button>
       </div>
     </div>
-    <div v-else>Loading....</div>
+    <div v-else><VSpinner size="20" color="red" /></div>
   </div>
 </template>
 
@@ -157,5 +182,11 @@
     background-color: #fff;
     border-color: #80bdff;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  .hide {
+    display: none;
+  }
+  .show {
+    display: block;
   }
 </style>

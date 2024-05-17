@@ -1,5 +1,8 @@
 <script setup lang="ts">
+  import { useToast } from "vue-toastification";
+  import { VSpinner } from "vue3-spinners";
   const { signInUser } = useUtils();
+  const toast = useToast();
   const email = ref("");
   const password = ref("");
   const regex_Email = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
@@ -12,22 +15,29 @@
     password: "",
   };
 
-  watch([email, password], () => {
+  watch(email, () => {
     errorMsg.email = !regex_Email.test(email.value)
       ? "Email is not Valid Format"
       : "";
+  });
+
+  watch(password, () => {
     errorMsg.password = !regex_Password.test(password.value)
       ? "Password is not Valid Format"
       : "";
   });
 
   async function handleSignIn() {
-    if (!errorMsg.email && !errorMsg.password) {
+    isLoading.value = true;
+    if (errorMsg.email && errorMsg.password) {
+      toast("Please enter valid details");
+      isLoading.value = false;
       return;
     }
     isAuthenticated.value = true;
     const success = await signInUser(email.value, password.value);
     if (success) {
+      toast("Login Successful");
       navigateTo("/dashboard");
     }
   }
@@ -65,7 +75,7 @@
       </div>
     </div>
   </div>
-  <div v-else>Loading....</div>
+  <div v-else><VSpinner size="20" color="red" /></div>
 </template>
 
 <style scoped>
