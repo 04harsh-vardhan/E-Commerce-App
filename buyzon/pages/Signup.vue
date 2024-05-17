@@ -5,17 +5,42 @@
   const toast = useToast();
   const userData = reactive(new SignUpUser());
   const isLoading = ref(false);
+  const stopSubmit = ref(true);
   const regex_Email = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
   const regex_Password = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
   const regex_number = /^\d{10}$/;
 
-  const errorMsg = {
+  type ErrorMsg<T> = {
+    name: T;
+    email: T;
+    mobile_number: T;
+    password: T;
+    address: T;
+    confirmPassword: T;
+  };
+
+  const errorMsg = reactive<ErrorMsg<string>>({
     name: "",
     email: "",
     mobile_number: "",
     password: "",
     address: "",
-  };
+    confirmPassword: "",
+  });
+  watch(errorMsg, () => {
+    if (
+      errorMsg.name === "" &&
+      errorMsg.email === "" &&
+      errorMsg.mobile_number === "" &&
+      errorMsg.password === "" &&
+      errorMsg.address === "" &&
+      errorMsg.confirmPassword === ""
+    ) {
+      stopSubmit.value = false;
+    } else {
+      stopSubmit.value = true;
+    }
+  });
 
   watch(
     () => userData.name,
@@ -48,25 +73,26 @@
         : "";
     }
   );
-  watch(()=>userData.address, () => {
-    errorMsg.address =
-      userData.address.length < 6
-        ? "address cannot be less than 6 characters"
-        : "";
-  })
-  
+  watch(
+    () => userData.confirmPassword,
+    () => {
+      errorMsg.confirmPassword =
+        userData.password !== userData.confirmPassword
+          ? "Password and Confirm Password doesn't match"
+          : "";
+    }
+  );
+  watch(
+    () => userData.address,
+    () => {
+      errorMsg.address =
+        userData.address.length < 6
+          ? "address cannot be less than 6 characters"
+          : "";
+    }
+  );
 
   async function signupUser() {
-    const canSubmit =
-      errorMsg.name &&
-      errorMsg.email &&
-      errorMsg.password &&
-      errorMsg.mobile_number &&
-      errorMsg.address;
-    if (canSubmit) {
-      toast("Please enter valid details");
-      return;
-    }
     isLoading.value = true;
     const isSet = await createUser(userData.email, userData.password);
     const isAdded = await addUserToDB(userData);
@@ -143,7 +169,24 @@
           />
           <Error v-show="errorMsg.password">{{ errorMsg.password }}</Error>
         </div>
-        <button @click="signupUser" class="btn btn-primary btn-block">
+        <div class="form-group">
+          <label for="Confirm-password">Confirm Password</label>
+          <input
+            type="Confirm-password"
+            class="form-control"
+            id="Confirm-password"
+            placeholder="minimum 6 char long and 1 special symbol"
+            v-model="userData.confirmPassword"
+          />
+          <Error v-show="errorMsg.confirmPassword">{{
+            errorMsg.confirmPassword
+          }}</Error>
+        </div>
+        <button
+          @click="signupUser"
+          class="btn btn-primary btn-block"
+          :disabled="stopSubmit"
+        >
           Sign Up
         </button>
       </div>

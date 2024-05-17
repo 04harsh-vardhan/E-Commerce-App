@@ -1,8 +1,8 @@
 1. error msg for active field only --done
-2. Signup Button disable till all Fields are filled
-3.Confirm Password fied in Signup 
+2. Signup Button disable till all Fields are filled --done
+3.Confirm Password fied in Signup --done
 4.chack auth on Signout to reroute the user
-Set Product Data to fireStore and call that api
+Set Product Data to fireStore and call that api --done
 add images and signup and signin nav bar in Home Page
 Responsiveness
 set background images signup and signin 

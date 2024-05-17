@@ -8,12 +8,21 @@
   const regex_Email = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
   const regex_Password = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
   const isLoading = ref(false);
+  const stopSubmit = ref(true);
+
   const isAuthenticated = useAuth();
 
-  const errorMsg = {
+  const errorMsg = reactive({
     email: "",
     password: "",
-  };
+  });
+  watch(errorMsg, () => {
+    if (errorMsg.email === "" && errorMsg.password === "") {
+      stopSubmit.value = false;
+    } else {
+      stopSubmit.value = true;
+    }
+  });
 
   watch(email, () => {
     errorMsg.email = !regex_Email.test(email.value)
@@ -69,7 +78,11 @@
           />
           <Error v-if="errorMsg.password">{{ errorMsg.password }}</Error>
         </div>
-        <button @click="handleSignIn" class="btn btn-primary btn-block">
+        <button
+          @click="handleSignIn"
+          class="btn btn-primary btn-block"
+          :disabled="stopSubmit"
+        >
           Sign In
         </button>
       </div>

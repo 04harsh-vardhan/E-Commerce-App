@@ -82,18 +82,21 @@ export const useUtils = () => {
     mobile_number: string;
     address: string;
     password: string;
+    confirmPassword: string;
     constructor(
       name: string = "",
       email: string = "",
       mobile_number: string = "",
       address: string = "",
-      password: string = ""
+      password: string = "",
+      confirmPassword = ""
     ) {
       this.name = name;
       this.email = email;
       this.mobile_number = mobile_number;
       this.address = address;
       this.password = password;
+      this.confirmPassword = confirmPassword;
     }
   }
 
