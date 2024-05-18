@@ -9,10 +9,7 @@
 
   const { getProducts, getCart } = useUtils();
   const productData = useProductData();
-  const userCart = useUserCart();
   await callOnce(async () => {
     productData.value = await getProducts();
-    userCart.value = await getCart();
   });
-  // console.log('products  ', productData.value);
 </script>

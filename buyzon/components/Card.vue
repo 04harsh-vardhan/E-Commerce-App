@@ -1,9 +1,36 @@
-<script setup>
-  const props = defineProps(["product"]);
+<script setup lang="ts">
+  import type { ProductData } from "../composables/types";
+  let indexInCart: number;
+  const props = defineProps<{
+    product: ProductData;
+  }>();
+  const userCart = useUserCart();
+  const isInCart = ref(checkPresence());
+
   const { image, title, price } = props.product;
-  const { addToCart } = useUtils();
-  function addProductToCart() {
-    addToCart(props.product);
+  const msg = computed(() => (isInCart.value ? "Remove" : "Add to Cart"));
+  const { addToCart, removeFromCart } = useUtils();
+
+  function handleProduct() {
+    if (isInCart.value) {
+      removeFromCart(props.product.id);
+      userCart.value.splice(indexInCart, 1);
+      isInCart.value = false;
+    } else {
+      addToCart(props.product);
+      userCart.value.push(props.product);
+      isInCart.value = true;
+    }
+  }
+  function checkPresence() {
+    let isPresent = false;
+    userCart.value.forEach((item, index) => {
+      if (item.id === props.product.id) {
+        isPresent = true;
+        indexInCart = index;
+      }
+    });
+    return isPresent;
   }
 </script>
 <template>
@@ -16,8 +43,11 @@
     </div>
     <div id="price-div">
       <b>Rs. {{ price }}</b>
-      <button class="btn btn-info" @click="addProductToCart">
-        Add to Cart
+      <button
+        @click="handleProduct"
+        :class="{ 'btn btn-danger': isInCart, 'btn btn-info': !isInCart }"
+      >
+        {{ msg }}
       </button>
     </div>
   </div>

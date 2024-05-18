@@ -88,10 +88,16 @@
       </div>
     </div>
   </div>
-  <div v-else><VSpinner size="20" color="red" /></div>
+  <div id="loader" v-else><VSpinner size="20" color="red" /></div>
 </template>
 
 <style scoped>
+  #loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
   #form-div {
     display: flex;
     flex-direction: column;

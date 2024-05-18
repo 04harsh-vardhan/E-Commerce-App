@@ -37,7 +37,7 @@ export const useUtils = () => {
         userCart.value.push(doc.data() as ProductData);
       });
     } catch (err) {
-      toast("USer Has no item in cart");
+      // toast("USer Has no item in cart");
     }
   }
   async function getProducts() {

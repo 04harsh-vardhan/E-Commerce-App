@@ -1,5 +1,7 @@
 <script setup lang="ts">
   const productData = useProductData();
+  const { getCart } = useUtils();
+  await getCart();
   const pages = ref(1);
   const totalPages = computed(() => {
     return Math.ceil(productData.value.length / 5);

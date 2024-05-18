@@ -8,4 +8,5 @@ Responsiveness
 set background images signup and signin 
 
 // Todays Task
-1.add To Cart button changes to remove cart after adding Data
+1.add To Cart button changes to remove cart after adding Data --done
+2.Test the functionality
