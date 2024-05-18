@@ -42,7 +42,7 @@
             pages < totalPages ? pages++ : null;
           }
         "
-        class="btn btn-dark"  
+        class="btn btn-dark"
       >
         next
       </button>

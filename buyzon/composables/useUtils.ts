@@ -18,18 +18,35 @@ export const useUtils = () => {
   const uid = useUserUId();
   const toast = useToast();
   async function addToCart(product: ProductData) {
-    const id = product.id.toString();
-    await setDoc(doc(db, `users/${uid.value}/cart`, id), product);
-    toast("Product added to cart");
+    try {
+      const id = product.id.toString();
+      await setDoc(doc(db, `users/${uid.value}/cart`, id), product);
+      toast("Product added to cart");
+    } catch (err) {
+      toast("Something went wrong");
+    }
   }
   async function getCart() {
-    const querySnapshot = await getDocs(
-      collection(db, `users/${uid.value}/cart`)
-    );
-    const cart: ProductData[] = [];
-    querySnapshot.forEach((doc) => {
-      cart.push(doc.data() as ProductData);
+    const userCart = useUserCart();
+    userCart.value = [];
+    try {
+      const querySnapshot = await getDocs(
+        collection(db, `users/${uid.value}/cart`)
+      );
+      querySnapshot.forEach((doc) => {
+        userCart.value.push(doc.data() as ProductData);
+      });
+    } catch (err) {
+      toast("USer Has no item in cart");
+    }
+  }
+  async function getProducts() {
+    const querySnapshot: any = await getDocs(collection(db, "products"));
+    let response: any;
+    querySnapshot.forEach((doc: any) => {
+      response = doc.data().data;
     });
+    return response;
   }
   async function getUserData() {
     const docRef = doc(db, "users", uid.value);
@@ -108,6 +125,7 @@ export const useUtils = () => {
     signInUser,
     getUserData,
     getCart,
+    getProducts,
     SignUpUser,
   };
 };

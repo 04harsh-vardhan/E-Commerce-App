@@ -6,3 +6,6 @@ Set Product Data to fireStore and call that api --done
 add images and signup and signin nav bar in Home Page
 Responsiveness
 set background images signup and signin 
+
+// Todays Task
+1.add To Cart button changes to remove cart after adding Data

@@ -83,7 +83,7 @@
           class="btn btn-dark btn-block"
           :disabled="stopSubmit"
         >
-          Sign In
+          SignIn
         </button>
       </div>
     </div>

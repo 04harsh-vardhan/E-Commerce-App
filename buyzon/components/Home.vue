@@ -10,12 +10,12 @@
   </div>
 </template>
 <style setup>
-#container {
-  display: flex;
-  flex-direction: column;
-}
-#buttons {
-  display: flex;
-  justify-content: space-evenly;
-}
+  #container {
+    display: flex;
+    flex-direction: column;
+  }
+  #buttons {
+    display: flex;
+    justify-content: space-evenly;
+  }
 </style>

@@ -5,14 +5,14 @@
 </template>
 <script setup lang="ts">
   import "vue3-spinners/spinners.css";
-  import 'primeicons/primeicons.css'
-  import { db } from "./assets/firebase";
-  import { collection, getDocs } from "firebase/firestore";
+  import "primeicons/primeicons.css";
+
+  const { getProducts, getCart } = useUtils();
   const productData = useProductData();
+  const userCart = useUserCart();
   await callOnce(async () => {
-    const response: any = await getDocs(collection(db, "products"));
-    response.forEach((doc: any) => {
-      productData.value = doc.data().data;
-    });
+    productData.value = await getProducts();
+    userCart.value = await getCart();
   });
+  // console.log('products  ', productData.value);
 </script>
