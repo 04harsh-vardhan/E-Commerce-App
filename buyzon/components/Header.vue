@@ -1,8 +1,13 @@
-<script setup>
+<script setup lang="ts">
   const isAuthenticated = useAuth();
+  const searchString = ref("");
+  const emit = defineEmits(["searchEvent"]);
   function handleSignout() {
     isAuthenticated.value = false;
     navigateTo("/");
+  }
+  function handleSearch() {
+    emit("searchEvent", searchString.value);
   }
 </script>
 <template>
@@ -13,6 +18,7 @@
         <button
           class="btn btn-outline-secondary"
           id="button-addon1"
+          @click="handleSearch"
         >
           Search
         </button>
@@ -22,6 +28,7 @@
           placeholder="Search for products ,brands and more"
           aria-label="Example text with button addon"
           aria-describedby="button-addon1"
+          v-model="searchString"
         />
       </div>
     </div>

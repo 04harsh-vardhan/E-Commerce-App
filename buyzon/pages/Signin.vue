@@ -47,6 +47,8 @@
     const success = await signInUser(email.value, password.value);
     if (success) {
       toast("Login Successful");
+      const { getCart } = useUtils();
+      await getCart();
       navigateTo("/dashboard");
     }
   }

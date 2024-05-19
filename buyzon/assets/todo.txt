@@ -9,4 +9,11 @@ set background images signup and signin
 
 // Todays Task
 1.add To Cart button changes to remove cart after adding Data --done
-2.Test the functionality
+2.Test the functionality --done
+3.on refresh user should not go to l0gin and signup page shoud stay there
+4.Search by name
+5.Home page UI
+6.SignInPage UI
+7.Responsiveness
+8.sort by price range
+9.add Icon B for buyzon
