@@ -11,10 +11,23 @@
       return item.title.toLocaleLowerCase().includes(query.toLocaleLowerCase());
     });
   }
+  function comparatorHigh(itemA: ProductData, itemB: ProductData) {
+    return itemB.price - itemA.price;
+  }
+  function comparatorLow(itemA: ProductData, itemB: ProductData) {
+    return itemA.price - itemB.price;
+  }
+
+  function handleSort(sortBy: string) {
+    displayProducts.value =
+      sortBy === "high"
+        ? displayProducts.value.sort(comparatorHigh)
+        : displayProducts.value.sort(comparatorLow);
+  }
 </script>
 <template>
   <div id="main">
-    <Header @search-event="handleSearch"></Header>
+    <Header @search-event="handleSearch" @sort-event="handleSort"></Header>
     <Category></Category>
     <div id="card-div">
       <div

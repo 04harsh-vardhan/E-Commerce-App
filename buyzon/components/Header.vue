@@ -1,12 +1,19 @@
 <script setup lang="ts">
   const isAuthenticated = useAuth();
   const searchString = ref("");
-  const emit = defineEmits(["searchEvent"]);
+  const sortBy = ref("");
+  const emit = defineEmits(["searchEvent", "sortEvent"]);
+
+  watch(sortBy, (newValue) => {
+    emit("sortEvent", newValue);
+  });
+
   function handleSignout() {
     isAuthenticated.value = false;
     navigateTo("/");
   }
   function handleSearch() {
+    sortBy.value = "";
     emit("searchEvent", searchString.value);
   }
 </script>
@@ -30,6 +37,13 @@
           aria-describedby="button-addon1"
           v-model="searchString"
         />
+      </div>
+      <div id="dropDown">
+        <select v-model="sortBy">
+          <option disabled value="">sortBy</option>
+          <option value="high">Price: High to Low</option>
+          <option value="low">Price: Low to High</option>
+        </select>
       </div>
     </div>
     <div id="second">
@@ -75,12 +89,13 @@
     background-color: skyblue;
   }
   .form-control {
-    background-color: #e9ecef; /* Light gray background for input fields */
-    border: 1px solid #ced4da; /* Border color */
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    max-width: 350px;
   }
   .form-control:focus {
-    background-color: #fff; /* White background when focused */
-    border-color: #80bdff; /* Blue border when focused */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Blue shadow when focused */
+    background-color: #fff;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
 </style>
