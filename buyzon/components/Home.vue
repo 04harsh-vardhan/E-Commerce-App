@@ -1,6 +1,7 @@
 <template>
   <div id="container">
-    <div>
+    <div class="topDiv">
+      <div id="logo"><img src="../assets/Buyzon-logo.jpg" /></div>
       <h1>Welcome To Buyzon</h1>
     </div>
     <div id="buttons">
@@ -9,10 +10,18 @@
     </div>
   </div>
 </template>
-<style setup>
+<style scoped>
+.topDiv{
+  display: flex;
+}
+  img {
+    width: 100px;
+    height: 100px;
+  }
   #container {
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
   #buttons {
     display: flex;

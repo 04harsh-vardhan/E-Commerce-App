@@ -15,5 +15,5 @@ set background images signup and signin
 5.Home page UI
 6.SignInPage UI
 7.Responsiveness
-8.sort by price range
+8.sort by price range --done
 9.add Icon B for buyzon
