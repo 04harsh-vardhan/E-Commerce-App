@@ -43,13 +43,17 @@
       isLoading.value = false;
       return;
     }
-    isAuthenticated.value = true;
+
     const success = await signInUser(email.value, password.value);
     if (success) {
       toast("Login Successful");
       const { getCart } = useUtils();
       await getCart();
+      sessionStorage.setItem("token", "Authenticated");
       navigateTo("/dashboard");
+    } else {
+      toast("User Credentials are Wrong");
+      isLoading.value = false;
     }
   }
 </script>

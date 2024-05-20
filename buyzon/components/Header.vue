@@ -9,7 +9,7 @@
   });
 
   function handleSignout() {
-    isAuthenticated.value = false;
+    sessionStorage.removeItem("token");
     navigateTo("/");
   }
   function handleSearch() {

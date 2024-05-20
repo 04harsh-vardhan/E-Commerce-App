@@ -10,6 +10,8 @@ import {
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  getAuth,
+  signOut,
 } from "firebase/auth";
 import type { ProductData } from "./types.js";
 import { useToast } from "vue-toastification";
@@ -88,6 +90,9 @@ export const useUtils = () => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       uid.value = response.user.uid;
+      const auth1 = getAuth();
+      console.log("auth  ", auth);
+      console.log("response  ", response);
       return true;
     } catch (err) {
       return false;

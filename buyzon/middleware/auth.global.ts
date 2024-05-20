@@ -6,6 +6,7 @@ enum UrlPaths {
 
 export default defineNuxtRouteMiddleware((to, from) => {
   const isAuthenticated = useAuth();
+  isAuthenticated.value = sessionStorage.getItem("token") ? true : false;
   if (!isAuthenticated.value) {
     switch (to.path) {
       case UrlPaths.HOME:
