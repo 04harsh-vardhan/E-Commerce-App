@@ -66,10 +66,20 @@
     width: 100px;
     height: 100px;
   }
+  .logo {
+    border-radius: 50%;
+  }
+  #intro {
+    display: flex;
+    justify-content: center;
+  }
 </style>
 <template>
   <header>
-    <h1>Welcome To BuyZone</h1>
+    <div id="intro">
+      <h1>Welcome To BuyZone</h1>
+      <img class="logo" src="../assets/Buyzon-logo.jpg" />
+    </div>
     <nav>
       <NuxtLink class="btn btn-warning" to="/signin">Signin</NuxtLink>
       <div></div>

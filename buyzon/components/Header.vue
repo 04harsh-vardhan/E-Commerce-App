@@ -20,14 +20,14 @@
 <template>
   <div id="header">
     <div id="first">
-      <div id="icon">Buyzon</div>
+      <div id="icon"><img src="../assets/Buyzon-logo.jpg" /></div>
       <div id="searchBar" class="input-group mb-3">
         <button
           class="btn btn-outline-secondary"
           id="button-addon1"
           @click="handleSearch"
         >
-          Search
+          <span class="pi pi-search"></span>
         </button>
         <input
           type="text"
@@ -48,7 +48,9 @@
     </div>
     <div id="second">
       <div id="cart">
-        <button type="button" class="btn btn-success">Cart</button>
+        <button type="button" class="btn btn-success">
+          <span class="pi pi-cart-arrow-down"></span>
+        </button>
       </div>
       <div id="loginDiv" @click="handleSignout">
         <button class="btn btn-danger">Signout</button>
@@ -57,6 +59,11 @@
   </div>
 </template>
 <style scoped>
+  img {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+  }
   #header {
     background-color: #fff;
     display: flex;
