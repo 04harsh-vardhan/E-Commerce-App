@@ -213,7 +213,7 @@
     background-image: url("../assets/Sign-upBgimg.jpg");
   }
   .signup-container {
-    background-color: #fff;
+    background-color: lightgray;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -222,6 +222,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    max-height: 580px;
   }
   .signup-container h2 {
     margin-bottom: 20px;
@@ -237,6 +238,6 @@
   }
   input {
     width: 300px;
-    height: 50px;
+    height: 45px;
   }
 </style>

@@ -59,7 +59,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 250px; /* Reduced width */
+    width: 167px; /* Reduced width */
     text-align: center;
     transition: transform 0.3s;
   }
@@ -70,7 +70,7 @@
 
   .product-card img {
     width: 100%;
-    height: 300px;
+    height: 200px;
   }
 
   .product-info {
@@ -81,6 +81,9 @@
     font-size: 1.2em; /* Reduced font size */
     margin: 0;
     color: #333;
+    height: 60px;
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
   }
 
   .product-price {

@@ -17,3 +17,22 @@ set background images signup and signin
 7.Responsiveness
 8.sort by price range --done
 9.add Icon B for buyzon
+  ---- 
+  changes
+1. create separate files for enum --done
+2.naming in to and from --done
+
+landing page
+make header and footer fix --done
+put login and sign up on top right corner and space between them --done
+padding on all sides --done
+Single Background image
+
+Signup
+margin top -button bg-color change --done
+
+Dashboard
+Side Bar for filter functionality put all whicha re required
+make card alignment same
+header navbar side bar
+images size decreases 8 images in single page
