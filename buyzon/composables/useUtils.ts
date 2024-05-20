@@ -95,6 +95,12 @@ export const useUtils = () => {
       return false;
     }
   }
+  async function signoutUser() {
+    const authentication = getAuth();
+    try {
+      const response = await signOut(authentication);
+    } catch (err) {}
+  }
   class SignUpUser {
     name: string;
     email: string;
@@ -128,6 +134,7 @@ export const useUtils = () => {
     getUserData,
     getCart,
     getProducts,
+    signoutUser,
     SignUpUser,
   };
 };

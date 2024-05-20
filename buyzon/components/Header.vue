@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const isAuthenticated = useAuth();
+  const { signoutUser } = useUtils();
   const searchString = ref("");
   const sortBy = ref("");
   const emit = defineEmits(["searchEvent", "sortEvent"]);
@@ -10,6 +10,7 @@
 
   function handleSignout() {
     sessionStorage.removeItem("token");
+    signoutUser();
     navigateTo("/");
   }
   function handleSearch() {
