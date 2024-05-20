@@ -90,9 +90,6 @@ export const useUtils = () => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       uid.value = response.user.uid;
-      const auth1 = getAuth();
-      console.log("auth  ", auth);
-      console.log("response  ", response);
       return true;
     } catch (err) {
       return false;

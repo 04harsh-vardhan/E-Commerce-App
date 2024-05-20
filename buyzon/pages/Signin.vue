@@ -10,8 +10,6 @@
   const isLoading = ref(false);
   const stopSubmit = ref(true);
 
-  const isAuthenticated = useAuth();
-
   const errorMsg = reactive({
     email: "",
     password: "",
@@ -48,8 +46,9 @@
     if (success) {
       toast("Login Successful");
       const { getCart } = useUtils();
+      const uid = useUserUId();
       await getCart();
-      sessionStorage.setItem("token", "Authenticated");
+      sessionStorage.setItem("token", uid.value);
       navigateTo("/dashboard");
     } else {
       toast("User Credentials are Wrong");

@@ -8,7 +8,7 @@
   const isInCart = ref(checkPresence());
 
   const { image, title, price } = props.product;
-  const msg = computed(() => (isInCart.value ? "Remove" : "Add to Cart"));
+  const msg = computed(() => (isInCart.value ? "Remove" : "Add"));
   const { addToCart, removeFromCart } = useUtils();
 
   function handleProduct() {
@@ -34,41 +34,73 @@
   }
 </script>
 <template>
-  <div id="main">
-    <div><img :src="image" /></div>
-    <div>
-      <p>
-        <b>{{ title }}</b>
-      </p>
-    </div>
-    <div id="price-div">
-      <b>Rs. {{ price }}</b>
+  <div class="product-card">
+    <img :src="image" />
+    <div class="product-info">
+      <h3 class="product-title">{{ title }}</h3>
+      <p class="product-price">Rs {{ price }}</p>
       <button
+        class="add-to-cart"
         @click="handleProduct"
         :class="{ 'btn btn-danger': isInCart, 'btn btn-info': !isInCart }"
       >
+        <span
+          :class="{ 'pi pi-check': !isInCart, 'pi pi-times': isInCart }"
+        ></span>
         {{ msg }}
       </button>
     </div>
   </div>
 </template>
+
 <style scoped>
-  #price-div {
-    display: flex;
-    column-gap: 5px;
+  .product-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 250px; /* Reduced width */
+    text-align: center;
+    transition: transform 0.3s;
   }
-  #main {
-    width: 200px;
+
+  .product-card:hover {
+    transform: translateY(-10px);
+  }
+
+  .product-card img {
+    width: 100%;
     height: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: bisque;
   }
-  img {
-    width: 80px;
-    height: 120px;
-    object-fit: cover;
+
+  .product-info {
+    padding: 15px; /* Reduced padding */
+  }
+
+  .product-title {
+    font-size: 1.2em; /* Reduced font size */
+    margin: 0;
+    color: #333;
+  }
+
+  .product-price {
+    font-size: 1em; /* Reduced font size */
+    color: #ff7e5f;
+    margin: 10px 0;
+  }
+
+  .add-to-cart {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff7e5f;
+    color: white;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .add-to-cart:hover {
+    background-color: #feb47b;
   }
 </style>

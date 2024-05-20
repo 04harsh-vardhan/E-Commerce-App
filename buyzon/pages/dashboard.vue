@@ -4,7 +4,7 @@
   const pages = ref(1);
 
   const totalPages = computed(() => {
-    return Math.ceil(displayProducts.value.length / 5);
+    return Math.ceil(displayProducts.value.length / 4);
   });
   function handleSearch(query: string) {
     displayProducts.value = productData.value.filter((item) => {
@@ -31,7 +31,7 @@
     <Category></Category>
     <div id="card-div">
       <div
-        v-for="item in displayProducts.slice(pages * 5 - 5, pages * 5)"
+        v-for="item in displayProducts.slice(pages * 4 - 4, pages * 4)"
         :key="item.id"
       >
         <Card :product="item"></Card>
@@ -80,6 +80,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 40px 40px;
+    justify-content: space-evenly;
   }
   #main {
     display: flex;

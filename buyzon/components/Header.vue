@@ -16,6 +16,9 @@
     sortBy.value = "";
     emit("searchEvent", searchString.value);
   }
+  function moveToCart() {
+    navigateTo("/cart");
+  }
 </script>
 <template>
   <div id="header">
@@ -48,7 +51,7 @@
     </div>
     <div id="second">
       <div id="cart">
-        <button type="button" class="btn btn-success">
+        <button type="button" class="btn btn-success" @click="moveToCart">
           <span class="pi pi-cart-arrow-down"></span>
         </button>
       </div>
