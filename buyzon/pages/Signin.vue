@@ -115,6 +115,7 @@
     align-items: center;
     height: 100vh;
     background-color: #f4f4f4;
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
   }
   .signup-container {
     background-color: #fff;

@@ -7,7 +7,7 @@
   import "vue3-spinners/spinners.css";
   import "primeicons/primeicons.css";
 
-  const { getProducts, getCart } = useUtils();
+  const { getProducts} = useUtils();
   const productData = useProductData();
   await callOnce(async () => {
     productData.value = await getProducts();
