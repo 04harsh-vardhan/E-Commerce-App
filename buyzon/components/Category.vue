@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
   const { ImageURL } = enums();
   const productData = useProductData();
   const category = new Set<string>();
@@ -59,4 +59,4 @@
     width: 60px;
     height: 60px;
   }
-</style>
+</style> -->

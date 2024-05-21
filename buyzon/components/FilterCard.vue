@@ -4,16 +4,12 @@
   const { category, priceRange } = constants();
   const emit = defineEmits(["sortPrice", "sortCategory"]);
   const priceCheck = ref("");
-  const categoryCheck = ref("");
+  const categoryCheck = ref<string[]>([]);
   watch(categoryCheck, (newValue) => {
-    if (newValue !== "") {
-      emit("sortCategory", newValue);
-    }
+    emit("sortCategory", newValue);
   });
   watch(priceCheck, (newValue) => {
-    if (newValue !== "") {
-      emit("sortPrice", newValue);
-    }
+    emit("sortPrice", newValue);
   });
 </script>
 <template>
@@ -40,7 +36,7 @@
           <div v-for="item in category">
             <label>
               <input
-                type="radio"
+                type="checkbox"
                 name="category"
                 :value="item"
                 v-model="categoryCheck"

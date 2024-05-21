@@ -1,13 +1,14 @@
 <script setup lang="ts">
-  const productData = useProductData();
-  const displayProducts = reactive(productData);
+  const { getProducts } = useUtils();
+  const productData = await getProducts();
+  const displayProducts = ref(productData);
   const pages = ref(1);
 
   const totalPages = computed(() => {
     return Math.ceil(displayProducts.value.length / 4);
   });
   function handleSearch(query: string) {
-    displayProducts.value = productData.value.filter((item) => {
+    displayProducts.value = productData.filter((item) => {
       return item.title.toLocaleLowerCase().includes(query.toLocaleLowerCase());
     });
   }
@@ -19,13 +20,18 @@
   }
 
   function handlePriceSort(sortBy: string) {
+    pages.value = 1;
     displayProducts.value =
       sortBy === "High"
         ? displayProducts.value.sort(comparatorHigh)
         : displayProducts.value.sort(comparatorLow);
   }
-  function handleCategorySort(sortBy:string){
-    
+  function handleCategorySort(sortList: string[]) {
+    pages.value = 1;
+    displayProducts.value =
+      sortList.length > 0
+        ? productData.filter((item) => sortList.includes(item.category))
+        : productData;
   }
 </script>
 <template>
@@ -35,7 +41,10 @@
     </div>
     <div id="footer">
       <div id="sort">
-        <FilterCard @sort-price="handlePriceSort" @sort-category="handleCategorySort" />
+        <FilterCard
+          @sort-price="handlePriceSort"
+          @sort-category="handleCategorySort"
+        />
       </div>
       <div>
         <div id="card-div">

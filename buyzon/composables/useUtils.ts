@@ -44,7 +44,7 @@ export const useUtils = () => {
   }
   async function getProducts() {
     const querySnapshot: any = await getDocs(collection(db, "products"));
-    let response: any;
+    let response: ProductData[] = [];
     querySnapshot.forEach((doc: any) => {
       response = doc.data().data;
     });

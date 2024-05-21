@@ -33,7 +33,7 @@ margin top -button bg-color change --done
 
 Dashboard
 Side Bar for filter functionality put all whicha re required
-make card alignment same --done
+user can select from multiple categories
 make overflow text ... 
 header navbar side bar
 images size decreases 8 images in single page
