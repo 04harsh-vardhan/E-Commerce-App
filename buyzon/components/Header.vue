@@ -2,6 +2,7 @@
   const { signoutUser } = useUtils();
   const searchString = ref("");
   const sortBy = ref("");
+  const toggle = ref(false);
   const emit = defineEmits(["searchEvent", "sortEvent"]);
 
   watch(sortBy, (newValue) => {
@@ -24,6 +25,17 @@
 <template>
   <div id="header">
     <div id="first">
+      <div>
+        <button id="toggleBtn" @click="toggle = !toggle">
+          <span
+            :class="{
+              'pi pi-angle-double-left': toggle,
+              'pi pi-angle-double-right': !toggle,
+            }"
+          ></span>
+        </button>
+        <FilterCard v-show="toggle" />
+      </div>
       <div id="icon"><img src="../assets/Buyzon-logo.jpg" /></div>
       <div id="searchBar" class="input-group mb-3">
         <button
