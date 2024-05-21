@@ -1,50 +1,64 @@
+<script setup lang="ts">
+  import { constants } from "~/composables/constant";
+
+  const { category, priceRange } = constants();
+  const emit = defineEmits(["sortPrice", "sortCategory"]);
+  const priceCheck = ref("");
+  const categoryCheck = ref("");
+  watch(categoryCheck, (newValue) => {
+    if (newValue !== "") {
+      emit("sortCategory", newValue);
+    }
+  });
+  watch(priceCheck, (newValue) => {
+    if (newValue !== "") {
+      emit("sortPrice", newValue);
+    }
+  });
+</script>
 <template>
   <div id="main">
     <div class="filter-container">
-      <div class="filter-header">Filter By</div>
+      <div class="filter-header">Filters</div>
       <div class="filter-content">
         <div class="filter-section">
           <h4>Price</h4>
-          <label>
-            <input type="radio" name="price" value="low-to-high" />
-            Low to High
-          </label>
-          <label>
-            <input type="radio" name="price" value="high-to-low" />
-            High to Low
-          </label>
+          <div v-for="item in priceRange">
+            <label>
+              <input
+                type="radio"
+                name="price"
+                :value="item"
+                v-model="priceCheck"
+              />
+              {{ item }}
+            </label>
+          </div>
         </div>
         <div class="filter-section">
           <h4>Category</h4>
-          <label>
-            <input type="radio" name="category" value="electronics" />
-            Electronics
-          </label>
-          <label>
-            <input type="radio" name="category" value="fashion" />
-            Fashion
-          </label>
-          <label>
-            <input type="radio" name="category" value="home-appliances" />
-            Home Appliances
-          </label>
+          <div v-for="item in category">
+            <label>
+              <input
+                type="radio"
+                name="category"
+                :value="item"
+                v-model="categoryCheck"
+              />
+              {{ item }}
+            </label>
+          </div>
         </div>
-        <button class="filter-button">Apply Filter</button>
       </div>
     </div>
   </div>
 </template>
 <style scoped>
-  #main {
-    z-index: 999;
-  }
   .filter-container {
     width: 200px;
     height: 400px;
     background: #fff;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
   }
   .filter-header {
     background: #3498db;

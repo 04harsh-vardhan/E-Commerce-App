@@ -10,6 +10,7 @@ export const enums = () => {
     electronics = "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.jpg",
     womenClothing = "https://fakestoreapi.com/img/71HblAHs5xL._AC_UY879_-2.jpg",
   }
+
   return {
     UrlPaths,
     ImageURL,

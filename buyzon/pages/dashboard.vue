@@ -18,57 +18,64 @@
     return itemA.price - itemB.price;
   }
 
-  function handleSort(sortBy: string) {
+  function handlePriceSort(sortBy: string) {
     displayProducts.value =
-      sortBy === "high"
+      sortBy === "High"
         ? displayProducts.value.sort(comparatorHigh)
         : displayProducts.value.sort(comparatorLow);
+  }
+  function handleCategorySort(sortBy:string){
+    
   }
 </script>
 <template>
   <div id="main">
     <div id="header">
-      <Header @search-event="handleSearch" @sort-event="handleSort"></Header>
+      <Header @search-event="handleSearch"></Header>
     </div>
     <div id="footer">
-      <Category></Category>
-      <div id="card-div">
-        <div
-          v-for="item in displayProducts.slice(pages * 4 - 4, pages * 4)"
-          :key="item.id"
-        >
-          <Card :product="item"></Card>
-        </div>
+      <div id="sort">
+        <FilterCard @sort-price="handlePriceSort" @sort-category="handleCategorySort" />
       </div>
-      <div class="pagination">
-        <button
-          @click="
-            () => {
-              pages > 1 ? pages-- : null;
-            }
-          "
-          class="btn btn-dark"
-        >
-          prev
-        </button>
-        <button
-          @click="pages = i"
-          v-for="i in totalPages"
-          :key="i"
-          class="btn btn-dark"
-        >
-          {{ i }}
-        </button>
-        <button
-          @click="
-            () => {
-              pages < totalPages ? pages++ : null;
-            }
-          "
-          class="btn btn-dark"
-        >
-          next
-        </button>
+      <div>
+        <div id="card-div">
+          <div
+            v-for="item in displayProducts.slice(pages * 4 - 4, pages * 4)"
+            :key="item.id"
+          >
+            <Card :product="item"></Card>
+          </div>
+        </div>
+        <div class="pagination">
+          <button
+            @click="
+              () => {
+                pages > 1 ? pages-- : null;
+              }
+            "
+            class="btn btn-dark"
+          >
+            prev
+          </button>
+          <button
+            @click="pages = i"
+            v-for="i in totalPages"
+            :key="i"
+            class="btn btn-dark"
+          >
+            {{ i }}
+          </button>
+          <button
+            @click="
+              () => {
+                pages < totalPages ? pages++ : null;
+              }
+            "
+            class="btn btn-dark"
+          >
+            next
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -78,6 +85,7 @@
     height: 20vh;
   }
   #footer {
+    display: flex;
     height: 80vh;
     overflow-y: scroll;
   }
@@ -87,7 +95,7 @@
     gap: 0.5rem;
   }
   #card-div {
-    width: 100vw;
+    width: 80vw;
     display: flex;
     flex-wrap: wrap;
     gap: 40px 40px;

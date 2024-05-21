@@ -1,13 +1,8 @@
 <script setup lang="ts">
   const { signoutUser } = useUtils();
   const searchString = ref("");
-  const sortBy = ref("");
-  const toggle = ref(false);
-  const emit = defineEmits(["searchEvent", "sortEvent"]);
 
-  watch(sortBy, (newValue) => {
-    emit("sortEvent", newValue);
-  });
+  const emit = defineEmits(["searchEvent"]);
 
   function handleSignout() {
     sessionStorage.removeItem("token");
@@ -15,7 +10,6 @@
     navigateTo("/");
   }
   function handleSearch() {
-    sortBy.value = "";
     emit("searchEvent", searchString.value);
   }
   function moveToCart() {
@@ -25,17 +19,6 @@
 <template>
   <div id="header">
     <div id="first">
-      <div>
-        <button id="toggleBtn" @click="toggle = !toggle">
-          <span
-            :class="{
-              'pi pi-angle-double-left': toggle,
-              'pi pi-angle-double-right': !toggle,
-            }"
-          ></span>
-        </button>
-        <FilterCard v-show="toggle" />
-      </div>
       <div id="icon"><img src="../assets/Buyzon-logo.jpg" /></div>
       <div id="searchBar" class="input-group mb-3">
         <button
@@ -53,13 +36,6 @@
           aria-describedby="button-addon1"
           v-model="searchString"
         />
-      </div>
-      <div id="dropDown">
-        <select v-model="sortBy">
-          <option disabled value="">sortBy</option>
-          <option value="high">Price: High to Low</option>
-          <option value="low">Price: Low to High</option>
-        </select>
       </div>
     </div>
     <div id="second">
@@ -81,7 +57,7 @@
     border-radius: 50%;
   }
   #header {
-    background-color: #fff;
+    background-color: aliceblue;
     display: flex;
     align-items: center;
     width: 100%;
