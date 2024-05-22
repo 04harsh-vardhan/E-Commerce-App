@@ -1,7 +1,7 @@
 <script setup lang="ts">
   const { signoutUser } = useUtils();
   const searchString = ref("");
-
+  const toggle = ref(false);
   const emit = defineEmits(["searchEvent"]);
 
   function handleSignout() {
@@ -44,13 +44,38 @@
           <span class="pi pi-cart-arrow-down"></span>
         </button>
       </div>
-      <div id="loginDiv" @click="handleSignout">
-        <button class="btn btn-danger">Signout</button>
+      <div @mouseenter="toggle = true" @mouseleave="toggle = false">
+        <div id="user">
+          <span class="pi pi-user"></span>
+          <p>profile</p>
+        </div>
+        <div v-show="toggle" id="profileList">
+          <div class="item"><p>user detail</p></div>
+          <div class="item" @click="handleSignout"><p>signout</p></div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <style scoped>
+  .item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  #profileList {
+    width: 100px;
+    height: auto;
+    background-color: #fff;
+    position: absolute;
+    z-index: 9;
+  }
+  #user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   img {
     width: 75px;
     height: 75px;

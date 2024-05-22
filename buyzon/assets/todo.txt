@@ -21,22 +21,23 @@ set background images signup and signin
   changes
 1. create separate files for enum --done
 2.naming in to and from --done
-
-landing page
+make overflow text ... --done
 make header and footer fix --done
 put login and sign up on top right corner and space between them --done
 padding on all sides --done
+margin top -button bg-color change --done
+Side Bar for filter functionality put all whicha re required --done
+user can select from multiple categories --done
+images size decreases 8 images in single page --done
+landing page
+
 Single Background image
 
-Signup
-margin top -button bg-color change --done
 
 Dashboard
-Side Bar for filter functionality put all whicha re required
-user can select from multiple categories
-make overflow text ... 
+
 header navbar side bar
-images size decreases 8 images in single page
+
 
 Testing
 Write Test Cases For All Components and unit testing

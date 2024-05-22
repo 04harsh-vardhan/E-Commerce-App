@@ -98,10 +98,11 @@
   /* styles.css */
   .hero {
     width: 100%;
-    height: 250px;  
-    background-size: cover; 
-    background-position: center; 
-    background-repeat: no-repeat; 
+    height: 250px;
+    background-image: url("https://m.media-amazon.com/images/I/61Dr+oVuClL._SX3000_.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 </style>
 <template>
@@ -121,11 +122,11 @@
       </div>
     </header>
     <div id="content">
-      <section class="hero">
+      <div class="hero">
         <h1>Welcome to Our Store</h1>
         <p>Your one-stop shop for all things amazing</p>
         <NuxtLink class="cta" to="/signin">Shop now</NuxtLink>
-      </section>
+      </div>
 
       <section class="products">
         <h2>Featured Products</h2>

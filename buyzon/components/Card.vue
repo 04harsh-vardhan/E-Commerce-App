@@ -69,8 +69,8 @@
   }
 
   .product-card img {
-    width: 100%;
-    height: 200px;
+    width: 67px;
+    height: 80px;
   }
 
   .product-info {
@@ -78,12 +78,11 @@
   }
 
   .product-title {
-    font-size: 1.2em; /* Reduced font size */
+    font-size: 16px; /* Reduced font size */
     margin: 0;
     color: #333;
     height: 60px;
     overflow: hidden;
-    /* text-overflow: ellipsis; */
   }
 
   .product-price {

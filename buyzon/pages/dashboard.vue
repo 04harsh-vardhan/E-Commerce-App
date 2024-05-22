@@ -5,7 +5,7 @@
   const pages = ref(1);
 
   const totalPages = computed(() => {
-    return Math.ceil(displayProducts.value.length / 4);
+    return Math.ceil(displayProducts.value.length / 8);
   });
   function handleSearch(query: string) {
     displayProducts.value = productData.filter((item) => {
@@ -49,7 +49,7 @@
       <div>
         <div id="card-div">
           <div
-            v-for="item in displayProducts.slice(pages * 4 - 4, pages * 4)"
+            v-for="item in displayProducts.slice(pages * 8 - 8, pages * 8)"
             :key="item.id"
           >
             <Card :product="item"></Card>
@@ -65,14 +65,6 @@
             class="btn btn-dark"
           >
             prev
-          </button>
-          <button
-            @click="pages = i"
-            v-for="i in totalPages"
-            :key="i"
-            class="btn btn-dark"
-          >
-            {{ i }}
           </button>
           <button
             @click="
@@ -107,7 +99,7 @@
     width: 80vw;
     display: flex;
     flex-wrap: wrap;
-    gap: 40px 40px;
+    gap: 80px 80px;
     justify-content: space-evenly;
   }
   #main {
