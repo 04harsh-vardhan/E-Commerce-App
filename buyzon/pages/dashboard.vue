@@ -46,7 +46,7 @@
           @sort-category="handleCategorySort"
         />
       </div>
-      <div>
+      <div id="display">
         <div id="card-div">
           <div
             v-for="item in displayProducts.slice(pages * 8 - 8, pages * 8)"
@@ -82,6 +82,10 @@
   </div>
 </template>
 <style scoped>
+  #display {
+    border-top: 1px solid #e9e9ed;
+    border-left: 1px solid #e9e9ed;
+  }
   #header {
     height: 20vh;
   }
@@ -101,6 +105,7 @@
     flex-wrap: wrap;
     gap: 80px 80px;
     justify-content: space-evenly;
+    padding-top: 10px;
   }
   #main {
     display: flex;

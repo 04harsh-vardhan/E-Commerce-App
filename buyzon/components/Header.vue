@@ -66,6 +66,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-weight: var(--weight);
   }
   #searchBar {
     max-width: 400px;
@@ -75,7 +76,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: var(--weight);
   }
   #profileList {
     width: 100px;
@@ -88,6 +89,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-weight: var(--weight);
   }
   img {
     width: 75px;
@@ -102,6 +104,7 @@
     padding: 12px;
     justify-content: space-between;
     box-sizing: border-box;
+    --weight: 500;
   }
   #first,
   #second {
