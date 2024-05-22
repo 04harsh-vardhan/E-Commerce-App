@@ -174,7 +174,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-height: 580px;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
   }
   .signup-container h2 {
     margin-bottom: 20px;
