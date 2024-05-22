@@ -1,8 +1,9 @@
 <script setup lang="ts">
+  const emit = defineEmits(["searchEvent"]);
   const { signoutUser } = useUtils();
   const searchString = ref("");
   const toggle = ref(false);
-  const emit = defineEmits(["searchEvent"]);
+  const category = ["men", "women", "electronics", "jewelery"];
 
   function handleSignout() {
     sessionStorage.removeItem("token");
@@ -20,6 +21,11 @@
   <div id="header">
     <div id="first">
       <div id="icon"><img src="../assets/Buyzon-logo.jpg" /></div>
+      <div class="item" v-for="item in category" :key="item">
+        <p>{{ item }}</p>
+      </div>
+    </div>
+    <div id="second">
       <div id="searchBar" class="input-group mb-3">
         <button
           class="btn btn-outline-secondary"
@@ -37,12 +43,9 @@
           v-model="searchString"
         />
       </div>
-    </div>
-    <div id="second">
-      <div id="cart">
-        <button type="button" class="btn btn-success" @click="moveToCart">
-          <span class="pi pi-cart-arrow-down"></span>
-        </button>
+      <div id="cart" @click="moveToCart">
+        <span class="pi pi-cart-arrow-down"></span>
+        <p>cart</p>
       </div>
       <div @mouseenter="toggle = true" @mouseleave="toggle = false">
         <div id="user">
@@ -58,11 +61,21 @@
   </div>
 </template>
 <style scoped>
+  #cart {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #searchBar {
+    max-width: 400px;
+  }
   .item {
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    font-weight: 500;
   }
   #profileList {
     width: 100px;
@@ -92,9 +105,9 @@
   }
   #first,
   #second {
+    width: 50%;
     display: flex;
     align-items: center;
-    flex-grow: 1;
     justify-content: space-evenly;
   }
   #icon {

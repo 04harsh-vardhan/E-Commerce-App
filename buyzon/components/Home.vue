@@ -99,7 +99,7 @@
   .hero {
     width: 100%;
     height: 250px;
-    background-image: url("https://m.media-amazon.com/images/I/61Dr+oVuClL._SX3000_.jpg");
+    background-image: url("../assets/welcome_page.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
