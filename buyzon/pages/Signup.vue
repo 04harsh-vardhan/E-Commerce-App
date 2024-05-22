@@ -1,101 +1,56 @@
 <script setup lang="ts">
   import { useToast } from "vue-toastification";
   import { VSpinner } from "vue3-spinners";
+  import * as yup from "yup";
+
   const { addUserToDB, SignUpUser, createUser } = useUtils();
   const toast = useToast();
-  const userData = reactive(new SignUpUser());
   const isLoading = ref(false);
-  const stopSubmit = ref(true);
-  const regex_Email = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
   const regex_Password = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
   const regex_number = /^\d{10}$/;
 
-  type ErrorMsg<T> = {
-    name: T;
-    email: T;
-    mobile_number: T;
-    password: T;
-    address: T;
-    confirmPassword: T;
-  };
-
-  const errorMsg = reactive<ErrorMsg<string>>({
-    name: "",
-    email: "",
-    mobile_number: "",
-    password: "",
-    address: "",
-    confirmPassword: "",
+  const { values, errors, defineField, meta } = useForm({
+    validationSchema: yup.object({
+      name: yup
+        .string()
+        .min(3, "Name cannot be less than 3 characters")
+        .required(),
+      email: yup.string().email("must be a valid email").required(),
+      mobileNumber: yup
+        .string()
+        .matches(regex_number, "Mobile Number is not Valid Format")
+        .required(),
+      address: yup
+        .string()
+        .min(6, "address cannot be less than 6 characters")
+        .required(),
+      password: yup
+        .string()
+        .matches(regex_Password, "Password is not Valid Format")
+        .required(),
+      confirmPassword: yup
+        .string()
+        .oneOf([yup.ref("password")], "Passwords must match"),
+    }),
   });
-  watch(errorMsg, () => {
-    if (
-      errorMsg.name === "" &&
-      errorMsg.email === "" &&
-      errorMsg.mobile_number === "" &&
-      errorMsg.password === "" &&
-      errorMsg.address === "" &&
-      errorMsg.confirmPassword === ""
-    ) {
-      stopSubmit.value = false;
-    } else {
-      stopSubmit.value = true;
-    }
-  });
-
-  watch(
-    () => userData.name,
-    () => {
-      errorMsg.name =
-        userData.name.length < 3 ? "Name cannot be less than 3 characters" : "";
-    }
-  );
-  watch(
-    () => userData.email,
-    () => {
-      errorMsg.email = !regex_Email.test(userData.email)
-        ? "Email is not Valid Format"
-        : "";
-    }
-  );
-  watch(
-    () => userData.mobile_number,
-    () => {
-      errorMsg.mobile_number = !regex_number.test(userData.mobile_number)
-        ? "Mobile Number is not Valid Format"
-        : "";
-    }
-  );
-  watch(
-    () => userData.password,
-    () => {
-      errorMsg.password = !regex_Password.test(userData.password)
-        ? "Password is not Valid Format"
-        : "";
-    }
-  );
-  watch(
-    () => userData.confirmPassword,
-    () => {
-      errorMsg.confirmPassword =
-        userData.password !== userData.confirmPassword
-          ? "Password and Confirm Password doesn't match"
-          : "";
-    }
-  );
-  watch(
-    () => userData.address,
-    () => {
-      errorMsg.address =
-        userData.address.length < 6
-          ? "address cannot be less than 6 characters"
-          : "";
-    }
-  );
+  const [name] = defineField("name");
+  const [email] = defineField("email");
+  const [mobileNumber] = defineField("mobileNumber");
+  const [address] = defineField("address");
+  const [password] = defineField("password");
+  const [confirmPassword] = defineField("confirmPassword");
 
   async function signupUser() {
     isLoading.value = true;
-    const isSet = await createUser(userData.email, userData.password);
-    const isAdded = await addUserToDB(userData);
+    const isSet = await createUser(values.email, values.password);
+    const isAdded = await addUserToDB(
+      new SignUpUser(
+        values.name,
+        values.email,
+        values.mobileNumber,
+        values.address
+      )
+    );
     if (isSet && isAdded) {
       toast("Account Created Successfully");
       navigateTo("/signin");
@@ -117,9 +72,9 @@
             class="form-control"
             id="name"
             placeholder="Enter Name"
-            v-model="userData.name"
+            v-model="name"
           />
-          <Error v-show="errorMsg.name">{{ errorMsg.name }}</Error>
+          <Error v-show="errors.name">{{ errors.name }}</Error>
         </div>
         <div class="form-group">
           <label for="email">Email address</label>
@@ -128,9 +83,9 @@
             class="form-control"
             id="email"
             placeholder="Enter email"
-            v-model="userData.email"
+            v-model="email"
           />
-          <Error v-show="errorMsg.email">{{ errorMsg.email }}</Error>
+          <Error v-show="errors.email">{{ errors.email }}</Error>
         </div>
         <div class="form-group">
           <label for="number">Mobile Number</label>
@@ -141,11 +96,9 @@
             maxlength="10"
             pattern="[0-9]{10}"
             placeholder="123-456-7890"
-            v-model="userData.mobile_number"
+            v-model="mobileNumber"
           />
-          <Error v-show="errorMsg.mobile_number">{{
-            errorMsg.mobile_number
-          }}</Error>
+          <Error v-show="errors.mobileNumber">{{ errors.mobileNumber }}</Error>
         </div>
         <div class="form-group">
           <label for="address">Your address</label>
@@ -154,9 +107,9 @@
             class="form-control"
             id="address"
             placeholder="Enter your address"
-            v-model="userData.address"
+            v-model="address"
           />
-          <Error v-show="errorMsg.address">{{ errorMsg.address }}</Error>
+          <Error v-show="errors.address">{{ errors.address }}</Error>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -165,27 +118,27 @@
             class="form-control"
             id="password"
             placeholder="minimum 6 char & 1 special symbol"
-            v-model="userData.password"
+            v-model="password"
           />
-          <Error v-show="errorMsg.password">{{ errorMsg.password }}</Error>
+          <Error v-show="errors.password">{{ errors.password }}</Error>
         </div>
         <div class="form-group">
           <label for="Confirm-password">Confirm Password</label>
           <input
-            type="Confirm-password"
+            type="password"
             class="form-control"
             id="Confirm-password"
             placeholder="minimum 6 char & 1 special symbol"
-            v-model="userData.confirmPassword"
+            v-model="confirmPassword"
           />
-          <Error v-show="errorMsg.confirmPassword">{{
-            errorMsg.confirmPassword
+          <Error v-show="errors.confirmPassword">{{
+            errors.confirmPassword
           }}</Error>
         </div>
         <button
           @click="signupUser"
           class="btn btn-dark btn-block"
-          :disabled="stopSubmit"
+          :disabled="!meta.valid"
         >
           Signup
         </button>
@@ -213,7 +166,6 @@
     background-image: url("../assets/Sign-upBgimg.jpg");
   }
   .signup-container {
-    background-color: lightgray;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

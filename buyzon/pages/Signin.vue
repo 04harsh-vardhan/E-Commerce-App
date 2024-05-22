@@ -1,53 +1,32 @@
 <script setup lang="ts">
   import { useToast } from "vue-toastification";
   import { VSpinner } from "vue3-spinners";
-  const { signInUser } = useUtils();
-  const toast = useToast();
-  const email = ref("");
-  const password = ref("");
-  const regex_Email = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+  import * as yup from "yup";
+
   const regex_Password = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
+  const toast = useToast();
   const isLoading = ref(false);
-  const stopSubmit = ref(true);
 
-  const errorMsg = reactive({
-    email: "",
-    password: "",
-  });
-  watch(errorMsg, () => {
-    if (errorMsg.email === "" && errorMsg.password === "") {
-      stopSubmit.value = false;
-    } else {
-      stopSubmit.value = true;
-    }
+  const { values, errors, defineField, meta } = useForm({
+    validationSchema: yup.object({
+      email: yup.string().email("must be a valid email").required(),
+      password: yup
+        .string()
+        .matches(regex_Password, "Password is not Valid Format")
+        .required(),
+    }),
   });
 
-  watch(email, () => {
-    errorMsg.email = !regex_Email.test(email.value)
-      ? "Email is not Valid Format"
-      : "";
-  });
-
-  watch(password, () => {
-    errorMsg.password = !regex_Password.test(password.value)
-      ? "Password is not Valid Format"
-      : "";
-  });
+  const [email] = defineField("email");
+  const [password] = defineField("password");
 
   async function handleSignIn() {
     isLoading.value = true;
-    if (errorMsg.email && errorMsg.password) {
-      toast("Please enter valid details");
-      isLoading.value = false;
-      return;
-    }
-
-    const success = await signInUser(email.value, password.value);
+    const { signInUser } = useUtils();
+    const success = await signInUser(values.email, values.password);
     if (success) {
       toast("Login Successful");
-      const { getCart } = useUtils();
       const uid = useUserUId();
-      await getCart();
       sessionStorage.setItem("token", uid.value);
       navigateTo("/dashboard");
     } else {
@@ -70,7 +49,7 @@
             placeholder="Enter email"
             v-model="email"
           />
-          <Error v-if="errorMsg.email">{{ errorMsg.email }}</Error>
+          <Error v-show="errors.email">{{ errors.email }}</Error>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -81,12 +60,12 @@
             placeholder="Password"
             v-model="password"
           />
-          <Error v-if="errorMsg.password">{{ errorMsg.password }}</Error>
+          <Error v-show="errors.password">{{ errors.password }}</Error>
         </div>
         <button
           @click="handleSignIn"
           class="btn btn-dark btn-block"
-          :disabled="stopSubmit"
+          :disabled="!meta.valid"
         >
           SignIn
         </button>

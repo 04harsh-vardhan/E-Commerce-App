@@ -3,7 +3,7 @@
   const { signoutUser } = useUtils();
   const searchString = ref("");
   const toggle = ref(false);
-  const category = ["men", "women", "electronics", "jewelery"];
+  const category = ["MEN", "WOMEN", "ELECTRONICS", "JEWELERY"];
 
   function handleSignout() {
     sessionStorage.removeItem("token");

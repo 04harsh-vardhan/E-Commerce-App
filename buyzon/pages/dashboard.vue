@@ -7,14 +7,17 @@
   const totalPages = computed(() => {
     return Math.ceil(displayProducts.value.length / 8);
   });
+
   function handleSearch(query: string) {
-    displayProducts.value = productData.filter((item) => {
+    displayProducts.value = displayProducts.value.filter((item) => {
       return item.title.toLocaleLowerCase().includes(query.toLocaleLowerCase());
     });
   }
+
   function comparatorHigh(itemA: ProductData, itemB: ProductData) {
     return itemB.price - itemA.price;
   }
+
   function comparatorLow(itemA: ProductData, itemB: ProductData) {
     return itemA.price - itemB.price;
   }
@@ -26,7 +29,8 @@
         ? displayProducts.value.sort(comparatorHigh)
         : displayProducts.value.sort(comparatorLow);
   }
-  function handleCategorySort(sortList: string[]) {
+
+  function handleCategoryFilter(sortList: string[]) {
     pages.value = 1;
     displayProducts.value =
       sortList.length > 0
@@ -43,7 +47,7 @@
       <div id="sort">
         <FilterCard
           @sort-price="handlePriceSort"
-          @sort-category="handleCategorySort"
+          @sort-category="handleCategoryFilter"
         />
       </div>
       <div id="display">
@@ -62,6 +66,7 @@
                 pages > 1 ? pages-- : null;
               }
             "
+            v-show="pages > 1"
             class="btn btn-dark"
           >
             prev
@@ -72,6 +77,7 @@
                 pages < totalPages ? pages++ : null;
               }
             "
+            v-show="pages < totalPages"
             class="btn btn-dark"
           >
             next
@@ -83,8 +89,8 @@
 </template>
 <style scoped>
   #display {
-    border-top: 1px solid #e9e9ed;
-    border-left: 1px solid #e9e9ed;
+    border-top: var(--borderAttr);
+    border-left: var(--borderAttr);
   }
   #header {
     height: 20vh;
@@ -98,6 +104,7 @@
     display: flex;
     justify-content: center;
     gap: 0.5rem;
+    padding-top: 10px;
   }
   #card-div {
     width: 80vw;
@@ -106,10 +113,13 @@
     gap: 80px 80px;
     justify-content: space-evenly;
     padding-top: 10px;
+    height: fit-content;
+    border-bottom: var(--borderAttr);
   }
   #main {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    --borderAttr: 1px solid #e9e9ed;
   }
 </style>

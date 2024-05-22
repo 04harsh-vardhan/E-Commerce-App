@@ -28,19 +28,15 @@ export const useUtils = () => {
       toast("Something went wrong");
     }
   }
-  async function getCart() {
-    const userCart = useUserCart();
-    userCart.value = [];
-    try {
-      const querySnapshot = await getDocs(
-        collection(db, `users/${uid.value}/cart`)
-      );
-      querySnapshot.forEach((doc) => {
-        userCart.value.push(doc.data() as ProductData);
-      });
-    } catch (err) {
-      // toast("USer Has no item in cart");
-    }
+  async function getCart(): Promise<ProductData[]> {
+    const cartArray: ProductData[] = [];
+    const querySnapshot = await getDocs(
+      collection(db, `users/${uid.value}/cart`)
+    );
+    querySnapshot.forEach((doc) => {
+      cartArray.push(doc.data() as ProductData);
+    });
+    return cartArray;
   }
   async function getProducts() {
     const querySnapshot: any = await getDocs(collection(db, "products"));
@@ -64,9 +60,8 @@ export const useUtils = () => {
       await setDoc(doc(db, "users", uid.value), {
         name: userData.name,
         email: userData.email,
-        mobile_number: userData.mobile_number,
+        mobileNumber: userData.mobileNumber,
         address: userData.address,
-        password: userData.password,
       });
       return true;
     } catch (err) {
@@ -104,24 +99,18 @@ export const useUtils = () => {
   class SignUpUser {
     name: string;
     email: string;
-    mobile_number: string;
+    mobileNumber: string;
     address: string;
-    password: string;
-    confirmPassword: string;
     constructor(
-      name: string = "",
-      email: string = "",
-      mobile_number: string = "",
-      address: string = "",
-      password: string = "",
-      confirmPassword = ""
+      name: string,
+      email: string,
+      mobileNumber: string,
+      address: string
     ) {
       this.name = name;
       this.email = email;
-      this.mobile_number = mobile_number;
+      this.mobileNumber = mobileNumber;
       this.address = address;
-      this.password = password;
-      this.confirmPassword = confirmPassword;
     }
   }
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   const { getCart } = useUtils();
-  await getCart();
   const userCart = useUserCart();
+  userCart.value = await getCart();
 </script>
 <template>
   <div id="main">
