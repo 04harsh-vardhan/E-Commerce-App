@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { constants } from "~/composables/constant";
 
   const { category, priceRange } = constants();
   const emit = defineEmits(["sortPrice", "sortCategory"]);

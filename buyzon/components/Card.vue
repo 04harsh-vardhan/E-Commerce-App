@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import type { ProductData } from "../composables/types";
+
   let indexInCart: number;
   const props = defineProps<{
     product: ProductData;
@@ -34,14 +35,17 @@
   }
 </script>
 <template>
-  <div class="product-card">
+  <div
+    class="product-card"
+    @click="navigateTo(`/dashboard/${props.product.id}`)"
+  >
     <img :src="image" />
     <div class="product-info">
       <h3 class="product-title">{{ title }}</h3>
       <p class="product-price">Rs {{ price }}</p>
       <button
         class="add-to-cart"
-        @click="handleProduct"
+        @click.stop="handleProduct"
         :class="{ 'btn btn-danger': isInCart, 'btn btn-info': !isInCart }"
       >
         <span
