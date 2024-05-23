@@ -1,14 +1,16 @@
 <script setup lang="ts">
-
   const { category, priceRange } = constants();
   const emit = defineEmits(["sortPrice", "sortCategory"]);
   const priceCheck = ref("");
   const categoryCheck = ref<string[]>([]);
   watch(categoryCheck, (newValue) => {
+    priceCheck.value = "";
     emit("sortCategory", newValue);
   });
   watch(priceCheck, (newValue) => {
-    emit("sortPrice", newValue);
+    if (priceCheck.value) {
+      emit("sortPrice", newValue);
+    }
   });
 </script>
 <template>

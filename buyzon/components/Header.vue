@@ -14,7 +14,7 @@
     emit("searchEvent", searchString.value);
   }
   function moveToCart() {
-    navigateTo("/cart");
+    navigateTo("/dashboard/cart");
   }
 </script>
 <template>

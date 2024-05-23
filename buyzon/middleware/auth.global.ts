@@ -4,7 +4,7 @@ export default defineNuxtRouteMiddleware((toRoute, fromRoute) => {
   const uid = useUserUId();
   const authToken: string | null = sessionStorage.getItem("token");
   //isAuthenticated.value = authToken ? true : false;
-   uid.value = authToken ? authToken : "";
+  uid.value = authToken ? authToken : "";
   if (!isAuthenticated.value) {
     switch (toRoute.path) {
       case UrlPaths.HOME:
