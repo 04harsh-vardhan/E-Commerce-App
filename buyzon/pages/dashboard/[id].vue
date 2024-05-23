@@ -7,25 +7,38 @@
   );
 </script>
 <template>
-  <div class="product-container">
-    <div class="product-image">
-      <img :src="productInfo?.image" :alt="productInfo?.title" />
-    </div>
-    <div class="product-details">
-      <h1>{{ productInfo?.title }}</h1>
-      <p class="category">{{ productInfo?.category }}</p>
-      <p class="price">Rs {{ productInfo?.price }}</p>
-      <p class="description">
-        {{ productInfo?.description }}
-      </p>
-      <div class="rating">
-        <span>Rating: {{ productInfo?.rating.rate }}/5</span>
-        <span>({{ productInfo?.rating.count }} reviews)</span>
+  <div id="main">
+    <div class="product-container">
+      <div class="product-image">
+        <img :src="productInfo?.image" :alt="productInfo?.title" />
+      </div>
+      <div class="product-details">
+        <h1>{{ productInfo?.title }}</h1>
+        <p class="category">Category: {{ productInfo?.category }}</p>
+        <p class="price">Rs {{ productInfo?.price }}</p>
+        <p class="description">
+          {{ productInfo?.description }}
+        </p>
+        <div class="rating">
+          <span
+            >Rating: {{ productInfo?.rating.rate }}/5<span
+              class="pi pi-star-fill"
+            ></span
+          ></span>
+          <span>({{ productInfo?.rating.count }} )</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <style scoped>
+  #main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+  }
   .product-container {
     display: flex;
     flex-direction: row;
