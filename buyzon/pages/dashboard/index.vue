@@ -1,6 +1,8 @@
 <script setup lang="ts">
-  const { getProducts } = useUtils();
+  const { getProducts, getCart } = useUtils();
+  const userCart = useUserCart();
   const productData = await getProducts();
+  userCart.value = await getCart();
   const displayProducts = ref(productData);
   const pages = ref(1);
   const totalPages = computed(() => {
@@ -78,7 +80,6 @@
       );
     }
   }
-
 </script>
 <template>
   <div id="main">
@@ -99,10 +100,19 @@
       <div id="display">
         <div id="card-div">
           <div
-            v-for="item in displayProducts.slice(pages * 8 - 8, pages * 8)"
-            :key="item.id"
+            v-for="{ price, title, id, image } in displayProducts.slice(
+              pages * 8 - 8,
+              pages * 8
+            )"
+            :key="id"
           >
-            <Card :product="item"></Card>
+            <Card
+              :image="image"
+              @click="navigateTo(`/dashboard/${id}`)"
+            >
+              <template #price>{{ price }}</template>
+              <template #title>{{ title }}</template>
+            </Card>
           </div>
         </div>
         <div class="pagination">

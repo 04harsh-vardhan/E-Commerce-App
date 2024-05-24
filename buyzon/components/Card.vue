@@ -1,50 +1,18 @@
 <script setup lang="ts">
-
-  const feature = usefeatureState();
-  let indexInCart: number;
   const props = defineProps<{
-    product: ProductData;
+    id?: number;
+    image?: string;
   }>();
-  const userCart = useUserCart();
-  const { addToCart, removeFromCart } = useUtils();
-
-  const isInCart = ref(checkPresence());
-
-  const { image, title, price } = props.product;
-  const msg = computed(() => (isInCart.value ? "Remove" : "Add"));
-
-  function handleProduct() {
-    if (isInCart.value) {
-      removeFromCart(props.product.id);
-      userCart.value.splice(indexInCart, 1);
-      isInCart.value = false;
-    } else {
-      addToCart(props.product);
-      userCart.value.push(props.product);
-      isInCart.value = true;
-    }
-  }
-  function checkPresence() {
-    let isPresent = false;
-    userCart.value.forEach((item, index) => {
-      if (item.id === props.product.id) {
-        isPresent = true;
-        indexInCart = index;
-      }
-    });
-    return isPresent;
-  }
+  const { image } = props;
 </script>
 <template>
-  <div
-    class="product-card"
-    @click="navigateTo(`/dashboard/${props.product.id}`)"
-  >
+  <div class="product-card">
     <img :src="image" />
     <div class="product-info">
-      <h3 class="product-title">{{ title }}</h3>
-      <p class="product-price">Rs {{ price }}</p>
-      <button
+      <h3 class="product-title"><slot name="title"></slot></h3>
+      <p class="product-price">Rs <slot name="price"></slot></p>
+      <slot name="button" :id="id"></slot>
+      <!-- <button
         v-if="feature === 'cart'"
         class="add-to-cart"
         @click.stop="handleProduct"
@@ -54,7 +22,7 @@
           :class="{ 'pi pi-check': !isInCart, 'pi pi-times': isInCart }"
         ></span>
         {{ msg }}
-      </button>
+      </button> -->
     </div>
   </div>
 </template>
@@ -65,7 +33,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 167px; 
+    width: 167px;
     text-align: center;
     transition: transform 0.3s;
   }
@@ -98,20 +66,5 @@
     font-size: 1em; /* Reduced font size */
     color: #ff7e5f;
     margin: 10px 0;
-  }
-
-  .add-to-cart {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 5px;
-    background-color: #ff7e5f;
-    color: white;
-    font-size: 0.9em;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-
-  .add-to-cart:hover {
-    background-color: #feb47b;
   }
 </style>

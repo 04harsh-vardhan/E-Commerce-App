@@ -1,7 +1,10 @@
 <script setup lang="ts">
-  const { getCart } = useUtils();
   const userCart = useUserCart();
-  userCart.value = await getCart();
+  const { removeFromCart } = useUtils();
+  function handleRemove(id: number) {
+    userCart.value = userCart.value.filter((item) => item.id !== id);
+    removeFromCart(id);
+  }
 </script>
 <template>
   <div id="main">
@@ -9,13 +12,34 @@
       <Header></Header>
     </div>
     <div id="card-div">
-      <div v-for="item in userCart" :key="item.id">
-        <Card :product="item"></Card>
+      <div v-for="{ price, title, id, image } in userCart" :key="id">
+        <Card :image="image" :id="id">
+          <template #price>{{ price }}</template>
+          <template #title>{{ title }}</template>
+          <template #button="buttonProps">
+            <button class="add-to-cart" @click="handleRemove(buttonProps.id)">
+              <span class="pi pi-times"></span> Remove
+            </button>
+          </template>
+        </Card>
       </div>
     </div>
   </div>
 </template>
 <style scoped>
+  .add-to-cart:hover {
+    background-color: #feb47b;
+  }
+  .add-to-cart {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff7e5f;
+    color: white;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
   #display {
     border-top: var(--borderAttr);
     border-left: var(--borderAttr);
