@@ -1,9 +1,12 @@
 <script setup lang="ts">
-  const { getProducts, getCart } = useUtils();
+  const { getProducts, getCart, getWishlist } = useUtils();
   const userCart = useUserCart();
+  const userWishlist = useUserWishlist();
   const productData = await getProducts();
   userCart.value = await getCart();
+  userWishlist.value = await getWishlist();
   const displayProducts = ref(productData);
+  
   const pages = ref(1);
   const totalPages = computed(() => {
     return Math.ceil(displayProducts.value.length / 8);
@@ -106,10 +109,7 @@
             )"
             :key="id"
           >
-            <Card
-              :image="image"
-              @click="navigateTo(`/dashboard/${id}`)"
-            >
+            <Card :image="image" @click="navigateTo(`/dashboard/${id}`)">
               <template #price>{{ price }}</template>
               <template #title>{{ title }}</template>
             </Card>

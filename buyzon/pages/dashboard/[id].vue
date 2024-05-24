@@ -1,11 +1,20 @@
 <script setup lang="ts">
-  const { getProducts, addToCart, removeFromCart } = useUtils();
+  const {
+    getProducts,
+    addToCart,
+    removeFromCart,
+    addToWishlist,
+    removeFromWishlist,
+  } = useUtils();
   const productsData = await getProducts();
   const route = useRoute();
   const productInfo = productsData.find(
     (item) => item.id.toString() === route.params.id
   ) as ProductData;
+
   const userCart = useUserCart();
+  const userWishlist = useUserWishlist();
+
   let indexInCart: number;
   const isInCart = ref(checkPresence());
   const msg = computed(() =>

@@ -3,7 +3,7 @@
     id?: number;
     image?: string;
   }>();
-  const { image } = props;
+  const { image, id } = props;
 </script>
 <template>
   <div class="product-card">
@@ -12,17 +12,6 @@
       <h3 class="product-title"><slot name="title"></slot></h3>
       <p class="product-price">Rs <slot name="price"></slot></p>
       <slot name="button" :id="id"></slot>
-      <!-- <button
-        v-if="feature === 'cart'"
-        class="add-to-cart"
-        @click.stop="handleProduct"
-        :class="{ 'btn btn-danger': isInCart, 'btn btn-info': !isInCart }"
-      >
-        <span
-          :class="{ 'pi pi-check': !isInCart, 'pi pi-times': isInCart }"
-        ></span>
-        {{ msg }}
-      </button> -->
     </div>
   </div>
 </template>

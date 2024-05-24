@@ -74,6 +74,10 @@ export const useUtils = () => {
     await deleteDoc(doc(db, `users/${uid.value}/cart`, id.toString()));
     toast("Product removed from cart");
   }
+  async function removeFromWishlist(id: number) {
+    await deleteDoc(doc(db, `users/${uid.value}/wishlist`, id.toString()));
+    toast("Product removed from wishlist");
+  }
   async function addUserToDB(userData: SignUpUser) {
     try {
       await setDoc(doc(db, "users", uid.value), {
@@ -136,6 +140,7 @@ export const useUtils = () => {
   return {
     addToCart,
     removeFromCart,
+    removeFromWishlist,
     addUserToDB,
     createUser,
     signInUser,
