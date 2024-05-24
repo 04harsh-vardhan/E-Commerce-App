@@ -1,18 +1,25 @@
-const { UrlPaths } = enums();
 export default defineNuxtRouteMiddleware((toRoute, fromRoute) => {
   const isAuthenticated = useAuth();
   const uid = useUserUId();
+  const feature = usefeatureState();
   const authToken: string | null = sessionStorage.getItem("token");
   //isAuthenticated.value = authToken ? true : false;
   uid.value = authToken ? authToken : "";
   if (!isAuthenticated.value) {
-    switch (toRoute.path) {
-      case UrlPaths.HOME:
-      case UrlPaths.SIGNIN:
-      case UrlPaths.SIGNUP:
-        break;
-      default:
-        return navigateTo("/");
+    if (toRoute.path !== "/") {
+      navigateTo("/");
+    }
+  } else {
+    if (toRoute.path === "/dashboard") {
+      feature.value = "dashboard";
+    } else if (toRoute.path === "/dashboard/cart") {
+      feature.value = "cart";
+    } else if (toRoute.path === "/dashboard/wishlist") {
+      feature.value = "wishlist";
+    } else if (toRoute.path === "/dashboard/userinfo") {
+      feature.value = "userinfo";
+    } else {
+      feature.value = "detailview";
     }
   }
 });

@@ -31,8 +31,21 @@ user can select from multiple categories --done
 images size decreases 8 images in single page --done
 
 
-background color of signup page
-alignment of signup breaks after showing errors
-Single Background image for landing page
-header navbar side bar for Dashboard
+
 Write Test Cases For All Components and unit testing
+
+header 
+
+add wishlist and cart in detail view 
+
+cart - Cart Pr caps  user detail - detail
+
+at new filter ratingn add atleast 4
+
+prfile alignment
+
+add dialog on home screen for signup and login --done
+header present for cart view and add coiunt of products added in cart
+remove category filter and add navbar filter on --done
+
+// feature flag on global level

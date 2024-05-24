@@ -1,9 +1,11 @@
 <script setup lang="ts">
-  const emit = defineEmits(["searchEvent"]);
+  const emit = defineEmits(["searchEvent", "filterCategory"]);
+  const feature = usefeatureState();
   const { signoutUser } = useUtils();
   const searchString = ref("");
   const toggle = ref(false);
-  const category = ["MEN", "WOMEN", "ELECTRONICS", "JEWELERY"];
+  const { category } = constants();
+  const userCart = useUserCart();
 
   function handleSignout() {
     sessionStorage.removeItem("token");
@@ -13,16 +15,24 @@
   function handleSearch() {
     emit("searchEvent", searchString.value);
   }
-  function moveToCart() {
-    navigateTo("/dashboard/cart");
-  }
 </script>
 <template>
   <div id="header">
     <div id="first">
       <div id="icon"><img src="../assets/Buyzon-logo.jpg" /></div>
-      <div class="item" v-for="item in category" :key="item">
+      <div
+        v-if="feature === 'dashboard'"
+        class="item"
+        v-for="item in category"
+        :key="item"
+        @click="$emit('filterCategory', item)"
+      >
         <p>{{ item }}</p>
+      </div>
+      <div v-if="!(feature === 'dashboard')">
+        <button class="btn btn-primary" @click="navigateTo('/dashboard')">
+          <span class="pi pi-arrow-left"> Dashboard</span>
+        </button>
       </div>
     </div>
     <div id="second">
@@ -43,17 +53,30 @@
           v-model="searchString"
         />
       </div>
-      <div id="cart" @click="moveToCart">
+      <div
+        v-if="feature !== 'cart'"
+        id="cart"
+        @click="navigateTo('/dashboard/cart')"
+      >
         <span class="pi pi-cart-arrow-down"></span>
-        <p>cart</p>
+        <p>Cart({{ userCart.length }})</p>
+      </div>
+      <div id="wishlist" @click="navigateTo('/dashboard/wishlist')">
+        <span class="pi pi-heart"></span>
+        <p>Wishlist</p>
       </div>
       <div @mouseenter="toggle = true" @mouseleave="toggle = false">
         <div id="user">
           <span class="pi pi-user"></span>
-          <p>profile</p>
+          <p>Profile</p>
         </div>
         <div v-show="toggle" id="profileList">
-          <div class="item"><p>user detail</p></div>
+          <div
+            class="item user-action"
+            @click="navigateTo('/dashboard/userinfo')"
+          >
+            <p>detail</p>
+          </div>
           <div class="item" @click="handleSignout"><p>signout</p></div>
         </div>
       </div>
@@ -61,7 +84,14 @@
   </div>
 </template>
 <style scoped>
-  #cart {
+  .user-action {
+    border-bottom: 1px solid #e9e9ed;
+  }
+  .item:hover {
+    color: #000080;
+  }
+  #cart,
+  #wishlist {
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -84,6 +114,9 @@
     background-color: #fff;
     position: absolute;
     z-index: 9;
+    margin-left: -30px;
+    background-color: khaki;
+    border-radius: 5px;
   }
   #user {
     display: flex;

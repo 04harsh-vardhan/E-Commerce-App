@@ -28,6 +28,15 @@ export const useUtils = () => {
       toast("Something went wrong");
     }
   }
+  async function addToWishlist(product: ProductData) {
+    try {
+      const id = product.id.toString();
+      await setDoc(doc(db, `users/${uid.value}/wishlist`, id), product);
+      toast("Product added to wishlist");
+    } catch (err) {
+      toast("Something went wrong");
+    }
+  }
   async function getCart(): Promise<ProductData[]> {
     const cartArray: ProductData[] = [];
     const querySnapshot = await getDocs(
@@ -37,6 +46,16 @@ export const useUtils = () => {
       cartArray.push(doc.data() as ProductData);
     });
     return cartArray;
+  }
+  async function getWishlist(): Promise<ProductData[]> {
+    const wishlistArray: ProductData[] = [];
+    const querySnapshot = await getDocs(
+      collection(db, `users/${uid.value}/wishlist`)
+    );
+    querySnapshot.forEach((doc) => {
+      wishlistArray.push(doc.data() as ProductData);
+    });
+    return wishlistArray;
   }
   async function getProducts() {
     const querySnapshot: any = await getDocs(collection(db, "products"));
@@ -124,6 +143,8 @@ export const useUtils = () => {
     getCart,
     getProducts,
     signoutUser,
+    addToWishlist,
+    getWishlist,
     SignUpUser,
   };
 };

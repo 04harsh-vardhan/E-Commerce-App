@@ -8,6 +8,7 @@
   const isLoading = ref(false);
   const regex_Password = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
   const regex_number = /^\d{10}$/;
+  const emit = defineEmits(["close"]);
 
   const { values, errors, defineField, meta } = useForm({
     validationSchema: yup.object({
@@ -53,7 +54,7 @@
     );
     if (isSet && isAdded) {
       toast("Account Created Successfully");
-      navigateTo("/signin");
+      emit("close");
     } else {
       toast("Something went wrong");
       isLoading.value = false;
@@ -63,6 +64,9 @@
 <template>
   <div id="main">
     <div v-if="!isLoading" class="signup-container">
+      <div @click="$emit('close')" class="closeBtn">
+        <span class="pi pi-times"></span>
+      </div>
       <h2 class="text-center">Welcome</h2>
       <div id="form-div">
         <div class="form-group">
@@ -144,11 +148,15 @@
         </button>
       </div>
     </div>
-    <div v-else><VSpinner size="20" color="red" /></div>
+    <div v-else><VSpinner size="50" color="red" /></div>
   </div>
 </template>
 
 <style scoped>
+  #closeBtn {
+    cursor: pointer;
+  }
+
   #form-div {
     display: flex;
     flex-direction: column;
@@ -159,14 +167,20 @@
     width: 150px;
   }
   #main {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-image: url("../assets/Sign-upBgimg.jpg");
+    transition: opacity 0.3s ease;
   }
   .signup-container {
-    padding: 20px;
+    padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -174,7 +188,9 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    background-color: #fff;
+    max-height: 585px;
+    overflow-y: scroll;
   }
   .signup-container h2 {
     margin-bottom: 20px;

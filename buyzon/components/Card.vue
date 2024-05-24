@@ -1,16 +1,17 @@
 <script setup lang="ts">
-  import type { ProductData } from "../composables/types";
 
+  const feature = usefeatureState();
   let indexInCart: number;
   const props = defineProps<{
     product: ProductData;
   }>();
   const userCart = useUserCart();
+  const { addToCart, removeFromCart } = useUtils();
+
   const isInCart = ref(checkPresence());
 
   const { image, title, price } = props.product;
   const msg = computed(() => (isInCart.value ? "Remove" : "Add"));
-  const { addToCart, removeFromCart } = useUtils();
 
   function handleProduct() {
     if (isInCart.value) {
@@ -44,6 +45,7 @@
       <h3 class="product-title">{{ title }}</h3>
       <p class="product-price">Rs {{ price }}</p>
       <button
+        v-if="feature === 'cart'"
         class="add-to-cart"
         @click.stop="handleProduct"
         :class="{ 'btn btn-danger': isInCart, 'btn btn-info': !isInCart }"
@@ -63,9 +65,12 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 167px; /* Reduced width */
+    width: 167px; 
     text-align: center;
     transition: transform 0.3s;
+  }
+  .product-card:hover {
+    cursor: pointer;
   }
 
   .product-card:hover {

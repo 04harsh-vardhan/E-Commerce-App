@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  const { getCart } = useUtils();
-  const userCart = useUserCart();
-  userCart.value = await getCart();
+  const { getWishlist } = useUtils();
+  const userWishlist = useUserWishlist();
+  userWishlist.value = await getWishlist();
 </script>
 <template>
   <div id="main">
@@ -9,7 +9,7 @@
       <Header></Header>
     </div>
     <div id="card-div">
-      <div v-for="item in userCart" :key="item.id">
+      <div v-for="item in userWishlist" :key="item.id">
         <Card :product="item"></Card>
       </div>
     </div>

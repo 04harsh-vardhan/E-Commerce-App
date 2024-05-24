@@ -38,6 +38,9 @@
 <template>
   <div v-if="!isLoading" id="main">
     <div class="signup-container">
+      <div @click="$emit('close')" class="closeBtn">
+        <span class="pi pi-times"></span>
+      </div>
       <h2 class="text-center">SignIn</h2>
       <div id="form-div">
         <div class="form-group">
@@ -72,28 +75,54 @@
       </div>
     </div>
   </div>
-  <div id="loader" v-else><VSpinner size="20" color="red" /></div>
+  <div v-else id="loader">
+    <VSpinner size="50" color="red" />
+  </div>
 </template>
 
 <style scoped>
-  #loader {
+  #main {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    transition: opacity 0.3s ease;
+  }
+  .v-enter-active,
+  .v-leave-active {
+    transition: opacity 1s ease;
+  }
+
+  .v-enter-from,
+  .v-leave-to {
+    opacity: 0;
+  }
+  #closeBtn {
+    cursor: pointer;
+  }
+
+  #loader {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   #form-div {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  }
-  #main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-    background: linear-gradient(to right, #ff7e5f, #feb47b);
   }
   .signup-container {
     background-color: #fff;

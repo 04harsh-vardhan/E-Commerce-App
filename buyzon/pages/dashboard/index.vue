@@ -3,7 +3,6 @@
   const productData = await getProducts();
   const displayProducts = ref(productData);
   const pages = ref(1);
-
   const totalPages = computed(() => {
     return Math.ceil(displayProducts.value.length / 8);
   });
@@ -14,40 +13,87 @@
     });
   }
 
-  function comparatorHigh(itemA: ProductData, itemB: ProductData) {
-    return itemB.price - itemA.price;
-  }
-
-  function comparatorLow(itemA: ProductData, itemB: ProductData) {
-    return itemA.price - itemB.price;
-  }
-
-  function handlePriceSort(sortBy: string) {
+  function handleCategoryFilter(category: string) {
     pages.value = 1;
-    displayProducts.value =
-      sortBy === "High"
-        ? displayProducts.value.sort(comparatorHigh)
-        : displayProducts.value.sort(comparatorLow);
+    displayProducts.value = productData.filter((item) =>
+      item.category.toLocaleLowerCase().includes(category.toLocaleLowerCase())
+    );
+  }
+  type FilterObject<T> = {
+    todo: string;
+    value: T;
+  };
+  function handleFilterPrice(filterItem: FilterObject<number>) {
+    pages.value = 1;
+    const minRange = filterItem.value / 10;
+    if (filterItem.todo === "add") {
+      const myItem = productData.filter(
+        (item) => item.price > minRange && item.price < 10 * minRange
+      );
+      if (displayProducts.value.length === productData.length) {
+        displayProducts.value = [...myItem];
+      } else {
+        displayProducts.value = [...displayProducts.value, ...myItem];
+      }
+    } else {
+      displayProducts.value = displayProducts.value.filter(
+        (item) => !(item.price > minRange && item.price < 10 * minRange)
+      );
+    }
   }
 
-  function handleCategoryFilter(sortList: string[]) {
+  function handleFilterBrand(filterItem: FilterObject<string>) {
+    console.log("inside");
     pages.value = 1;
-    displayProducts.value =
-      sortList.length > 0
-        ? productData.filter((item) => sortList.includes(item.category))
-        : productData;
+    if (filterItem.todo === "add") {
+      const myItem = productData.filter(
+        (item) => item.brand === filterItem.value
+      );
+      if (displayProducts.value.length === productData.length) {
+        displayProducts.value = [...myItem];
+      } else {
+        displayProducts.value = [...displayProducts.value, ...myItem];
+      }
+    } else {
+      displayProducts.value = displayProducts.value.filter(
+        (item) => item.brand !== filterItem.value
+      );
+    }
   }
+
+  function handleFilterRating(filterItem: FilterObject<number>) {
+    pages.value = 1;
+    if (filterItem.todo === "add") {
+      const myItem = productData.filter(
+        (item) => item.rating.rate >= filterItem.value
+      );
+      if (displayProducts.value.length === productData.length) {
+        displayProducts.value = [...myItem];
+      } else {
+        displayProducts.value = [...displayProducts.value, ...myItem];
+      }
+    } else {
+      displayProducts.value = displayProducts.value.filter(
+        (item) => !(item.rating.rate >= filterItem.value)
+      );
+    }
+  }
+
 </script>
 <template>
   <div id="main">
     <div id="header">
-      <Header @search-event="handleSearch"></Header>
+      <Header
+        @search-event="handleSearch"
+        @filter-category="handleCategoryFilter"
+      ></Header>
     </div>
     <div id="footer">
       <div id="sort">
         <FilterCard
-          @sort-price="handlePriceSort"
-          @sort-category="handleCategoryFilter"
+          @filter-price="handleFilterPrice"
+          @filter-brand="handleFilterBrand"
+          @filter-rating="handleFilterRating"
         />
       </div>
       <div id="display">

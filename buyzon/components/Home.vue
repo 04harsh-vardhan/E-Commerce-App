@@ -5,7 +5,7 @@
     padding: 0;
     box-sizing: border-box;
   }
-  header,
+  #header,
   footer {
     background-color: #333;
     color: white;
@@ -95,7 +95,7 @@
     align-items: center;
     gap: 10px;
   }
-  /* styles.css */
+  
   .hero {
     width: 100%;
     height: 250px;
@@ -104,28 +104,41 @@
     background-position: center;
     background-repeat: no-repeat;
   }
+  .v-enter-active,
+  .v-leave-active {
+    transition: opacity 1s ease;
+  }
+
+  .v-enter-from,
+  .v-leave-to {
+    opacity: 0;
+  }
 </style>
 <template>
-  <div id="main">
-    <header>
+  <div id="main" v-if="!(toggleSignIn && toggleSignUp)">
+    <div id="header">
       <div id="intro">
         <div id="welcome">
           <h1>Welcome To BuyZone</h1>
           <img class="logo" src="../assets/Buyzon-logo.jpg" />
         </div>
         <nav>
-          <NuxtLink class="btn btn-warning" to="/signin">Log in</NuxtLink>
+          <button class="btn btn-warning" @click="toggleSignIn = true">
+            Log in
+          </button>
           <div></div>
           <div></div>
-          <NuxtLink class="btn btn-success" to="/signup">Sign Up</NuxtLink>
+          <button class="btn btn-success" @click="toggleSignUp = true">
+            Sign Up
+          </button>
         </nav>
       </div>
-    </header>
+    </div>
     <div id="content">
       <div class="hero">
         <h1>Welcome to Our Store</h1>
         <p>Your one-stop shop for all things amazing</p>
-        <NuxtLink class="cta" to="/signin">Shop now</NuxtLink>
+        <button class="cta" @click="toggleSignIn = true">Shop now</button>
       </div>
 
       <section class="products">
@@ -163,4 +176,14 @@
       </div>
     </footer>
   </div>
+  <Transition>
+    <Signin v-if="toggleSignIn" @close="toggleSignIn = false" />
+  </Transition>
+  <Transition>
+    <Signup v-if="toggleSignUp" @close="toggleSignUp = false" />
+  </Transition>
 </template>
+<script setup lang="ts">
+  const toggleSignIn = ref(false);
+  const toggleSignUp = ref(false);
+</script>
