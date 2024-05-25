@@ -11,7 +11,4 @@ export type ProductData = {
     count: number;
   };
 };
-export type FilterType = {
-  type: string;
-  value: string | number;
-};
+

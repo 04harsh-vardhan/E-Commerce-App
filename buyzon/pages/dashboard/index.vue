@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import type { FilterType } from "~/composables/types";
 
   const { getProducts, getCart, getWishlist } = useUtils();
   const userCart = useUserCart();
