@@ -1,34 +1,26 @@
 <script setup lang="ts">
-  const {
-    getProducts,
-    addToCart,
-    removeFromCart,
-    addToWishlist,
-    removeFromWishlist,
-  } = useUtils();
-  const productsData = await getProducts();
+  const { addToCart, removeFromCart, addToWishlist, removeFromWishlist } =
+    useUtils();
+  const { productsData } = useProductDataStore();
+  const cartStore = useCartStore();
+  const wishlistStore = useWishlistStore();
+
+  const productData = productsData.data;
   const route = useRoute();
   const id = route.params.id as string;
-  const product = productsData.find(
+  const product = productData.find(
     (item) => item.id.toString() === id
   ) as ProductData;
 
-  const userCart = useUserCart();
-  const userWishlist = useUserWishlist();
+  let indexInCart: number = -1;
+  let indexInWishlist: number = -1;
 
   const isPresentInCart = ref(isInCart());
-  let indexInCart: number = -1;
   const isPresentInWishlist = ref(isInWishlist());
-  let indexInWishlist: number = -1;
-  const cartMsg = computed(() =>
-    isPresentInCart.value ? "Remove From Cart" : "Add To Cart"
-  );
-  const wishlistMsg = computed(() =>
-    isPresentInWishlist.value ? "Remove From Cart" : "Add To Cart"
-  );
+
   function isInCart() {
-    for (let i = 0; i < userCart.value.length; i++) {
-      if (userCart.value[i].id === Number(id)) {
+    for (let i = 0; i < cartStore.cartData.data.length; i++) {
+      if (cartStore.cartData.data[i].id === Number(id)) {
         indexInCart = i;
         return true;
       }
@@ -36,8 +28,8 @@
     return false;
   }
   function isInWishlist() {
-    for (let i = 0; i < userWishlist.value.length; i++) {
-      if (userWishlist.value[i].id === Number(id)) {
+    for (let i = 0; i < wishlistStore.wishlistData.data.length; i++) {
+      if (wishlistStore.wishlistData.data[i].id === Number(id)) {
         indexInWishlist = i;
         return true;
       }
@@ -47,22 +39,22 @@
   function handleCartProduct() {
     if (isPresentInCart.value) {
       removeFromCart(Number(id));
-      userCart.value.splice(indexInCart, 1);
+      cartStore.removeItemFromCart(indexInCart);
       isPresentInCart.value = false;
     } else {
       addToCart(product);
-      userCart.value.push(product);
+      cartStore.addItemToCart(product);
       isPresentInCart.value = true;
     }
   }
   function handleWishlistProduct() {
     if (isPresentInWishlist.value) {
       removeFromWishlist(Number(id));
-      userWishlist.value.splice(indexInCart, 1);
+      wishlistStore.removeItemFromWishlist(indexInWishlist);
       isPresentInWishlist.value = false;
     } else {
       addToWishlist(product);
-      userWishlist.value.push(product);
+      wishlistStore.addItemToWishlist(product);
       isPresentInWishlist.value = true;
     }
   }
@@ -94,10 +86,22 @@
         </div>
         <div class="buttons">
           <button @click="handleCartProduct" class="btn btn-cart">
-            {{ cartMsg }}
+            <span
+              :class="{
+                'pi pi-times': isPresentInCart,
+                'pi pi-plus': !isPresentInCart,
+              }"
+            ></span>
+            Cart
           </button>
           <button @click="handleWishlistProduct" class="btn btn-wishlist">
-            {{ wishlistMsg }}
+            <span
+              :class="{
+                'pi pi-times': isPresentInWishlist,
+                'pi pi-plus': !isPresentInWishlist,
+              }"
+            ></span>
+            Wishlist
           </button>
         </div>
       </div>

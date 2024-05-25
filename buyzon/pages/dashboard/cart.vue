@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  const userCart = useUserCart();
+  const cartStore = useCartStore();
   const { removeFromCart } = useUtils();
   function handleRemove(id: number) {
-    userCart.value = userCart.value.filter((item) => item.id !== id);
+    cartStore.removeItemFromCart(id);
     removeFromCart(id);
   }
 </script>
@@ -12,8 +12,11 @@
       <Header></Header>
     </div>
     <div id="card-div">
-      <div v-for="{ price, title, id, image } in userCart" :key="id">
-        <Card :image="image" :id="id">
+      <div
+        v-for="{ price, title, id, image } in cartStore.cartData.data"
+        :key="id"
+      >
+        <Card :image="image" :id="id" >
           <template #price>{{ price }}</template>
           <template #title>{{ title }}</template>
           <template #button="buttonProps">

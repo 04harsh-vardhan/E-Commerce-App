@@ -1,11 +1,12 @@
 <script setup lang="ts">
+  const { productsData } = useProductDataStore();
+  const { fetchCartData } = useCartStore();
+  const { fetchWishlistData } = useWishlistStore();
 
-  const { getProducts, getCart, getWishlist } = useUtils();
-  const userCart = useUserCart();
-  const userWishlist = useUserWishlist();
-  const productData = await getProducts();
-  userCart.value = await getCart();
-  userWishlist.value = await getWishlist();
+  await callOnce(fetchCartData);
+  await callOnce(fetchWishlistData);
+  const productData = productsData.data;
+
   const displayProducts = ref(productData);
   const brandFilter = ref<string[]>([]);
   const priceFilter = ref<number[]>([]);
@@ -69,7 +70,11 @@
             )"
             :key="id"
           >
-            <Card :image="image" @click="navigateTo(`/dashboard/${id}`)">
+            <Card
+              :image="image"
+              :id="id"
+              @click="navigateTo(`/dashboard/${id}`)"
+            >
               <template #price>{{ price }}</template>
               <template #title>{{ title }}</template>
             </Card>

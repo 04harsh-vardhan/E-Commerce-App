@@ -1,6 +1,6 @@
 <script setup lang="ts">
   const props = defineProps<{
-    id?: number;
+    id: number;
     image?: string;
   }>();
   const { image, id } = props;

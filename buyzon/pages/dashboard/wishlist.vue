@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  const userWishlist = useUserWishlist();
+  const wishlistStore = useWishlistStore();
   const { removeFromWishlist } = useUtils();
   function handleRemove(id: number) {
-    userWishlist.value = userWishlist.value.filter((item) => item.id !== id);
+    wishlistStore.removeItemFromWishlist(id);
     removeFromWishlist(id);
   }
 </script>
@@ -12,8 +12,11 @@
       <Header></Header>
     </div>
     <div id="card-div">
-      <div v-for="{ price, title, id, image } in userWishlist" :key="id">
-        <Card :image="image" :id="id">
+      <div
+        v-for="{ price, title, id, image } in wishlistStore.wishlistData.data"
+        :key="id"
+      >
+        <Card :image="image" :id="id" >
           <template #price>{{ price }}</template>
           <template #title>{{ title }}</template>
           <template #button="buttonProps">

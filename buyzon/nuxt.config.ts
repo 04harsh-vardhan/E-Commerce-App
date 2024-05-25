@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
   ssr: false,
-  modules: ["@vee-validate/nuxt", "@nuxt/test-utils/module"],
+  modules: ["@vee-validate/nuxt", "@nuxt/test-utils/module", "@pinia/nuxt"],
   app: {
     head: {
       link: [

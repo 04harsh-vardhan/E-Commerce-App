@@ -5,8 +5,8 @@
   const searchString = ref("");
   const toggle = ref(false);
   const { category } = constants();
-  const userCart = useUserCart();
-  const userWishlist = useUserWishlist();
+  const cartStore = useCartStore();
+  const wishlistStore = useWishlistStore();
 
   function handleSignout() {
     sessionStorage.removeItem("token");
@@ -60,11 +60,15 @@
         @click="navigateTo('/dashboard/cart')"
       >
         <span class="pi pi-cart-arrow-down"></span>
-        <p>Cart({{ userCart.length }})</p>
+        <p>Cart({{ cartStore.cartSize }})</p>
       </div>
-      <div id="wishlist" @click="navigateTo('/dashboard/wishlist')">
+      <div
+        v-if="feature !== 'wishlist'"
+        id="wishlist"
+        @click="navigateTo('/dashboard/wishlist')"
+      >
         <span class="pi pi-heart"></span>
-        <p>Wishlist({{ userWishlist.length }})</p>
+        <p>Wishlist({{ wishlistStore.wishlistSize }})</p>
       </div>
       <div @mouseenter="toggle = true" @mouseleave="toggle = false">
         <div id="user">

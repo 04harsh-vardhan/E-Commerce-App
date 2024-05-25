@@ -1,9 +1,17 @@
-// import { defineStore } from "pinia";
 
-// export const useProductData = defineStore("ProductsData", async () => {
-//   const { getProducts } = useUtils();
-//   const productsData = await getProducts();
-//   return {
-//     productsData,
-//   };
-// });
+type ProductsData = {
+  data: ProductData[];
+};
+export const useProductDataStore = defineStore("ProductsData", () => {
+  const { getProducts } = useUtils();
+  const productsData: ProductsData = {
+    data: [],
+  };
+  async function fetchData() {
+    productsData.data = await getProducts();
+  }
+  return {
+    productsData,
+    fetchData,
+  };
+});
