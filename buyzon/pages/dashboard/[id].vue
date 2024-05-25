@@ -8,38 +8,63 @@
   } = useUtils();
   const productsData = await getProducts();
   const route = useRoute();
-  const productInfo = productsData.find(
-    (item) => item.id.toString() === route.params.id
+  const id = route.params.id as string;
+  const product = productsData.find(
+    (item) => item.id.toString() === id
   ) as ProductData;
 
   const userCart = useUserCart();
   const userWishlist = useUserWishlist();
 
-  let indexInCart: number;
-  const isInCart = ref(checkPresence());
-  const msg = computed(() =>
-    isInCart.value ? "Remove From Cart" : "Add To Cart"
+  const isPresentInCart = ref(isInCart());
+  let indexInCart: number = -1;
+  const isPresentInWishlist = ref(isInWishlist());
+  let indexInWishlist: number = -1;
+  const cartMsg = computed(() =>
+    isPresentInCart.value ? "Remove From Cart" : "Add To Cart"
   );
-  function handleProduct() {
-    if (isInCart.value) {
-      removeFromCart(productInfo.id);
+  const wishlistMsg = computed(() =>
+    isPresentInWishlist.value ? "Remove From Cart" : "Add To Cart"
+  );
+  function isInCart() {
+    for (let i = 0; i < userCart.value.length; i++) {
+      if (userCart.value[i].id === Number(id)) {
+        indexInCart = i;
+        return true;
+      }
+    }
+    return false;
+  }
+  function isInWishlist() {
+    for (let i = 0; i < userWishlist.value.length; i++) {
+      if (userWishlist.value[i].id === Number(id)) {
+        indexInWishlist = i;
+        return true;
+      }
+    }
+    return false;
+  }
+  function handleCartProduct() {
+    if (isPresentInCart.value) {
+      removeFromCart(Number(id));
       userCart.value.splice(indexInCart, 1);
-      isInCart.value = false;
+      isPresentInCart.value = false;
     } else {
-      addToCart(productInfo);
-      userCart.value.push(productInfo);
-      isInCart.value = true;
+      addToCart(product);
+      userCart.value.push(product);
+      isPresentInCart.value = true;
     }
   }
-  function checkPresence() {
-    let isPresent = false;
-    userCart.value.forEach((item, index) => {
-      if (item.id === productInfo.id) {
-        isPresent = true;
-        indexInCart = index;
-      }
-    });
-    return isPresent;
+  function handleWishlistProduct() {
+    if (isPresentInWishlist.value) {
+      removeFromWishlist(Number(id));
+      userWishlist.value.splice(indexInCart, 1);
+      isPresentInWishlist.value = false;
+    } else {
+      addToWishlist(product);
+      userWishlist.value.push(product);
+      isPresentInWishlist.value = true;
+    }
   }
 </script>
 <template>
@@ -48,29 +73,32 @@
       <Header></Header>
     </div>
     <div class="product-container">
-      <img class="product-image" :src="productInfo?.image" />
+      <img class="product-image" :src="product.image" />
       <div class="product-details">
         <h2 class="product-title">
-          {{ productInfo?.title }}
+          {{ product.title }}
         </h2>
-        <p class="product-price">Rs {{ productInfo?.price }}</p>
+        <p class="product-price">Rs {{ product.price }}</p>
         <p class="product-description">
-          {{ productInfo?.description }}
+          {{ product.description }}
         </p>
-        <p class="product-category">Category: {{ productInfo?.category }}</p>
+        <p class="product-category">Category: {{ product.category }}</p>
         <div class="product-rating">
           <img
             src="https://img.icons8.com/ios-filled/50/000000/star--v1.png"
             alt="Rating"
           />
           <span
-            >{{ productInfo?.rating.rate }} (120
-            {{ productInfo?.rating.count }})</span
+            >{{ product.rating.rate }} (120 {{ product.rating.count }})</span
           >
         </div>
         <div class="buttons">
-          <button @click="handleProduct" class="btn btn-cart">{{ msg }}</button>
-          <button class="btn btn-wishlist">Add to Wishlist</button>
+          <button @click="handleCartProduct" class="btn btn-cart">
+            {{ cartMsg }}
+          </button>
+          <button @click="handleWishlistProduct" class="btn btn-wishlist">
+            {{ wishlistMsg }}
+          </button>
         </div>
       </div>
     </div>

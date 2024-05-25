@@ -6,6 +6,7 @@
   const toggle = ref(false);
   const { category } = constants();
   const userCart = useUserCart();
+  const userWishlist = useUserWishlist();
 
   function handleSignout() {
     sessionStorage.removeItem("token");
@@ -63,7 +64,7 @@
       </div>
       <div id="wishlist" @click="navigateTo('/dashboard/wishlist')">
         <span class="pi pi-heart"></span>
-        <p>Wishlist</p>
+        <p>Wishlist({{ userWishlist.length }})</p>
       </div>
       <div @mouseenter="toggle = true" @mouseleave="toggle = false">
         <div id="user">

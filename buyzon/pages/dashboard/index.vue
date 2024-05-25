@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import type { FilterType } from "~/composables/types";
+
   const { getProducts, getCart, getWishlist } = useUtils();
   const userCart = useUserCart();
   const userWishlist = useUserWishlist();
@@ -6,7 +8,25 @@
   userCart.value = await getCart();
   userWishlist.value = await getWishlist();
   const displayProducts = ref(productData);
-  
+  const brandFilter = ref<string[]>([]);
+  const priceFilter = ref<number[]>([]);
+  const ratingFilter = ref<number[]>([]);
+
+  watch([brandFilter, priceFilter, ratingFilter], () => {
+    displayProducts.value = productData.filter(
+      (item) =>
+        (brandFilter.value.length > 0
+          ? brandFilter.value.includes(item.brand)
+          : true) &&
+        (priceFilter.value.length > 0
+          ? priceFilter.value.find((price) => item.price < price)
+          : true) &&
+        (ratingFilter.value.length > 0
+          ? ratingFilter.value.find((rating) => item.rating.rate >= rating)
+          : true)
+    );
+  });
+
   const pages = ref(1);
   const totalPages = computed(() => {
     return Math.ceil(displayProducts.value.length / 8);
@@ -24,65 +44,6 @@
       item.category.toLocaleLowerCase().includes(category.toLocaleLowerCase())
     );
   }
-  type FilterObject<T> = {
-    todo: string;
-    value: T;
-  };
-  function handleFilterPrice(filterItem: FilterObject<number>) {
-    pages.value = 1;
-    const minRange = filterItem.value / 10;
-    if (filterItem.todo === "add") {
-      const myItem = productData.filter(
-        (item) => item.price > minRange && item.price < 10 * minRange
-      );
-      if (displayProducts.value.length === productData.length) {
-        displayProducts.value = [...myItem];
-      } else {
-        displayProducts.value = [...displayProducts.value, ...myItem];
-      }
-    } else {
-      displayProducts.value = displayProducts.value.filter(
-        (item) => !(item.price > minRange && item.price < 10 * minRange)
-      );
-    }
-  }
-
-  function handleFilterBrand(filterItem: FilterObject<string>) {
-    console.log("inside");
-    pages.value = 1;
-    if (filterItem.todo === "add") {
-      const myItem = productData.filter(
-        (item) => item.brand === filterItem.value
-      );
-      if (displayProducts.value.length === productData.length) {
-        displayProducts.value = [...myItem];
-      } else {
-        displayProducts.value = [...displayProducts.value, ...myItem];
-      }
-    } else {
-      displayProducts.value = displayProducts.value.filter(
-        (item) => item.brand !== filterItem.value
-      );
-    }
-  }
-
-  function handleFilterRating(filterItem: FilterObject<number>) {
-    pages.value = 1;
-    if (filterItem.todo === "add") {
-      const myItem = productData.filter(
-        (item) => item.rating.rate >= filterItem.value
-      );
-      if (displayProducts.value.length === productData.length) {
-        displayProducts.value = [...myItem];
-      } else {
-        displayProducts.value = [...displayProducts.value, ...myItem];
-      }
-    } else {
-      displayProducts.value = displayProducts.value.filter(
-        (item) => !(item.rating.rate >= filterItem.value)
-      );
-    }
-  }
 </script>
 <template>
   <div id="main">
@@ -95,9 +56,9 @@
     <div id="footer">
       <div id="sort">
         <FilterCard
-          @filter-price="handleFilterPrice"
-          @filter-brand="handleFilterBrand"
-          @filter-rating="handleFilterRating"
+          v-model:brand="brandFilter"
+          v-model:rating="ratingFilter"
+          v-model:price="priceFilter"
         />
       </div>
       <div id="display">

@@ -1,7 +1,7 @@
 export const constants = () => {
   const category = ["MEN", "WOMEN", "ELECTRONICS", "JEWELERY"];
-  const priceRange = [99, 999, 9999];
-  const rating = [2, 3, 4];
+  const priceRange = [99];
+  const rating = [3];
   const brand = [
     "puma",
     "HRX",
