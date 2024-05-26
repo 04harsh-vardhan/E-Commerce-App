@@ -5,6 +5,9 @@
 </script>
 <template>
   <div id="main">
+    <div id="header">
+      <Header></Header>
+    </div>
     <div class="container">
       <div class="card">
         <div class="user-info">
@@ -20,13 +23,9 @@
 </template>
 <style scoped>
   #main {
-    background-color: #f0f8ff;
-    font-family: "Arial", sans-serif;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-    margin: 0;
+    flex-direction: column;
+    gap: 10px;
   }
   .container {
     display: flex;
@@ -38,8 +37,8 @@
   }
 
   .card {
-    background-color: #ffffff; /* White background */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    background-color: #ffffff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     border-radius: 10px;
     padding: 20px;
     text-align: center;

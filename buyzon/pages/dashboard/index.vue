@@ -11,8 +11,13 @@
   const brandFilter = ref<string[]>([]);
   const priceFilter = ref<number[]>([]);
   const ratingFilter = ref<number[]>([]);
+  const pages = ref(1);
+  const totalPages = computed(() => {
+    return Math.ceil(displayProducts.value.length / 8);
+  });
 
   watch([brandFilter, priceFilter, ratingFilter], () => {
+    pages.value = 1;
     displayProducts.value = productData.filter(
       (item) =>
         (brandFilter.value.length > 0
@@ -27,11 +32,6 @@
     );
   });
 
-  const pages = ref(1);
-  const totalPages = computed(() => {
-    return Math.ceil(displayProducts.value.length / 8);
-  });
-
   function handleSearch(query: string) {
     displayProducts.value = displayProducts.value.filter((item) => {
       return item.title.toLocaleLowerCase().includes(query.toLocaleLowerCase());
@@ -44,6 +44,10 @@
       item.category.toLocaleLowerCase().includes(category.toLocaleLowerCase())
     );
   }
+  function handleResetSearch() {
+    debugger;
+    displayProducts.value = productData;
+  }
 </script>
 <template>
   <div id="main">
@@ -51,6 +55,7 @@
       <Header
         @search-event="handleSearch"
         @filter-category="handleCategoryFilter"
+        @reset-search="handleResetSearch"
       ></Header>
     </div>
     <div id="footer">
@@ -61,7 +66,7 @@
           v-model:price="priceFilter"
         />
       </div>
-      <div id="display">
+      <div v-if="displayProducts.length > 0" id="display">
         <div id="card-div">
           <div
             v-for="{ price, title, id, image } in displayProducts.slice(
@@ -105,10 +110,20 @@
           </button>
         </div>
       </div>
+      <div v-else id="notFound">
+        <img src="../../assets/products/no-product-found.jpg" />
+      </div>
     </div>
   </div>
 </template>
 <style scoped>
+  #notFound {
+    padding-left: 200px;
+  }
+  img {
+    width: 600px;
+    height: 450px;
+  }
   #display {
     border-top: var(--borderAttr);
     border-left: var(--borderAttr);

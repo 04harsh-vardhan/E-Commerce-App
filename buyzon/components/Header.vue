@@ -1,9 +1,10 @@
 <script setup lang="ts">
-  const emit = defineEmits(["searchEvent", "filterCategory"]);
+  const emit = defineEmits(["searchEvent", "filterCategory", "resetSearch"]);
   const feature = usefeatureState();
   const { signoutUser } = useUtils();
   const searchString = ref("");
   const toggle = ref(false);
+  const searchToggle = ref(false);
   const { category } = constants();
   const cartStore = useCartStore();
   const wishlistStore = useWishlistStore();
@@ -14,13 +15,24 @@
     navigateTo("/");
   }
   function handleSearch() {
+    searchToggle.value = true;
     emit("searchEvent", searchString.value);
+  }
+  function resetSearch() {
+    searchToggle.value = false;
+    searchString.value = "";
+    emit("resetSearch");
   }
 </script>
 <template>
   <div id="header">
     <div id="first">
       <div id="icon"><img src="../assets/Buyzon-logo.jpg" /></div>
+      <div v-if="!(feature === 'dashboard')">
+        <button class="btn btn-dark" @click="navigateTo('/dashboard')">
+          <span class="pi pi-arrow-left"> Back</span>
+        </button>
+      </div>
       <div
         v-if="feature === 'dashboard'"
         class="item"
@@ -29,11 +41,6 @@
         @click="$emit('filterCategory', item)"
       >
         <p>{{ item }}</p>
-      </div>
-      <div v-if="!(feature === 'dashboard')">
-        <button class="btn btn-primary" @click="navigateTo('/dashboard')">
-          <span class="pi pi-arrow-left"> Dashboard</span>
-        </button>
       </div>
     </div>
     <div id="second">
@@ -52,7 +59,15 @@
           aria-label="Example text with button addon"
           aria-describedby="button-addon1"
           v-model="searchString"
+          :disabled="feature !== 'dashboard'"
         />
+        <button
+          v-show="searchToggle"
+          class="btn btn-light"
+          @click="resetSearch"
+        >
+          <span class="pi pi-times"></span>
+        </button>
       </div>
       <div
         v-if="feature !== 'cart'"
@@ -77,6 +92,7 @@
         </div>
         <div v-show="toggle" id="profileList">
           <div
+            v-if="feature !== 'userinfo'"
             class="item user-action"
             @click="navigateTo('/dashboard/userinfo')"
           >
@@ -144,12 +160,17 @@
     box-sizing: border-box;
     --weight: 500;
   }
-  #first,
   #second {
-    width: 50%;
+    width: 60%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+  }
+  #first {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    gap: 25px;
   }
   #icon {
     margin-right: 36px;
