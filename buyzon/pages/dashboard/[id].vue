@@ -7,39 +7,17 @@
 
   const productData = productsData.data;
   const route = useRoute();
-  const id = route.params.id as string;
-  const product = productData.find(
-    (item) => item.id.toString() === id
-  ) as ProductData;
+  const id = Number(route.params.id);
+  const product = productData.find((item) => item.id === id) as ProductData;
 
-  let indexInCart: number = -1;
-  let indexInWishlist: number = -1;
+  const isPresentInCart = ref(cartStore.productInCart(id));
+  const isPresentInWishlist = ref(wishlistStore.productInWishlist(id));
 
-  const isPresentInCart = ref(isInCart());
-  const isPresentInWishlist = ref(isInWishlist());
 
-  function isInCart() {
-    for (let i = 0; i < cartStore.cartData.data.length; i++) {
-      if (cartStore.cartData.data[i].id === Number(id)) {
-        indexInCart = i;
-        return true;
-      }
-    }
-    return false;
-  }
-  function isInWishlist() {
-    for (let i = 0; i < wishlistStore.wishlistData.data.length; i++) {
-      if (wishlistStore.wishlistData.data[i].id === Number(id)) {
-        indexInWishlist = i;
-        return true;
-      }
-    }
-    return false;
-  }
   function handleCartProduct() {
     if (isPresentInCart.value) {
-      removeFromCart(Number(id));
-      cartStore.removeItemFromCart(indexInCart);
+      removeFromCart(id);
+      cartStore.removeItemFromCart(id);
       isPresentInCart.value = false;
     } else {
       addToCart(product);
@@ -49,8 +27,8 @@
   }
   function handleWishlistProduct() {
     if (isPresentInWishlist.value) {
-      removeFromWishlist(Number(id));
-      wishlistStore.removeItemFromWishlist(indexInWishlist);
+      removeFromWishlist(id);
+      wishlistStore.removeItemFromWishlist(id);
       isPresentInWishlist.value = false;
     } else {
       addToWishlist(product);
