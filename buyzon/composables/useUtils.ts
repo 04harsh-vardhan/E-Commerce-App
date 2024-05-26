@@ -85,6 +85,7 @@ export const useUtils = () => {
         email: userData.email,
         mobileNumber: userData.mobileNumber,
         address: userData.address,
+        image: userData.image,
       });
       return true;
     } catch (err) {
@@ -117,27 +118,40 @@ export const useUtils = () => {
     const authentication = getAuth();
     try {
       const response = await signOut(authentication);
+      toast("Signout Success");
     } catch (err) {}
+  }
+  function imageToBase64(file: any) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   }
   class SignUpUser {
     name: string;
     email: string;
     mobileNumber: string;
     address: string;
+    image: string;
     constructor(
       name: string,
       email: string,
       mobileNumber: string,
-      address: string
+      address: string,
+      image: string = ""
     ) {
       this.name = name;
       this.email = email;
       this.mobileNumber = mobileNumber;
       this.address = address;
+      this.image = image;
     }
   }
 
   return {
+    imageToBase64,
     addToCart,
     removeFromCart,
     removeFromWishlist,

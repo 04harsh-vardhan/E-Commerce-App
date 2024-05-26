@@ -1,7 +1,8 @@
 <script setup lang="ts">
   const { getUserData } = useUtils();
 
-  const { name, address, mobileNumber, email } = (await getUserData()) as any;
+  const { name, address, mobileNumber, email, image } =
+    (await getUserData()) as any;
 </script>
 <template>
   <div id="main">
@@ -11,7 +12,7 @@
     <div class="container">
       <div class="card">
         <div class="user-info">
-          <img alt="User image" class="avatar" />
+          <img :src="image" alt="User image" class="avatar" />
           <h1 class="name">{{ name }}</h1>
           <p class="email">{{ email }}</p>
           <p class="mobile">{{ mobileNumber }}</p>
@@ -37,8 +38,8 @@
   }
 
   .card {
-    background-color: #ffffff; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     padding: 20px;
     text-align: center;

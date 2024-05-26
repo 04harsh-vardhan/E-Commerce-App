@@ -3,7 +3,7 @@
   import { VSpinner } from "vue3-spinners";
   import * as yup from "yup";
 
-  const { addUserToDB, SignUpUser, createUser } = useUtils();
+  const { addUserToDB, SignUpUser, createUser, imageToBase64 } = useUtils();
   const toast = useToast();
   const isLoading = ref(false);
   const regex_Password = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
@@ -31,7 +31,8 @@
         .required(),
       confirmPassword: yup
         .string()
-        .oneOf([yup.ref("password")], "Passwords must match"),
+        .oneOf([yup.ref("password")], "Passwords must match")
+        .required(),
     }),
   });
   const [name] = defineField("name");
@@ -40,6 +41,7 @@
   const [address] = defineField("address");
   const [password] = defineField("password");
   const [confirmPassword] = defineField("confirmPassword");
+  const [image] = defineField("image");
 
   async function signupUser() {
     isLoading.value = true;
@@ -49,7 +51,8 @@
         values.name,
         values.email,
         values.mobileNumber,
-        values.address
+        values.address,
+        values.image
       )
     );
     if (isSet && isAdded) {
@@ -138,6 +141,22 @@
           <Error v-show="errors.confirmPassword">{{
             errors.confirmPassword
           }}</Error>
+        </div>
+        <div class="form-group">
+          <label for="Confirm-password">Image-upload</label>
+          <input
+            type="file"
+            class="form-control"
+            id="image-upload"
+            @change="
+              async (e) => {
+                const target = e.target as HTMLInputElement;
+                if (target.files) {
+                  image = await imageToBase64(target.files[0]);
+                }
+              }
+            "
+          />
         </div>
         <button
           @click="signupUser"
