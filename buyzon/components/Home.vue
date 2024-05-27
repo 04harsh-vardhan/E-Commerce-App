@@ -1,3 +1,76 @@
+<template>
+  <div id="main" v-if="!(toggleSignIn && toggleSignUp)">
+    <div id="header">
+      <div id="intro">
+        <div id="welcome">
+          <h1>Welcome To BuyZone</h1>
+          <img class="logo" src="../assets/Buyzon-logo.jpg" />
+        </div>
+        <nav>
+          <button class="btn btn-warning" @click="toggleSignIn = true">
+            Log in
+          </button>
+          <div></div>
+          <div></div>
+          <button class="btn btn-success" @click="toggleSignUp = true">
+            Sign Up
+          </button>
+        </nav>
+      </div>
+    </div>
+    <div id="content">
+      <div class="hero">
+        <h1>Welcome to Our Store</h1>
+        <p>Your one-stop shop for all things amazing</p>
+        <button class="cta" @click="toggleSignIn = true">Shop now</button>
+      </div>
+
+      <section class="products">
+        <h2>Featured Products</h2>
+        <div class="product">
+          <img class="demo" src="../assets/products/watches2.jpg" />
+        </div>
+        <div class="product">
+          <img class="demo" src="../assets/products/shoes2.jpg" />
+        </div>
+        <div class="product">
+          <img class="demo" src="../assets/products/fans1.jpg" />
+        </div>
+      </section>
+
+      <section class="testimonials">
+        <h2>Customer Testimonials</h2>
+        <div class="testimonial">"Great products!" - Jane</div>
+        <div class="testimonial">"Excellent service!" - John</div>
+        <div class="testimonial">"Fast shipping!" - Sarah</div>
+      </section>
+
+      <section class="offers">
+        <h2>Special Offers</h2>
+        <div class="offer">20% off on all items</div>
+        <div class="offer">Buy one, get one free</div>
+      </section>
+    </div>
+    <footer>
+      <div>© 2024 My E-Commerce Store</div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact</a>
+      </div>
+    </footer>
+  </div>
+  <Transition>
+    <Signin v-if="toggleSignIn" @close="toggleSignIn = false" />
+  </Transition>
+  <Transition>
+    <Signup v-if="toggleSignUp" @close="toggleSignUp = false" />
+  </Transition>
+</template>
+<script setup lang="ts">
+  const toggleSignIn = ref(false);
+  const toggleSignUp = ref(false);
+</script>
 <style scoped>
   body {
     font-family: Arial, sans-serif;
@@ -95,7 +168,7 @@
     align-items: center;
     gap: 10px;
   }
-  
+
   .hero {
     width: 100%;
     height: 250px;
@@ -113,77 +186,34 @@
   .v-leave-to {
     opacity: 0;
   }
+
+  @media (max-width: 1078px) {
+    button {
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 20px;
+    }
+    .logo {
+      width: 50px;
+      height: 50px;
+    }
+    .hero h1 {
+      font-size: 15px;
+    }
+  }
+  @media (max-width: 480px) {
+    nav {
+      flex-direction: column;
+      gap: 1px;
+    }
+    .products .product,
+    .testimonials .testimonial,
+    .offers .offer {
+      width: 100%;
+    }
+  }
 </style>
-<template>
-  <div id="main" v-if="!(toggleSignIn && toggleSignUp)">
-    <div id="header">
-      <div id="intro">
-        <div id="welcome">
-          <h1>Welcome To BuyZone</h1>
-          <img class="logo" src="../assets/Buyzon-logo.jpg" />
-        </div>
-        <nav>
-          <button class="btn btn-warning" @click="toggleSignIn = true">
-            Log in
-          </button>
-          <div></div>
-          <div></div>
-          <button class="btn btn-success" @click="toggleSignUp = true">
-            Sign Up
-          </button>
-        </nav>
-      </div>
-    </div>
-    <div id="content">
-      <div class="hero">
-        <h1>Welcome to Our Store</h1>
-        <p>Your one-stop shop for all things amazing</p>
-        <button class="cta" @click="toggleSignIn = true">Shop now</button>
-      </div>
-
-      <section class="products">
-        <h2>Featured Products</h2>
-        <div class="product">
-          <img class="demo" src="../assets/products/watches2.jpg" />
-        </div>
-        <div class="product">
-          <img class="demo" src="../assets/products/shoes2.jpg" />
-        </div>
-        <div class="product">
-          <img class="demo" src="../assets/products/fans1.jpg" />
-        </div>
-      </section>
-
-      <section class="testimonials">
-        <h2>Customer Testimonials</h2>
-        <div class="testimonial">"Great products!" - Jane</div>
-        <div class="testimonial">"Excellent service!" - John</div>
-        <div class="testimonial">"Fast shipping!" - Sarah</div>
-      </section>
-
-      <section class="offers">
-        <h2>Special Offers</h2>
-        <div class="offer">20% off on all items</div>
-        <div class="offer">Buy one, get one free</div>
-      </section>
-    </div>
-    <footer>
-      <div>© 2024 My E-Commerce Store</div>
-      <div class="footer-links">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Contact</a>
-      </div>
-    </footer>
-  </div>
-  <Transition>
-    <Signin v-if="toggleSignIn" @close="toggleSignIn = false" />
-  </Transition>
-  <Transition>
-    <Signup v-if="toggleSignUp" @close="toggleSignUp = false" />
-  </Transition>
-</template>
-<script setup lang="ts">
-  const toggleSignIn = ref(false);
-  const toggleSignUp = ref(false);
-</script>

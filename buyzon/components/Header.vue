@@ -197,4 +197,26 @@
     border-color: #80bdff;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
+  @media (max-width: 1200px) {
+    #first {
+      width: 50%;
+      gap: 10px;
+    }
+    #second {
+      width: 50%;
+    }
+    img {
+      width: 50px;
+      height: 50px;
+    }
+    p {
+      font-size: 12px;
+    }
+  }
+  @media (max-width: 700px) {
+    #searchBar {
+      min-width: 100px;
+      width: 150px;
+    }
+  } 
 </style>
