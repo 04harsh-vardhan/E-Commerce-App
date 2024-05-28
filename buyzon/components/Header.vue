@@ -276,4 +276,16 @@
       width: 80%;
     }
   }
+  @media (max-width: 500px) {
+    #first {
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-header {
+      margin-top: 40px;
+    }
+    .sidebar-body {
+      margin-top: auto; 
+    }
+  }
 </style>
