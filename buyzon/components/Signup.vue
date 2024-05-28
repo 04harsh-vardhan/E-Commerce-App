@@ -8,7 +8,7 @@
   const isLoading = ref(false);
   const regex_Password = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
   const regex_number = /^\d{10}$/;
-  const emit = defineEmits(["close"]);
+  const emit = defineEmits(["close", "success"]);
 
   const { values, errors, defineField, meta } = useForm({
     validationSchema: yup.object({
@@ -57,7 +57,7 @@
     );
     if (isSet && isAdded) {
       toast("Account Created Successfully");
-      emit("close");
+      emit("success");
     } else {
       toast("Something went wrong");
       isLoading.value = false;
@@ -84,7 +84,7 @@
           <Error v-show="errors.name">{{ errors.name }}</Error>
         </div>
         <div class="form-group">
-          <label for="email">Email address</label>
+          <label for="email">Email Address</label>
           <input
             type="email"
             class="form-control"
@@ -108,7 +108,7 @@
           <Error v-show="errors.mobileNumber">{{ errors.mobileNumber }}</Error>
         </div>
         <div class="form-group">
-          <label for="address">Your address</label>
+          <label for="address">Your Address</label>
           <input
             type="email"
             class="form-control"
@@ -143,7 +143,7 @@
           }}</Error>
         </div>
         <div class="form-group">
-          <label for="Confirm-password">Image-upload</label>
+          <label for="Confirm-password">Upload Image</label>
           <input
             type="file"
             class="form-control"
@@ -158,6 +158,8 @@
             "
           />
         </div>
+      </div>
+      <div id="signupBtn">
         <button
           @click="signupUser"
           class="btn btn-dark btn-block"
@@ -172,6 +174,11 @@
 </template>
 
 <style scoped>
+  #signupBtn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
   #closeBtn {
     cursor: pointer;
   }
@@ -181,6 +188,8 @@
     flex-direction: column;
     align-items: center;
     gap: 0.2rem;
+    max-height: 500px;
+    overflow-y: scroll;
   }
   button {
     width: 150px;
@@ -209,7 +218,6 @@
     gap: 10px;
     background-color: #fff;
     max-height: 585px;
-    overflow-y: scroll;
   }
   .signup-container h2 {
     margin-bottom: 20px;

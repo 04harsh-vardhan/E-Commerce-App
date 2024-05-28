@@ -64,12 +64,20 @@
     <Signin v-if="toggleSignIn" @close="toggleSignIn = false" />
   </Transition>
   <Transition>
-    <Signup v-if="toggleSignUp" @close="toggleSignUp = false" />
+    <Signup
+      v-if="toggleSignUp"
+      @close="toggleSignUp = false"
+      @success="handleSignupSuccess"
+    />
   </Transition>
 </template>
 <script setup lang="ts">
   const toggleSignIn = ref(false);
   const toggleSignUp = ref(false);
+  function handleSignupSuccess() {
+    toggleSignUp.value = false;
+    toggleSignIn.value = true;
+  }
 </script>
 <style scoped>
   body {
@@ -84,6 +92,12 @@
     color: white;
     padding: 20px;
     text-align: center;
+  }
+  #header {
+    height: 20%;
+  }
+  footer {
+    height: 10%;
   }
   nav {
     display: flex;
@@ -158,7 +172,7 @@
     padding-right: 10px;
   }
   #content {
-    max-height: 60vh;
+    height: 70%;
     overflow-y: scroll;
   }
   #welcome {
@@ -171,7 +185,6 @@
 
   .hero {
     width: 100%;
-    height: 250px;
     background-image: url("../assets/welcome_page.png");
     background-size: cover;
     background-position: center;

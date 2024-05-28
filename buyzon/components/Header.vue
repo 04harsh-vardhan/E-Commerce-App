@@ -15,16 +15,17 @@
       ? (showSideBar.value = true)
       : (showSideBar.value = false);
   });
+  watch(searchString, (newValue) => {
+    searchToggle.value = newValue.length > 0 ? true : false;
+    emit("searchEvent", newValue);
+  });
 
   function handleSignout() {
     sessionStorage.removeItem("token");
     signoutUser();
     navigateTo("/");
   }
-  function handleSearch() {
-    searchToggle.value = true;
-    emit("searchEvent", searchString.value);
-  }
+
   function resetSearch() {
     searchToggle.value = false;
     searchString.value = "";
@@ -36,7 +37,7 @@
     <div id="first">
       <div id="icon"><img src="../assets/Buyzon-logo.jpg" /></div>
       <div v-if="!(feature === 'dashboard')">
-        <button class="btn btn-dark" @click="navigateTo('/dashboard')">
+        <button class="btn btn-info" @click="navigateTo('/dashboard')">
           <span class="pi pi-arrow-left"> Back</span>
         </button>
       </div>
@@ -74,13 +75,7 @@
     </div>
     <div id="second">
       <div id="searchBar" class="input-group mb-3">
-        <button
-          class="btn btn-outline-secondary"
-          id="button-addon1"
-          @click="handleSearch"
-        >
-          <span class="pi pi-search"></span>
-        </button>
+        <span id="button-addon1" class="pi pi-search"></span>
         <input
           type="text"
           class="form-control"
@@ -125,9 +120,9 @@
             class="item user-action"
             @click="navigateTo('/dashboard/userinfo')"
           >
-            <p>detail</p>
+            <p>Detail</p>
           </div>
-          <div class="item" @click="handleSignout"><p>signout</p></div>
+          <div class="item" @click="handleSignout"><p>Sign out</p></div>
         </div>
       </div>
     </div>
@@ -222,6 +217,7 @@
     display: flex;
     align-items: center;
     gap: 25px;
+    margin-bottom: 1rem;
   }
   #icon {
     margin-right: 36px;
@@ -285,7 +281,7 @@
       margin-top: 40px;
     }
     .sidebar-body {
-      margin-top: auto; 
+      margin-top: auto;
     }
   }
 </style>

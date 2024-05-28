@@ -33,7 +33,8 @@
   });
 
   function handleSearch(query: string) {
-    displayProducts.value = displayProducts.value.filter((item) => {
+    pages.value = 1;
+    displayProducts.value = productData.filter((item) => {
       return item.title.toLocaleLowerCase().includes(query.toLocaleLowerCase());
     });
   }
@@ -45,7 +46,7 @@
     );
   }
   function handleResetSearch() {
-    debugger;
+    pages.value = 1;
     displayProducts.value = productData;
   }
 </script>
@@ -93,7 +94,7 @@
               }
             "
             v-show="pages > 1"
-            class="btn btn-dark"
+            class="btn btn-info"
           >
             prev
           </button>
@@ -104,7 +105,7 @@
               }
             "
             v-show="pages < totalPages"
-            class="btn btn-dark"
+            class="btn btn-info"
           >
             next
           </button>
@@ -158,5 +159,4 @@
     gap: 10px;
     --borderAttr: 1px solid #e9e9ed;
   }
-  
 </style>
