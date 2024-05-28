@@ -5,9 +5,16 @@
   const searchString = ref("");
   const toggle = ref(false);
   const searchToggle = ref(false);
+  const toggleSideBar = ref(false);
+  const showSideBar = ref(false);
   const { category } = constants();
   const cartStore = useCartStore();
   const wishlistStore = useWishlistStore();
+  window.addEventListener("resize", () => {
+    window.outerWidth < 700
+      ? (showSideBar.value = true)
+      : (showSideBar.value = false);
+  });
 
   function handleSignout() {
     sessionStorage.removeItem("token");
@@ -34,13 +41,35 @@
         </button>
       </div>
       <div
-        v-if="feature === 'dashboard'"
+        v-if="feature === 'dashboard' && !showSideBar"
         class="item"
         v-for="item in category"
         :key="item"
         @click="$emit('filterCategory', item)"
       >
         <p>{{ item }}</p>
+      </div>
+      <div
+        class="sidebar"
+        v-if="feature === 'dashboard' && showSideBar"
+        @click="toggleSideBar = !toggleSideBar"
+      >
+        <div class="sidebar-header">
+          <button class="btn btn-info" v-show="!toggleSideBar">
+            <span class="pi pi-bars"></span>
+          </button>
+        </div>
+        <div class="sidebar-body">
+          <div
+            v-show="toggleSideBar"
+            class="category-item"
+            v-for="item in category"
+            :key="item"
+            @click="$emit('filterCategory', item)"
+          >
+            <p>{{ item }}</p>
+          </div>
+        </div>
       </div>
     </div>
     <div id="second">
@@ -104,7 +133,29 @@
     </div>
   </div>
 </template>
+
 <style scoped>
+  .sidebar-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    margin-top: 160px;
+    background: linear-gradient(to right, #4e54c8, #8f94fb);
+    color: white;
+  }
+  .sidebar-header {
+    margin-top: 150px;
+    background: none;
+  }
+  .sidebar {
+    position: absolute;
+    margin-top: auto;
+    z-index: 9;
+    margin-left: 80px;
+    width: 150px;
+  }
   .user-action {
     border-bottom: 1px solid #e9e9ed;
   }
@@ -218,5 +269,11 @@
       min-width: 100px;
       width: 150px;
     }
-  } 
+    #first {
+      width: 20%;
+    }
+    #second {
+      width: 80%;
+    }
+  }
 </style>

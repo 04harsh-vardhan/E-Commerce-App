@@ -63,6 +63,11 @@
     background: #fff;
     border-radius: 10px;
   }
+  @media (max-width: 700px) {
+    .filter-container {
+      width: 100px;
+    }
+  }
   .filter-header {
     background: #3498db;
     color: #fff;
