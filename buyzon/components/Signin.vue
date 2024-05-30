@@ -8,6 +8,7 @@
   const toast = useToast();
   const isLoading = ref(false);
   const toggleResetPassword = ref(false);
+  const specialOffer = useSpecialOfferFlag();
   const msg = computed(() =>
     toggleResetPassword.value ? "Reset Password" : "Log In"
   );
@@ -33,6 +34,7 @@
       toast("Login Successful");
       const uid = useUserUId();
       sessionStorage.setItem("token", uid.value);
+      specialOffer.value = true;
       navigateTo("/dashboard");
     } else {
       toast("User Credentials are Wrong");

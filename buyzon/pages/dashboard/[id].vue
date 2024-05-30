@@ -1,18 +1,16 @@
 <script setup lang="ts">
   const { addToCart, removeFromCart, addToWishlist, removeFromWishlist } =
     useUtils();
-  const { productsData } = useProductDataStore();
+  const { getProduct } = useProductDataStore();
   const cartStore = useCartStore();
   const wishlistStore = useWishlistStore();
 
-  const productData = productsData.data;
   const route = useRoute();
   const id = Number(route.params.id);
-  const product = productData.find((item) => item.id === id) as ProductData;
+  const product = getProduct(id) as ProductData;
 
   const isPresentInCart = ref(cartStore.productInCart(id));
   const isPresentInWishlist = ref(wishlistStore.productInWishlist(id));
-
 
   function handleCartProduct() {
     if (isPresentInCart.value) {

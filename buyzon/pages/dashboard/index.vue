@@ -6,7 +6,7 @@
   await callOnce(fetchCartData);
   await callOnce(fetchWishlistData);
   const productData = productsData.data;
-
+  const specialOffer = useSpecialOfferFlag();
   const displayProducts = ref(productData);
   const toggleFilter = ref(false);
   const brandFilter = ref<string[]>([]);
@@ -52,7 +52,7 @@
   }
 </script>
 <template>
-  <div id="main">
+  <div id="main" v-if="!specialOffer">
     <div id="header">
       <Header
         @search-event="handleSearch"
@@ -133,6 +133,11 @@
       </div>
     </div>
   </div>
+  <Transition>
+    <SpecialOfferCard
+      v-if="specialOffer"
+    ></SpecialOfferCard>
+  </Transition>
 </template>
 <style scoped>
   #display {
