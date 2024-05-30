@@ -3,9 +3,14 @@
   import { VSpinner } from "vue3-spinners";
   import * as yup from "yup";
 
+  const { signInUser, resetPassword } = useUtils();
   const regex_Password = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
   const toast = useToast();
   const isLoading = ref(false);
+  const toggleResetPassword = ref(false);
+  const msg = computed(() =>
+    toggleResetPassword.value ? "Reset Password" : "Log In"
+  );
 
   const { values, errors, defineField, meta } = useForm({
     validationSchema: yup.object({
@@ -22,7 +27,7 @@
 
   async function handleSignIn() {
     isLoading.value = true;
-    const { signInUser } = useUtils();
+
     const success = await signInUser(values.email, values.password);
     if (success) {
       toast("Login Successful");
@@ -34,14 +39,18 @@
       isLoading.value = false;
     }
   }
+  function handleResetPassword() {
+    resetPassword(values.email);
+    toggleResetPassword.value = false;
+  }
 </script>
 <template>
   <div v-if="!isLoading" id="main">
-    <div class="signup-container">
+    <div class="signin-container">
       <div @click="$emit('close')" class="closeBtn">
         <span class="pi pi-times"></span>
       </div>
-      <h2 class="text-center">SignIn</h2>
+      <h2 class="text-center">{{ msg }}</h2>
       <div id="form-div">
         <div class="form-group">
           <label for="email">Email address</label>
@@ -54,7 +63,7 @@
           />
           <Error v-show="errors.email">{{ errors.email }}</Error>
         </div>
-        <div class="form-group">
+        <div class="form-group" v-if="!toggleResetPassword">
           <label for="password">Password</label>
           <input
             type="password"
@@ -65,12 +74,31 @@
           />
           <Error v-show="errors.password">{{ errors.password }}</Error>
         </div>
+
+        <div
+          class="form-group"
+          v-if="!toggleResetPassword"
+          @click="toggleResetPassword = true"
+        >
+          <button class="btn btn-link">forgot Password</button>
+        </div>
+
         <button
+          @click="handleResetPassword"
+          v-if="toggleResetPassword"
+          class="btn btn-dark btn-block"
+          :disabled="Boolean(errors.email) || !meta.dirty"
+        >
+          Send Email
+        </button>
+
+        <button
+          v-if="!toggleResetPassword"
           @click="handleSignIn"
           class="btn btn-dark btn-block"
           :disabled="!meta.valid"
         >
-          SignIn
+          Log In
         </button>
       </div>
     </div>
@@ -124,7 +152,7 @@
     flex-direction: column;
     gap: 1rem;
   }
-  .signup-container {
+  .signin-container {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -132,7 +160,7 @@
     width: 100%;
     max-width: 400px;
   }
-  .signup-container h2 {
+  .signin-container h2 {
     margin-bottom: 20px;
   }
   .form-control {

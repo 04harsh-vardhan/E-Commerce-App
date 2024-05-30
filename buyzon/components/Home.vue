@@ -8,20 +8,22 @@
         </div>
         <nav>
           <button class="btn btn-warning" @click="toggleSignIn = true">
-            Log in
+            <span v-if="!toggleIcon">Log in</span>
+            <span v-if="toggleIcon" class="pi pi-sign-in"></span>
           </button>
           <div></div>
           <div></div>
           <button class="btn btn-success" @click="toggleSignUp = true">
-            Sign Up
+            <span v-if="!toggleIcon">Sign Up</span>
+            <span v-if="toggleIcon" class="pi pi-sign-out"></span>
           </button>
         </nav>
       </div>
     </div>
     <div id="content">
       <div class="hero">
-        <h1>Welcome to Our Store</h1>
-        <p>Your one-stop shop for all things amazing</p>
+        <h1 class="anime">Welcome to Our Store</h1>
+        <p class="anime">Your one-stop shop for all things amazing</p>
         <button class="cta" @click="toggleSignIn = true">Shop now</button>
       </div>
 
@@ -74,12 +76,43 @@
 <script setup lang="ts">
   const toggleSignIn = ref(false);
   const toggleSignUp = ref(false);
+  const toggleIcon = ref(checkWindowWidth());
+  window.addEventListener("resize", () => {
+    toggleIcon.value = checkWindowWidth();
+  });
+
+  function checkWindowWidth() {
+    return window.outerWidth < 480 ? true : false;
+  }
+
   function handleSignupSuccess() {
     toggleSignUp.value = false;
     toggleSignIn.value = true;
   }
 </script>
 <style scoped>
+  @keyframes changeColor {
+    0% {
+      color: red;
+    }
+    25% {
+      color: blue;
+    }
+    50% {
+      color: green;
+    }
+    75% {
+      color: black;
+    }
+    100% {
+      color: orange;
+    }
+  }
+
+  .anime {
+    animation: changeColor 2s infinite;
+  }
+
   body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -128,6 +161,9 @@
     text-decoration: none;
     font-weight: bold;
   }
+  .cta {
+    margin-right: 40px;
+  }
   .products,
   .testimonials,
   .offers {
@@ -174,6 +210,9 @@
   #content {
     height: 70%;
     overflow-y: scroll;
+  }
+  #content::-webkit-scrollbar {
+    display: none;
   }
   #welcome {
     display: flex;

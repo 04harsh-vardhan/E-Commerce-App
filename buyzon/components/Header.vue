@@ -38,7 +38,7 @@
       <div id="icon"><img src="../assets/Buyzon-logo.jpg" /></div>
       <div v-if="!(feature === 'dashboard')">
         <button class="btn btn-info" @click="navigateTo('/dashboard')">
-          <span class="pi pi-arrow-left"> Back</span>
+          Home
         </button>
       </div>
       <div
@@ -72,19 +72,20 @@
           </div>
         </div>
       </div>
-    </div>
-    <div id="second">
-      <div id="searchBar" class="input-group mb-3">
-        <span id="button-addon1" class="pi pi-search"></span>
+      <div
+        id="searchBar"
+        class="input-group mb-3"
+        v-if="feature === 'dashboard'"
+      >
         <input
           type="text"
           class="form-control"
-          placeholder="Search for products ,brands and more"
+          placeholder="Search for products"
           aria-label="Example text with button addon"
           aria-describedby="button-addon1"
           v-model="searchString"
-          :disabled="feature !== 'dashboard'"
         />
+        <i class="pi pi-search icon"></i>
         <button
           v-show="searchToggle"
           class="btn btn-light"
@@ -93,8 +94,10 @@
           <span class="pi pi-times"></span>
         </button>
       </div>
+    </div>
+    <div id="second">
       <div
-        v-if="feature !== 'cart'"
+        :class="{ active: feature === 'cart' }"
         id="cart"
         @click="navigateTo('/dashboard/cart')"
       >
@@ -102,14 +105,18 @@
         <p>Cart({{ cartStore.cartSize }})</p>
       </div>
       <div
-        v-if="feature !== 'wishlist'"
+        :class="{ active: feature === 'wishlist' }"
         id="wishlist"
         @click="navigateTo('/dashboard/wishlist')"
       >
         <span class="pi pi-heart"></span>
         <p>Wishlist({{ wishlistStore.wishlistSize }})</p>
       </div>
-      <div @mouseenter="toggle = true" @mouseleave="toggle = false">
+      <div
+        @mouseenter="toggle = true"
+        @mouseleave="toggle = false"
+        :class="{ active: feature === 'userinfo' }"
+      >
         <div id="user">
           <span class="pi pi-user"></span>
           <p>Profile</p>
@@ -120,9 +127,9 @@
             class="item user-action"
             @click="navigateTo('/dashboard/userinfo')"
           >
-            <p>Detail</p>
+            Detail
           </div>
-          <div class="item" @click="handleSignout"><p>Sign out</p></div>
+          <div class="item user-action" @click="handleSignout">Sign out</div>
         </div>
       </div>
     </div>
@@ -130,6 +137,15 @@
 </template>
 
 <style scoped>
+  .active {
+    color: #4e54c8;
+  }
+  .icon {
+    position: relative;
+    right: 20px;
+    top: 10px;
+    z-index: 9;
+  }
   .sidebar-body {
     display: flex;
     flex-direction: column;
@@ -153,6 +169,10 @@
   }
   .user-action {
     border-bottom: 1px solid #e9e9ed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 5px;
   }
   .item:hover {
     color: #000080;
@@ -207,13 +227,13 @@
     --weight: 500;
   }
   #second {
-    width: 60%;
+    width: 20vw;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
   }
   #first {
-    width: 40%;
+    width: 80vw;
     display: flex;
     align-items: center;
     gap: 25px;
@@ -245,13 +265,6 @@
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
   @media (max-width: 1200px) {
-    #first {
-      width: 50%;
-      gap: 10px;
-    }
-    #second {
-      width: 50%;
-    }
     img {
       width: 50px;
       height: 50px;

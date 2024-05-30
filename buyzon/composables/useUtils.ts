@@ -12,6 +12,7 @@ import {
   signInWithEmailAndPassword,
   getAuth,
   signOut,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import type { ProductData } from "./types.js";
 import { useToast } from "vue-toastification";
@@ -19,6 +20,14 @@ import { useToast } from "vue-toastification";
 export const useUtils = () => {
   const uid = useUserUId();
   const toast = useToast();
+  async function resetPassword(email: string) {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      toast("Reset Password Link Sent to your email");
+    } catch (error: any) {
+      toast(error.message);
+    }
+  }
   async function addToCart(product: ProductData) {
     try {
       const id = product.id.toString();
@@ -151,6 +160,7 @@ export const useUtils = () => {
   }
 
   return {
+    resetPassword,
     imageToBase64,
     addToCart,
     removeFromCart,

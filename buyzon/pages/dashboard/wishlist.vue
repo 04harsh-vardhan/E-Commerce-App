@@ -11,12 +11,12 @@
     <div id="header">
       <Header></Header>
     </div>
-    <div id="card-div">
+    <div id="card-div" v-if="wishlistStore.wishlistSize > 0">
       <div
         v-for="{ price, title, id, image } in wishlistStore.wishlistData.data"
         :key="id"
       >
-        <Card :image="image" :id="id" >
+        <Card :image="image" :id="id">
           <template #price>{{ price }}</template>
           <template #title>{{ title }}</template>
           <template #button="buttonProps">
@@ -27,9 +27,18 @@
         >
       </div>
     </div>
+    <div v-else id="notFound">
+      <img src="../../assets/wishlist_empty.png" />
+    </div>
   </div>
 </template>
 <style scoped>
+  #notFound {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+  }
   #display {
     border-top: var(--borderAttr);
     border-left: var(--borderAttr);

@@ -8,6 +8,7 @@
   const productData = productsData.data;
 
   const displayProducts = ref(productData);
+  const toggleFilter = ref(false);
   const brandFilter = ref<string[]>([]);
   const priceFilter = ref<number[]>([]);
   const ratingFilter = ref<number[]>([]);
@@ -61,15 +62,31 @@
     </div>
     <div id="footer">
       <div id="sort">
+        <button
+          v-show="!toggleFilter"
+          class="btn btn-info"
+          @click="toggleFilter = true"
+        >
+          <i class="pi pi-bars"></i>
+        </button>
         <FilterCard
+          v-show="toggleFilter"
           v-model:brand="brandFilter"
           v-model:rating="ratingFilter"
           v-model:price="priceFilter"
-        />
+        >
+          <template #crossIcon
+            ><span
+              @click="toggleFilter = false"
+              class="pi pi-times crossIcon"
+            ></span
+          ></template>
+        </FilterCard>
       </div>
       <div v-if="displayProducts.length > 0" id="display">
         <div id="card-div">
           <div
+            class="item"
             v-for="{ price, title, id, image } in displayProducts.slice(
               pages * 8 - 8,
               pages * 8
@@ -96,7 +113,7 @@
             v-show="pages > 1"
             class="btn btn-info"
           >
-            prev
+            Prev
           </button>
           <button
             @click="
@@ -107,7 +124,7 @@
             v-show="pages < totalPages"
             class="btn btn-info"
           >
-            next
+            Next
           </button>
         </div>
       </div>
@@ -118,13 +135,22 @@
   </div>
 </template>
 <style scoped>
+  #display {
+    width: -webkit-fill-available;
+  }
+  .item {
+    flex-basis: 25%;
+    margin-bottom: 20px;
+  }
+  .crossIcon:hover {
+    cursor: pointer;
+  }
   #notFound {
-    padding-left: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  img {
-    width: 600px;
-    height: 450px;
-  }
+
   #display {
     border-top: var(--borderAttr);
     border-left: var(--borderAttr);
@@ -137,6 +163,9 @@
     height: 80vh;
     overflow-y: scroll;
   }
+  #footer::-webkit-scrollbar {
+    display: none;
+  }
   .pagination {
     display: flex;
     justify-content: center;
@@ -144,10 +173,10 @@
     padding-top: 10px;
   }
   #card-div {
-    width: 80vw;
+    width: auto;
     display: flex;
     flex-wrap: wrap;
-    gap: 80px 80px;
+    /* gap: 80px 80px; */
     justify-content: space-evenly;
     padding-top: 10px;
     height: fit-content;

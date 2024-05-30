@@ -8,7 +8,7 @@
 <template>
   <div id="main">
     <div class="filter-container">
-      <div class="filter-header">Filters</div>
+      <div class="filter-header">Filters <slot name="crossIcon"></slot></div>
       <div class="filter-content">
         <div class="filter-section">
           <h4>Brand</h4>
@@ -74,6 +74,9 @@
     text-align: center;
     padding: 10px;
     font-size: 18px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center
   }
   .filter-content {
     padding: 20px;

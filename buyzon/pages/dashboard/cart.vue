@@ -11,12 +11,12 @@
     <div id="header">
       <Header></Header>
     </div>
-    <div id="card-div">
+    <div id="card-div" v-if="cartStore.cartSize > 0">
       <div
         v-for="{ price, title, id, image } in cartStore.cartData.data"
         :key="id"
       >
-        <Card :image="image" :id="id" >
+        <Card :image="image" :id="id">
           <template #price>{{ price }}</template>
           <template #title>{{ title }}</template>
           <template #button="buttonProps">
@@ -27,9 +27,18 @@
         </Card>
       </div>
     </div>
+    <div v-else id="notFound">
+      <img src="../../assets/empty_Cart.png" />
+    </div>
   </div>
 </template>
 <style scoped>
+  #notFound {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .add-to-cart:hover {
     background-color: #feb47b;
   }
