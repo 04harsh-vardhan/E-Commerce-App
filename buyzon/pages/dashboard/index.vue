@@ -2,11 +2,12 @@
   const { productsData } = useProductDataStore();
   const { fetchCartData } = useCartStore();
   const { fetchWishlistData } = useWishlistStore();
+  const specialOffer = useSpecialOfferFlag();
 
   await callOnce(fetchCartData);
   await callOnce(fetchWishlistData);
+
   const productData = productsData.data;
-  const specialOffer = useSpecialOfferFlag();
   const displayProducts = ref(productData);
   const toggleFilter = ref(false);
   const brandFilter = ref<string[]>([]);
@@ -52,7 +53,7 @@
   }
 </script>
 <template>
-  <div id="main" v-if="!specialOffer">
+  <div id="main">
     <div id="header">
       <Header
         @search-event="handleSearch"
@@ -78,7 +79,7 @@
           <template #crossIcon
             ><span
               @click="toggleFilter = false"
-              class="pi pi-times crossIcon"
+              class="pi pi-arrow-left crossIcon"
             ></span
           ></template>
         </FilterCard>
@@ -134,12 +135,13 @@
     </div>
   </div>
   <Transition>
-    <SpecialOfferCard
-      v-if="specialOffer"
-    ></SpecialOfferCard>
+    <SpecialOfferCard v-if="specialOffer"></SpecialOfferCard>
   </Transition>
 </template>
 <style scoped>
+  #sort {
+    background: #0dcaf0;
+  }
   #display {
     width: -webkit-fill-available;
   }
@@ -151,6 +153,7 @@
     cursor: pointer;
   }
   #notFound {
+    width: -webkit-fill-available;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -192,5 +195,14 @@
     flex-direction: column;
     gap: 10px;
     --borderAttr: 1px solid #e9e9ed;
+  }
+
+  .v-enter-active,
+  .v-leave-active {
+    transition: opacity 1s ease;
+  }
+  .v-enter-from,
+  .v-leave-to {
+    opacity: 0;
   }
 </style>

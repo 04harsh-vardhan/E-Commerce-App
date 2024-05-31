@@ -10,7 +10,9 @@
     <img :src="image" />
     <div class="product-info">
       <h3 class="product-title"><slot name="title"></slot></h3>
-      <p class="product-price">Rs <slot name="price"></slot></p>
+      <p class="product-price">
+        Rs <slot name="price"></slot> <slot name="wishIcon" :id="id"></slot>
+      </p>
       <slot name="button" :id="id"></slot>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div id="main" v-if="!(toggleSignIn && toggleSignUp)">
+  <div id="main">
     <div id="header">
       <div id="intro">
         <div id="welcome">

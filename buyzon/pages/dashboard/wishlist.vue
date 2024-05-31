@@ -19,12 +19,12 @@
         <Card :image="image" :id="id">
           <template #price>{{ price }}</template>
           <template #title>{{ title }}</template>
-          <template #button="buttonProps">
-            <button class="add-to-cart" @click="handleRemove(buttonProps.id)">
-              <span class="pi pi-heart-fill"></span> Remove
-            </button>
-          </template></Card
-        >
+          <template #wishIcon="props">
+            <span
+              @click="handleRemove(props.id)"
+              class="pi pi-heart-fill"
+            ></span> </template
+        ></Card>
       </div>
     </div>
     <div v-else id="notFound">

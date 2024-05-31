@@ -59,9 +59,10 @@
 <style scoped>
   .filter-container {
     width: 200px;
-    height: 400px;
+    height: fit-content;
     background: #fff;
     border-radius: 10px;
+    background: #0dcaf0;
   }
   @media (max-width: 700px) {
     .filter-container {
@@ -69,14 +70,13 @@
     }
   }
   .filter-header {
-    background: #3498db;
     color: #fff;
     text-align: center;
     padding: 10px;
     font-size: 18px;
     display: flex;
     justify-content: space-around;
-    align-items: center
+    align-items: center;
   }
   .filter-content {
     padding: 20px;

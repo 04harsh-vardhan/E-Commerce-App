@@ -4,11 +4,10 @@
   import * as yup from "yup";
 
   const { signInUser, resetPassword } = useUtils();
-  const regex_Password = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
   const toast = useToast();
   const isLoading = ref(false);
-  const toggleResetPassword = ref(false);
   const specialOffer = useSpecialOfferFlag();
+  const toggleResetPassword = ref(false);
   const msg = computed(() =>
     toggleResetPassword.value ? "Reset Password" : "Log In"
   );
@@ -16,10 +15,6 @@
   const { values, errors, defineField, meta } = useForm({
     validationSchema: yup.object({
       email: yup.string().email("must be a valid email").required(),
-      password: yup
-        .string()
-        .matches(regex_Password, "Password is not Valid Format")
-        .required(),
     }),
   });
 
@@ -82,7 +77,7 @@
           v-if="!toggleResetPassword"
           @click="toggleResetPassword = true"
         >
-          <button class="btn btn-link">forgot Password</button>
+          <button class="btn btn-link">Forgot Password</button>
         </div>
 
         <button
