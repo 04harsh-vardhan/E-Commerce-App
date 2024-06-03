@@ -7,7 +7,7 @@
           <img class="logo" src="../assets/Buyzon-logo.jpg" />
         </div>
         <nav>
-          <div v-if="!authenticated">
+          <div v-if="!authenticated" class="sign-in-up-btns">
             <button class="btn btn-warning" @click="toggleSignIn = true">
               <span v-if="!toggleIcon">Log in</span>
               <span v-if="toggleIcon" class="pi pi-sign-in"></span>
@@ -98,6 +98,10 @@
   }
 </script>
 <style scoped>
+  .sign-in-up-btns {
+    display: flex;
+    gap: 10px;
+  }
   @keyframes changeColor {
     0% {
       color: red;

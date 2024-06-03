@@ -10,16 +10,27 @@ import {
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  getAuth,
   signOut,
   sendPasswordResetEmail,
+  onAuthStateChanged,
 } from "firebase/auth";
 import type { ProductData } from "./types.js";
 import { useToast } from "vue-toastification";
 
 export const useUtils = () => {
   const uid = useUserUId();
+  const isAuthenticated = useAuth();
   const toast = useToast();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      uid.value = user.uid;
+      isAuthenticated.value = true;
+    } else {
+      uid.value = "";
+      isAuthenticated.value = false;
+    }
+  });
+
   async function resetPassword(email: string) {
     try {
       await sendPasswordResetEmail(auth, email);
@@ -116,15 +127,6 @@ export const useUtils = () => {
   async function signInUser(email: string, password: string) {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
-      uid.value = response.user.uid;
-      localStorage.setItem("uid", uid.value);
-      const time = response.user.metadata.lastSignInTime;
-      if (time) {
-        localStorage.setItem(
-          "token",
-          (new Date(time).getTime() + 3600000).toString()
-        );
-      }
       return true;
     } catch (err) {
       return false;
@@ -133,7 +135,6 @@ export const useUtils = () => {
   async function signoutUser() {
     try {
       const response = await signOut(auth);
-      localStorage.removeItem("token");
       toast("Signout Success");
     } catch (err) {}
   }
@@ -145,13 +146,7 @@ export const useUtils = () => {
       reader.onerror = (error) => reject(error);
     });
   }
-  function checkAuthentication(): boolean {
-    const token = localStorage.getItem("token");
-    if (token) {
-      return Number(token) - new Date().getTime() > 0 ? true : false;
-    }
-    return false;
-  }
+
   class SignUpUser {
     name: string;
     email: string;
@@ -174,7 +169,6 @@ export const useUtils = () => {
   }
 
   return {
-    checkAuthentication,
     resetPassword,
     imageToBase64,
     addToCart,
