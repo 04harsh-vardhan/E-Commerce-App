@@ -117,6 +117,7 @@ export const useUtils = () => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       uid.value = response.user.uid;
+      localStorage.setItem("uid", uid.value);
       const time = response.user.metadata.lastSignInTime;
       if (time) {
         localStorage.setItem(
@@ -124,7 +125,6 @@ export const useUtils = () => {
           (new Date(time).getTime() + 3600000).toString()
         );
       }
-      debugger;
       return true;
     } catch (err) {
       return false;
