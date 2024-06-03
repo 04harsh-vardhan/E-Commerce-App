@@ -20,9 +20,8 @@
     emit("searchEvent", newValue);
   });
 
-  function handleSignout() {
-    sessionStorage.removeItem("token");
-    signoutUser();
+  async function handleSignout() {
+    await signoutUser();
     navigateTo("/");
   }
 
@@ -36,6 +35,9 @@
   <div id="header">
     <div id="first">
       <div id="icon"><img src="../assets/Buyzon-logo.jpg" /></div>
+      <button @click="navigateTo('/')" class="btn btn-info">
+        <i class="pi pi-home"></i>
+      </button>
       <div v-if="!(feature === 'dashboard')">
         <button class="btn btn-info" @click="navigateTo('/dashboard')">
           Home

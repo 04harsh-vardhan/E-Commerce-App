@@ -1,10 +1,9 @@
 export default defineNuxtRouteMiddleware((toRoute, fromRoute) => {
+  const { checkAuthentication } = useUtils();
   const isAuthenticated = useAuth();
-  const uid = useUserUId();
   const feature = usefeatureState();
-  const authToken = sessionStorage.getItem("token");
-  isAuthenticated.value = authToken ? true : false;
-  uid.value = authToken ? authToken : "";
+  isAuthenticated.value = checkAuthentication();
+  
   if (!isAuthenticated.value) {
     if (toRoute.path !== "/") {
       return navigateTo("/");

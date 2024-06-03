@@ -80,6 +80,7 @@
             id="name"
             placeholder="Enter Name"
             v-model="name"
+
           />
           <Error v-show="errors.name">{{ errors.name }}</Error>
         </div>

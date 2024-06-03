@@ -27,8 +27,6 @@
     const success = await signInUser(values.email, values.password);
     if (success) {
       toast("Login Successful");
-      const uid = useUserUId();
-      sessionStorage.setItem("token", uid.value);
       specialOffer.value = true;
       navigateTo("/dashboard");
     } else {

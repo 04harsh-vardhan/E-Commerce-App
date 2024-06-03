@@ -7,16 +7,21 @@
           <img class="logo" src="../assets/Buyzon-logo.jpg" />
         </div>
         <nav>
-          <button class="btn btn-warning" @click="toggleSignIn = true">
-            <span v-if="!toggleIcon">Log in</span>
-            <span v-if="toggleIcon" class="pi pi-sign-in"></span>
-          </button>
-          <div></div>
-          <div></div>
-          <button class="btn btn-success" @click="toggleSignUp = true">
-            <span v-if="!toggleIcon">Sign Up</span>
-            <span v-if="toggleIcon" class="pi pi-sign-out"></span>
-          </button>
+          <div v-if="!authenticated">
+            <button class="btn btn-warning" @click="toggleSignIn = true">
+              <span v-if="!toggleIcon">Log in</span>
+              <span v-if="toggleIcon" class="pi pi-sign-in"></span>
+            </button>
+            <button class="btn btn-success" @click="toggleSignUp = true">
+              <span v-if="!toggleIcon">Sign Up</span>
+              <span v-if="toggleIcon" class="pi pi-sign-out"></span>
+            </button>
+          </div>
+          <div v-else>
+            <button @click="navigateTo('/dashboard')" class="btn btn-info">
+              Dashboard
+            </button>
+          </div>
         </nav>
       </div>
     </div>
@@ -76,6 +81,8 @@
 <script setup lang="ts">
   const toggleSignIn = ref(false);
   const toggleSignUp = ref(false);
+  const authenticated = useAuth();
+
   const toggleIcon = ref(checkWindowWidth());
   window.addEventListener("resize", () => {
     toggleIcon.value = checkWindowWidth();
