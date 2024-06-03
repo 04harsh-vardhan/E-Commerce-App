@@ -13,33 +13,41 @@
   const brandFilter = ref<string[]>([]);
   const priceFilter = ref<number[]>([]);
   const ratingFilter = ref<number[]>([]);
+  const searchFilter = ref<string>("");
+  const categoryFilter = ref<string>("");
   const pages = ref(1);
   const totalPages = computed(() => {
     return Math.ceil(displayProducts.value.length / 8);
   });
 
-  watch([brandFilter, priceFilter, ratingFilter], () => {
-    pages.value = 1;
-    displayProducts.value = productData.filter(
-      (item) =>
-        (brandFilter.value.length > 0
-          ? brandFilter.value.includes(item.brand)
-          : true) &&
-        (priceFilter.value.length > 0
-          ? priceFilter.value.find((price) => item.price < price)
-          : true) &&
-        (ratingFilter.value.length > 0
-          ? ratingFilter.value.find((rating) => item.rating.rate >= rating)
-          : true)
-    );
-  });
-
-  function handleSearch(query: string) {
-    pages.value = 1;
-    displayProducts.value = productData.filter((item) => {
-      return item.title.toLocaleLowerCase().includes(query.toLocaleLowerCase());
-    });
-  }
+  watch(
+    [brandFilter, priceFilter, ratingFilter, searchFilter, categoryFilter],
+    () => {
+      pages.value = 1;
+      displayProducts.value = productData.filter(
+        (item) =>
+          (brandFilter.value.length > 0
+            ? brandFilter.value.includes(item.brand)
+            : true) &&
+          (priceFilter.value.length > 0
+            ? priceFilter.value.find((price) => item.price < price)
+            : true) &&
+          (ratingFilter.value.length > 0
+            ? ratingFilter.value.find((rating) => item.rating.rate >= rating)
+            : true) &&
+          (searchFilter.value !== ""
+            ? item.title
+                .toLocaleLowerCase()
+                .includes(searchFilter.value.toLocaleLowerCase())
+            : true) &&
+          (categoryFilter.value !== ""
+            ? item.category
+                .toLocaleLowerCase()
+                .includes(categoryFilter.value.toLocaleLowerCase())
+            : true)
+      );
+    }
+  );
 
   function handleCategoryFilter(category: string) {
     pages.value = 1;
@@ -47,18 +55,13 @@
       item.category.toLocaleLowerCase().includes(category.toLocaleLowerCase())
     );
   }
-  function handleResetSearch() {
-    pages.value = 1;
-    displayProducts.value = productData;
-  }
 </script>
 <template>
   <div id="main">
     <div id="header">
       <Header
-        @search-event="handleSearch"
-        @filter-category="handleCategoryFilter"
-        @reset-search="handleResetSearch"
+        v-model:search="searchFilter"
+        v-model:category="categoryFilter"
       ></Header>
     </div>
     <div id="footer">

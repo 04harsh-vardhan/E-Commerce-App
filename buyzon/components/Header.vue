@@ -1,34 +1,24 @@
 <script setup lang="ts">
-  const emit = defineEmits(["searchEvent", "filterCategory", "resetSearch"]);
   const feature = usefeatureState();
   const { signoutUser } = useUtils();
-  const searchString = ref("");
   const toggle = ref(false);
-  const searchToggle = ref(false);
   const toggleSideBar = ref(false);
   const showSideBar = ref(false);
+  const searchValue = defineModel("search");
+  const categoryValue = defineModel("category");
   const { category } = constants();
   const cartStore = useCartStore();
   const wishlistStore = useWishlistStore();
+
   window.addEventListener("resize", () => {
     window.outerWidth < 700
       ? (showSideBar.value = true)
       : (showSideBar.value = false);
   });
-  watch(searchString, (newValue) => {
-    searchToggle.value = newValue.length > 0 ? true : false;
-    emit("searchEvent", newValue);
-  });
 
   async function handleSignout() {
     await signoutUser();
     navigateTo("/");
-  }
-
-  function resetSearch() {
-    searchToggle.value = false;
-    searchString.value = "";
-    emit("resetSearch");
   }
 </script>
 <template>
@@ -48,7 +38,7 @@
         class="item"
         v-for="item in category"
         :key="item"
-        @click="$emit('filterCategory', item)"
+        @click="categoryValue = item"
       >
         <p>{{ item }}</p>
       </div>
@@ -68,7 +58,7 @@
             class="category-item"
             v-for="item in category"
             :key="item"
-            @click="$emit('filterCategory', item)"
+            @click="categoryValue = item"
           >
             <p>{{ item }}</p>
           </div>
@@ -85,16 +75,9 @@
           placeholder="Search for products"
           aria-label="Example text with button addon"
           aria-describedby="button-addon1"
-          v-model="searchString"
+          v-model="searchValue"
         />
         <i class="pi pi-search icon"></i>
-        <button
-          v-show="searchToggle"
-          class="btn btn-light"
-          @click="resetSearch"
-        >
-          <span class="pi pi-times"></span>
-        </button>
       </div>
     </div>
     <div id="second">
