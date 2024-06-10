@@ -42,6 +42,14 @@
   const [password] = defineField("password");
   const [confirmPassword] = defineField("confirmPassword");
   const [image] = defineField("image");
+  const showPassword = ref(false);
+  const showConfirmPassword = ref(false);
+  const showPassMsg = computed(() =>
+    showPassword.value ? "text" : "password"
+  );
+  const showConfPassMsg = computed(() =>
+    showConfirmPassword.value ? "text" : "password"
+  );
 
   async function signupUser() {
     isLoading.value = true;
@@ -80,7 +88,6 @@
             id="name"
             placeholder="Enter Name"
             v-model="name"
-
           />
           <Error v-show="errors.name">{{ errors.name }}</Error>
         </div>
@@ -121,24 +128,42 @@
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            placeholder="minimum 6 char & 1 special symbol"
-            v-model="password"
-          />
+          <div id="passDiv">
+            <input
+              :type="showPassMsg"
+              class="form-control"
+              id="password"
+              placeholder="minimum 6 char & 1 special symbol"
+              v-model="password"
+            />
+            <i
+              :class="{
+                'pi pi-eye-slash show-icon': showPassword,
+                'pi pi-eye show-icon': !showPassword,
+              }"
+              @click="showPassword = !showPassword"
+            ></i>
+          </div>
           <Error v-show="errors.password">{{ errors.password }}</Error>
         </div>
         <div class="form-group">
           <label for="Confirm-password">Confirm Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="Confirm-password"
-            placeholder="minimum 6 char & 1 special symbol"
-            v-model="confirmPassword"
-          />
+          <div id="passDiv">
+            <input
+              :type="showConfPassMsg"
+              class="form-control"
+              id="Confirm-password"
+              placeholder="minimum 6 char & 1 special symbol"
+              v-model="confirmPassword"
+            />
+            <i
+              :class="{
+                'pi pi-eye-slash show-icon': showConfirmPassword,
+                'pi pi-eye show-icon': !showConfirmPassword,
+              }"
+              @click="showConfirmPassword = !showConfirmPassword"
+            ></i>
+          </div>
           <Error v-show="errors.confirmPassword">{{
             errors.confirmPassword
           }}</Error>
@@ -175,6 +200,14 @@
 </template>
 
 <style scoped>
+  .show-icon {
+    position: relative;
+    top: 13px;
+    left: -20px;
+  }
+  #passDiv {
+    display: flex;
+  }
   #signupBtn {
     width: 100%;
     display: flex;

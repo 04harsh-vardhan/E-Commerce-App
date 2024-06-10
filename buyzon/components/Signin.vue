@@ -8,9 +8,13 @@
   const isLoading = ref(false);
   const specialOffer = useSpecialOfferFlag();
   const toggleResetPassword = ref(false);
+  const showPassword = ref(false);
+
   const msg = computed(() =>
     toggleResetPassword.value ? "Reset Password" : "Log In"
   );
+
+  const passwordType = computed(() => (showPassword.value ? "text" : "password"));
 
   const { values, errors, defineField, meta } = useForm({
     validationSchema: yup.object({
@@ -60,13 +64,22 @@
         </div>
         <div class="form-group" v-if="!toggleResetPassword">
           <label for="password">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            placeholder="Password"
-            v-model="password"
-          />
+          <div id="passDiv">
+            <input
+              :type="passwordType"
+              class="form-control"
+              id="password"
+              placeholder="Password"
+              v-model="password"
+            />
+            <i
+              :class="{
+                'pi pi-eye-slash show-icon': showPassword,
+                'pi pi-eye show-icon': !showPassword,
+              }"
+              @click="showPassword = !showPassword"
+            ></i>
+          </div>
           <Error v-show="errors.password">{{ errors.password }}</Error>
         </div>
 
@@ -104,6 +117,14 @@
 </template>
 
 <style scoped>
+  .show-icon {
+    position: relative;
+    top: 10px;
+    left: -20px;
+  }
+  #passDiv {
+    display: flex;
+  }
   #main {
     position: fixed;
     z-index: 9998;
