@@ -18,18 +18,18 @@
 
   async function handleSignout() {
     await signoutUser();
-    navigateTo("/");
+   await navigateTo("/");
   }
 </script>
 <template>
   <div id="header">
     <div id="first">
       <div id="icon"><img src="../assets/Buyzon-logo.jpg" /></div>
-      <button @click="navigateTo('/')" class="btn btn-info">
+      <button @click="async()=>{await navigateTo('/')}" class="btn btn-info">
         <i class="pi pi-home"></i>
       </button>
       <div v-if="!(feature === 'dashboard')">
-        <button class="btn btn-info" @click="navigateTo('/dashboard')">
+        <button class="btn btn-info" @click="async()=>await navigateTo('/dashboard')">
           Home
         </button>
       </div>
@@ -84,7 +84,7 @@
       <div
         :class="{ active: feature === 'cart' }"
         id="cart"
-        @click="navigateTo('/dashboard/cart')"
+        @click="async()=>await navigateTo('/dashboard/cart')"
       >
         <span class="pi pi-cart-arrow-down"></span>
         <p>Cart({{ cartStore.cartSize }})</p>
@@ -92,7 +92,7 @@
       <div
         :class="{ active: feature === 'wishlist' }"
         id="wishlist"
-        @click="navigateTo('/dashboard/wishlist')"
+        @click="async()=>await navigateTo('/dashboard/wishlist')"
       >
         <span class="pi pi-heart"></span>
         <p>Wishlist({{ wishlistStore.wishlistSize }})</p>
@@ -110,7 +110,7 @@
           <div
             v-if="feature !== 'userinfo'"
             class="item user-action"
-            @click="navigateTo('/dashboard/userinfo')"
+            @click="async()=>await navigateTo('/dashboard/userinfo')"
           >
             Detail
           </div>

@@ -3,4 +3,3 @@
     <Home></Home>
   </div>
 </template>
-

@@ -48,13 +48,6 @@
       );
     }
   );
-
-  function handleCategoryFilter(category: string) {
-    pages.value = 1;
-    displayProducts.value = productData.filter((item) =>
-      item.category.toLocaleLowerCase().includes(category.toLocaleLowerCase())
-    );
-  }
 </script>
 <template>
   <div id="main">
@@ -100,7 +93,7 @@
             <Card
               :image="image"
               :id="id"
-              @click="navigateTo(`/dashboard/${id}`)"
+              @click="async()=>await navigateTo(`/dashboard/${id}`)"
             >
               <template #price>{{ price }}</template>
               <template #title>{{ title }}</template>

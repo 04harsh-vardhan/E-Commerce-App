@@ -3,9 +3,9 @@
   const specialOffer = useSpecialOfferFlag();
   const { getProduct } = useProductDataStore();
   const product = getProduct(productId) as ProductData;
-  function handleProduct() {
+  async function handleProduct() {
     specialOffer.value = false;
-    navigateTo(`/dashboard/${productId}`);
+    await navigateTo(`/dashboard/${productId}`);
   }
 </script>
 <template>

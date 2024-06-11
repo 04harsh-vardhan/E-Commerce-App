@@ -18,7 +18,7 @@
             </button>
           </div>
           <div v-else>
-            <button @click="navigateTo('/dashboard')" class="btn btn-info">
+            <button @click="async()=>await navigateTo('/dashboard')" class="btn btn-info">
               Dashboard
             </button>
           </div>
@@ -84,12 +84,14 @@
   const authenticated = useAuth();
 
   const toggleIcon = ref(checkWindowWidth());
-  window.addEventListener("resize", () => {
-    toggleIcon.value = checkWindowWidth();
-  });
-
+  // Running this code on client side only
+  if (window) {
+    window.addEventListener("resize", () => {
+      toggleIcon.value = checkWindowWidth();
+    });
+  }
   function checkWindowWidth() {
-    return window.outerWidth < 480 ? true : false;
+    return window ? (window.outerWidth < 480 ? true : false) : false;
   }
 
   function handleSignupSuccess() {

@@ -14,7 +14,9 @@
     toggleResetPassword.value ? "Reset Password" : "Log In"
   );
 
-  const passwordType = computed(() => (showPassword.value ? "text" : "password"));
+  const passwordType = computed(() =>
+    showPassword.value ? "text" : "password"
+  );
 
   const { values, errors, defineField, meta } = useForm({
     validationSchema: yup.object({
@@ -32,7 +34,7 @@
     if (success) {
       toast("Login Successful");
       specialOffer.value = true;
-      navigateTo("/dashboard");
+       await navigateTo("/dashboard");
     } else {
       toast("User Credentials are Wrong");
       isLoading.value = false;
