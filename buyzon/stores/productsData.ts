@@ -3,9 +3,9 @@ type ProductsData = {
 };
 export const useProductDataStore = defineStore("ProductsData", () => {
   const { getProducts } = useUtils();
-  const productsData: ProductsData = {
+  const productsData: ProductsData = reactive({
     data: [],
-  };
+  });
   async function fetchData() {
     productsData.data = await getProducts();
   }
