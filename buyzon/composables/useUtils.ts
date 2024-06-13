@@ -12,24 +12,13 @@ import {
   signInWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
-  onAuthStateChanged,
 } from "firebase/auth";
 import type { ProductData } from "./types.js";
 import { useToast } from "vue-toastification";
 
 export const useUtils = () => {
   const uid = useUserUId();
-  const isAuthenticated = useAuth();
   const toast = useToast();
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      uid.value = user.uid;
-      isAuthenticated.value = true;
-    } else {
-      uid.value = "";
-      isAuthenticated.value = false;
-    }
-  });
 
   async function resetPassword(email: string) {
     try {
