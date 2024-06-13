@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  ssr: true,
+  // ssr: true,
   modules: ["@vee-validate/nuxt", "@nuxt/test-utils/module", "@pinia/nuxt"],
   app: {
     head: {
@@ -12,5 +12,8 @@ export default defineNuxtConfig({
         },
       ],
     },
+  },
+  routeRules: {
+    "/**": { isr: false },
   },
 });
