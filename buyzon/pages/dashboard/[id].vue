@@ -1,6 +1,10 @@
 <script setup lang="ts">
-  const { addToCart, removeFromCart, addToWishlist, removeFromWishlist } =
-    useUtils();
+  const {
+    addToWishlist,
+    removeFromWishlist,
+    attachEventOnProdQuantity,
+    updateProductQuantity,
+  } = useUtils();
   const { getProduct } = useProductDataStore();
   const cartStore = useCartStore();
   const wishlistStore = useWishlistStore();
@@ -8,19 +12,25 @@
   const route = useRoute();
   const id = Number(route.params.id);
   const product = getProduct(id) as ProductData;
+  const productCount = ref(cartStore.productQuantityInCart(id));
+  const quantity = ref(0);
+  const unsubscribe = attachEventOnProdQuantity(id.toString(), quantity);
+  onBeforeUnmount(() => {
+    unsubscribe();
+  });
 
-  const isPresentInCart = ref(cartStore.productInCart(id));
   const isPresentInWishlist = ref(wishlistStore.productInWishlist(id));
 
-  function handleCartProduct() {
-    if (isPresentInCart.value) {
-      removeFromCart(id);
-      cartStore.removeItemFromCart(id);
-      isPresentInCart.value = false;
-    } else {
-      addToCart(product);
-      cartStore.addItemToCart(product);
-      isPresentInCart.value = true;
+  function handleCartProduct(action: string) {
+    switch (action) {
+      case "add":
+        cartStore.productInCart(id)
+          ? cartStore.addQuantityToCart(id)
+          : cartStore.addItemToCart(product);
+        break;
+      case "remove":
+        cartStore.removeQuantityFromCart(id);
+        break;
     }
   }
   function handleWishlistProduct() {
@@ -33,6 +43,16 @@
       wishlistStore.addItemToWishlist(product);
       isPresentInWishlist.value = true;
     }
+  }
+  function addQuantity() {
+    productCount.value++;
+    updateProductQuantity(id.toString(), quantity.value - 1);
+    handleCartProduct("add");
+  }
+  function removeQuantity() {
+    productCount.value--;
+    updateProductQuantity(id.toString(), quantity.value + 1);
+    handleCartProduct("remove");
   }
 </script>
 <template>
@@ -61,15 +81,28 @@
           >
         </div>
         <div class="buttons">
-          <button @click="handleCartProduct" class="btn btn-cart">
-            <span
-              :class="{
-                'pi pi-times': isPresentInCart,
-                'pi pi-plus': !isPresentInCart,
-              }"
-            ></span>
-            Cart
-          </button>
+          <div class="quantBtn">
+            <button
+              @click="removeQuantity"
+              class="btn btn-danger"
+              :disabled="productCount == 0"
+            >
+              <span class="pi pi-minus"></span>
+            </button>
+            <p>
+              <b>{{ productCount }}</b>
+            </p>
+            <button
+              @click="addQuantity"
+              class="btn btn-success"
+              :disabled="quantity == 0"
+            >
+              <span class="pi pi-plus"></span>
+            </button>
+            <p>
+              <b>({{ quantity }})Stock left</b>
+            </p>
+          </div>
           <button @click="handleWishlistProduct" class="btn btn-wishlist">
             <span
               :class="{
@@ -85,6 +118,11 @@
   </div>
 </template>
 <style scoped>
+  .quantBtn {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
   #header {
     height: 20vh;
   }

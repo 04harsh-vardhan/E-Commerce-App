@@ -7,6 +7,8 @@ import {
   getDocs,
   deleteDoc,
 } from "firebase/firestore";
+import { getDatabase, ref, onValue, set, get, child } from "firebase/database";
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -19,6 +21,20 @@ import { useToast } from "vue-toastification";
 export const useUtils = () => {
   const uid = useUserUId();
   const toast = useToast();
+
+  async function updateProductQuantity(id: string, newQuantity: number) {
+    const db = getDatabase();
+    await set(ref(db, "products/" + id + "/quantity"), newQuantity);
+  }
+
+  function attachEventOnProdQuantity(id: string, quantity: Ref) {
+    const db = getDatabase();
+    const quantityRef = ref(db, "products/" + id + "/quantity");
+    const unsubscribe =  onValue(quantityRef, (snapshot) => {
+      quantity.value = snapshot.val();
+    });
+    return unsubscribe
+  }
 
   async function resetPassword(email: string) {
     try {
@@ -67,10 +83,11 @@ export const useUtils = () => {
     return wishlistArray;
   }
   async function getProducts() {
-    const querySnapshot: any = await getDocs(collection(db, "products"));
+    const dbRef = ref(getDatabase());
+    const querySnapshot: any = await get(child(dbRef, "products"));
     let response: ProductData[] = [];
-    querySnapshot.forEach((doc: any) => {
-      response = doc.data().data;
+    querySnapshot.val().forEach((item: ProductData) => {
+      response.push(item);
     });
     return response;
   }
@@ -158,6 +175,8 @@ export const useUtils = () => {
   }
 
   return {
+    attachEventOnProdQuantity,
+    updateProductQuantity,
     resetPassword,
     imageToBase64,
     addToCart,

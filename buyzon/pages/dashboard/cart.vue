@@ -1,10 +1,5 @@
 <script setup lang="ts">
   const cartStore = useCartStore();
-  const { removeFromCart } = useUtils();
-  function handleRemove(id: number) {
-    cartStore.removeItemFromCart(id);
-    removeFromCart(id);
-  }
 </script>
 <template>
   <div id="main">
@@ -16,14 +11,17 @@
         v-for="{ price, title, id, image } in cartStore.cartData.data"
         :key="id"
       >
-        <Card :image="image" :id="id">
+        <Card
+          :image="image"
+          :id="id"
+          @click="
+            async () => {
+              await navigateTo(`/dashboard/${id}`);
+            }
+          "
+        >
           <template #price>{{ price }}</template>
           <template #title>{{ title }}</template>
-          <template #button="buttonProps">
-            <button class="add-to-cart" @click="handleRemove(buttonProps.id)">
-              <span class="pi pi-times"></span> Remove
-            </button>
-          </template>
         </Card>
       </div>
     </div>

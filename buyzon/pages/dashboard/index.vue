@@ -84,19 +84,23 @@
         <div id="card-div">
           <div
             class="item"
-            v-for="{ price, title, id, image } in displayProducts.slice(
-              pages * 8 - 8,
-              pages * 8
-            )"
+            v-for="{
+              price,
+              title,
+              id,
+              image,
+              quantity,
+            } in displayProducts.slice(pages * 8 - 8, pages * 8)"
             :key="id"
           >
             <Card
               :image="image"
               :id="id"
-              @click="async()=>await navigateTo(`/dashboard/${id}`)"
+              @click="async () => await navigateTo(`/dashboard/${id}`)"
             >
               <template #price>{{ price }}</template>
               <template #title>{{ title }}</template>
+              <template #msg><b v-if="quantity == 0" class="stockOutMsg">Out of Stock</b></template>
             </Card>
           </div>
         </div>
@@ -135,6 +139,9 @@
   </Transition>
 </template>
 <style scoped>
+.stockOutMsg{
+  color: red;
+}
   #sort {
     background: #0dcaf0;
   }

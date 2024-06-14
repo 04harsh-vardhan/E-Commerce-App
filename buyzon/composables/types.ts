@@ -10,5 +10,6 @@ export type ProductData = {
     rate: number;
     count: number;
   };
+  quantity: number;
 };
 

@@ -2,7 +2,7 @@ type ProductsData = {
   data: ProductData[];
 };
 export const useProductDataStore = defineStore("ProductsData", () => {
-  const { getProducts } = useUtils();
+  const { getProducts} = useUtils();
   const productsData: ProductsData = reactive({
     data: [],
   });
