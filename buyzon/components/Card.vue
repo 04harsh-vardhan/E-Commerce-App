@@ -13,7 +13,7 @@
       <p class="product-price">
         Rs <slot name="price"></slot> <slot name="wishIcon" :id="id"></slot>
       </p>
-      <p class="quantity">Quantity <slot name="quantity"></slot></p>
+      <p class="quantity"><slot name="quantity"></slot></p>
       <slot name="button" :id="id"></slot>
       <slot name="msg"></slot>
     </div>

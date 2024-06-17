@@ -22,7 +22,7 @@
         >
           <template #price>{{ price }}</template>
           <template #title>{{ title }}</template>
-          <template #quantity>{{ quantity }}</template>
+          <template #quantity>Quantity {{ quantity }}</template>
         </Card>
       </div>
     </div>
