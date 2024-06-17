@@ -13,6 +13,7 @@
       <p class="product-price">
         Rs <slot name="price"></slot> <slot name="wishIcon" :id="id"></slot>
       </p>
+      <p class="quantity">Quantity <slot name="quantity"></slot></p>
       <slot name="button" :id="id"></slot>
       <slot name="msg"></slot>
     </div>
@@ -20,6 +21,9 @@
 </template>
 
 <style scoped>
+  .quantity {
+    font-weight: 500;
+  }
   .product-card {
     background: white;
     border-radius: 10px;

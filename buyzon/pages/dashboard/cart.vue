@@ -8,7 +8,7 @@
     </div>
     <div id="card-div" v-if="cartStore.cartSize > 0">
       <div
-        v-for="{ price, title, id, image } in cartStore.cartData.data"
+        v-for="{ price, title, id, image ,quantity} in cartStore.cartData.data"
         :key="id"
       >
         <Card
@@ -22,6 +22,7 @@
         >
           <template #price>{{ price }}</template>
           <template #title>{{ title }}</template>
+          <template #quantity>{{ quantity }}</template>
         </Card>
       </div>
     </div>
