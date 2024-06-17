@@ -46,12 +46,16 @@
   }
   function addQuantity() {
     productCount.value++;
+    // updating Data to RealTime Database
     updateProductQuantity(id.toString(), quantity.value - 1);
+    // updating Data in local store and user Cart collection in db
     handleCartProduct("add");
   }
   function removeQuantity() {
     productCount.value--;
+    // updating Data to RealTime Database
     updateProductQuantity(id.toString(), quantity.value + 1);
+    // updating Data in local store and user Cart Collection in db
     handleCartProduct("remove");
   }
 </script>

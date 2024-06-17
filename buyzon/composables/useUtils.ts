@@ -48,7 +48,7 @@ export const useUtils = () => {
     try {
       const id = product.id.toString();
       await setDoc(doc(db, `users/${uid.value}/cart`, id), product);
-      toast("Product added to cart");
+      toast("Item count updated");
     } catch (err) {
       toast("Something went wrong");
     }
