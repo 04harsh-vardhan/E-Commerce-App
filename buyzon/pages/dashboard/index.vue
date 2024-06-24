@@ -1,12 +1,10 @@
 <script setup lang="ts">
-  const { productsData } = useProductDataStore();
+  const { productsData, fetchData } = useProductDataStore();
   const { fetchCartData } = useCartStore();
   const { fetchWishlistData } = useWishlistStore();
   const specialOffer = useSpecialOfferFlag();
-
-  await callOnce(fetchCartData);
-  await callOnce(fetchWishlistData);
-
+  // Run these promises in Parallel with Promise.All
+   await Promise.all([fetchData(),fetchCartData(),fetchWishlistData()])
   const productData = productsData.data;
   const displayProducts = ref(productData);
   const toggleFilter = ref(false);
@@ -100,7 +98,11 @@
             >
               <template #price>{{ price }}</template>
               <template #title>{{ title }}</template>
-              <template #msg><b v-if="quantity == 0" class="stockOutMsg">Out of Stock</b></template>
+              <template #msg
+                ><b v-if="quantity == 0" class="stockOutMsg"
+                  >Out of Stock</b
+                ></template
+              >
             </Card>
           </div>
         </div>
@@ -139,9 +141,9 @@
   </Transition>
 </template>
 <style scoped>
-.stockOutMsg{
-  color: red;
-}
+  .stockOutMsg {
+    color: red;
+  }
   #sort {
     background: #0dcaf0;
   }

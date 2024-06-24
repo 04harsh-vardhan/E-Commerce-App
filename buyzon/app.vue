@@ -10,8 +10,6 @@
   import { onAuthStateChanged } from "firebase/auth";
   import { auth } from "./assets/firebase.js";
 
-  const productsData = useProductDataStore();
-  await callOnce(productsData.fetchData);
   const uid = useUserUId();
   const isAuthenticated = useAuth();
   onAuthStateChanged(auth, (user) => {
