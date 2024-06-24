@@ -30,10 +30,10 @@ export const useUtils = () => {
   function attachEventOnProdQuantity(id: string, quantity: Ref) {
     const db = getDatabase();
     const quantityRef = ref(db, "products/" + id + "/quantity");
-    const unsubscribe =  onValue(quantityRef, (snapshot) => {
+    const unsubscribe = onValue(quantityRef, (snapshot) => {
       quantity.value = snapshot.val();
     });
-    return unsubscribe
+    return unsubscribe;
   }
 
   async function resetPassword(email: string) {
@@ -152,6 +152,9 @@ export const useUtils = () => {
       reader.onerror = (error) => reject(error);
     });
   }
+  function notifyUser() {
+    toast("You Will Be Notified once product is available");
+  }
 
   class SignUpUser {
     name: string;
@@ -175,6 +178,7 @@ export const useUtils = () => {
   }
 
   return {
+    notifyUser,
     attachEventOnProdQuantity,
     updateProductQuantity,
     resetPassword,

@@ -47,11 +47,11 @@
   }
 
   .product-info {
-    padding: 15px; /* Reduced padding */
+    padding: 15px; 
   }
 
   .product-title {
-    font-size: 16px; /* Reduced font size */
+    font-size: 16px; 
     margin: 0;
     color: #333;
     height: 60px;
@@ -59,7 +59,7 @@
   }
 
   .product-price {
-    font-size: 1em; /* Reduced font size */
+    font-size: 1em; 
     color: #ff7e5f;
     margin: 10px 0;
   }

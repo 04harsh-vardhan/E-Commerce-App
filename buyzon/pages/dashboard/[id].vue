@@ -4,6 +4,7 @@
     removeFromWishlist,
     attachEventOnProdQuantity,
     updateProductQuantity,
+    notifyUser
   } = useUtils();
   const { getProduct } = useProductDataStore();
   const cartStore = useCartStore();
@@ -14,7 +15,9 @@
   const product = getProduct(id) as ProductData;
   const productCount = ref(cartStore.productQuantityInCart(id));
   const quantity = ref(0);
+  // attaching event listeners on product quantity number
   const unsubscribe = attachEventOnProdQuantity(id.toString(), quantity);
+  // Removing event on unmounting of component
   onBeforeUnmount(() => {
     unsubscribe();
   });
@@ -58,6 +61,7 @@
     // updating Data in local store and user Cart Collection in db
     handleCartProduct("remove");
   }
+
 </script>
 <template>
   <div id="main">
@@ -80,12 +84,17 @@
             src="https://img.icons8.com/ios-filled/50/000000/star--v1.png"
             alt="Rating"
           />
-          <span
-            >{{ product.rating.rate }} (120 {{ product.rating.count }})</span
-          >
+          <span>{{ product.rating.rate }} ({{ product.rating.count }})</span>
         </div>
         <div class="buttons">
-          <div class="quantBtn">
+          <button
+            v-if="quantity === 0"
+            class="btn btn-secondary"
+            @click="notifyUser"
+          >
+            Notify Me
+          </button>
+          <div class="quantBtn" v-else-if="productCount !== 0">
             <button
               @click="removeQuantity"
               class="btn btn-danger"
@@ -103,10 +112,10 @@
             >
               <span class="pi pi-plus"></span>
             </button>
-            <p>
-              <b>({{ quantity }})Stock left</b>
-            </p>
           </div>
+          <button @click="addQuantity" class="btn btn-cart" v-else>
+            <span class="pi pi-plus"></span> Add to cart
+          </button>
           <button @click="handleWishlistProduct" class="btn btn-wishlist">
             <span
               :class="{
@@ -117,11 +126,20 @@
             Wishlist
           </button>
         </div>
+        <div id="item-quantity">
+          <p>
+            <b>({{ quantity }})Stock left</b>
+          </p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <style scoped>
+  #item-quantity {
+    padding-top: 10px;
+    padding-left: 25px;
+  }
   .quantBtn {
     display: flex;
     gap: 10px;
