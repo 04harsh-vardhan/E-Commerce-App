@@ -40,6 +40,7 @@
     justify-content: space-between;
     font-weight: 700;
   }
+  
   #amount {
     padding-right: 10px;
   }
