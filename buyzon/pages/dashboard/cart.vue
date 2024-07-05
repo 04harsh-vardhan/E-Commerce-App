@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import Billing from "~/components/Billing.vue";
+
   const cartStore = useCartStore();
 </script>
 <template>
@@ -7,23 +9,29 @@
       <Header></Header>
     </div>
     <div id="card-div" v-if="cartStore.cartSize > 0">
-      <div
-        v-for="{ price, title, id, image ,quantity} in cartStore.cartData.data"
-        :key="id"
-      >
-        <Card
-          :image="image"
-          :id="id"
-          @click="
-            async () => {
-              await navigateTo(`/dashboard/${id}`);
-            }
-          "
+      <div id="item-list">
+        <div
+          v-for="{ price, title, id, image, quantity } in cartStore.cartData
+            .data"
+          :key="id"
         >
-          <template #price>{{ price }}</template>
-          <template #title>{{ title }}</template>
-          <template #quantity>Quantity {{ quantity }}</template>
-        </Card>
+          <Card
+            :image="image"
+            :id="id"
+            @click="
+              async () => {
+                await navigateTo(`/dashboard/${id}`);
+              }
+            "
+          >
+            <template #price>{{ price }}</template>
+            <template #title>{{ title }}</template>
+            <template #quantity>Quantity {{ quantity }}</template>
+          </Card>
+        </div>
+      </div>
+      <div id="billing">
+        <Billing></Billing>
       </div>
     </div>
     <div v-else id="notFound">
@@ -32,6 +40,19 @@
   </div>
 </template>
 <style scoped>
+  #item-list {
+    width: 60vw;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 80px 80px;
+    justify-content: space-evenly;
+    padding-top: 10px;
+    height: fit-content;
+    border-bottom: var(--borderAttr);
+  }
+  #billing {
+    width: 40vw;
+  }
   #notFound {
     height: 80vh;
     display: flex;
@@ -70,14 +91,8 @@
     padding-top: 10px;
   }
   #card-div {
-    width: 80vw;
+    width: 100vw;
     display: flex;
-    flex-wrap: wrap;
-    gap: 80px 80px;
-    justify-content: space-evenly;
-    padding-top: 10px;
-    height: fit-content;
-    border-bottom: var(--borderAttr);
   }
   #main {
     display: flex;

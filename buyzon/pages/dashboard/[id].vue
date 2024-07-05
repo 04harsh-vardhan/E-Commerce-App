@@ -4,7 +4,7 @@
     removeFromWishlist,
     attachEventOnProdQuantity,
     updateProductQuantity,
-    notifyUser
+    notifyUser,
   } = useUtils();
   const { getProduct } = useProductDataStore();
   const cartStore = useCartStore();
@@ -61,7 +61,6 @@
     // updating Data in local store and user Cart Collection in db
     handleCartProduct("remove");
   }
-
 </script>
 <template>
   <div id="main">
